@@ -98,7 +98,7 @@ export default function PasswordAnalyzer() {
   const [analysis, setAnalysis] = useState(null);
   const [generated, setGenerated] = useState('');
   const [copied, setCopied] = useState(false);
-  const [genLen, setGenLen] = useState(20);
+  const [genLen, setGenLen] = useState(12);
   const [genOpts, setGenOpts] = useState({upper:true,lower:true,digits:true,special:true});
   const [pwnedCount, setPwnedCount] = useState(null);
   const [pwnedLoading, setPwnedLoading] = useState(false);
@@ -192,7 +192,7 @@ export default function PasswordAnalyzer() {
             <span style={{fontSize:22}}>{pwnedLoading?'🔍':pwnedCount===null?'⏳':pwnedCount===0?'✅':'🚨'}</span>
             <div style={{flex:1}}>
               <p style={S.label}>HIBP — Senhas Vazadas</p>
-              {pwnedLoading && <p style={{fontSize:13,color:'var(--text-dim)',display:'flex',alignItems:'center',gap:6}}><span style={{display:'inline-block',width:12,height:12,border:'2px solid rgba(0,230,118,0.2)',borderTopColor:'var(--green)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}}/>Verificando 15B senhas...</p>}
+              {pwnedLoading && <p style={{fontSize:13,color:'var(--text-dim)',display:'flex',alignItems:'center',gap:6}}><span style={{display:'inline-block',width:12,height:12,border:'2px solid rgba(0,230,118,0.2)',borderTopColor:'var(--green)',borderRadius:'50%',animation:'spin 0.7s linear infinite'}}/>Verificando 15bi senhas...</p>}
               {!pwnedLoading && pwnedCount===null && <p style={{fontSize:13,color:'var(--text-muted)'}}>Aguardando digitação...</p>}
               {!pwnedLoading && pwnedCount===0 && <p style={{fontSize:13,color:'var(--green)',fontWeight:600}}>Não encontrada em nenhum vazamento 🎉</p>}
               {!pwnedLoading && pwnedCount>0 && <div><p style={{fontSize:13,color:'var(--red)',fontWeight:700}}>Apareceu {pwnedCount.toLocaleString('pt-BR')} vezes em vazamentos!</p><p style={{fontSize:12,color:'var(--text-muted)',marginTop:2}}>Não use esta senha em nenhum serviço.</p></div>}

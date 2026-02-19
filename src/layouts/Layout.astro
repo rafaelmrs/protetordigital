@@ -32,6 +32,7 @@ const SITE = 'https://protetordigital.com';
   <link rel="manifest" href="/manifest.json" />
   <link rel="canonical" href={url} />
   <link rel="sitemap" href="/sitemap.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Protetor Digital — Blog de Segurança" href="/rss.xml" />
 
   <!-- Primary Meta -->
   <title>{title} | ProtetorDigital</title>
@@ -238,43 +239,59 @@ const SITE = 'https://protetordigital.com';
     }
   </style>
 
-  <script>
-    // Theme toggle
-    const themeBtn = document.getElementById('theme-toggle');
-    const iconMoon = document.getElementById('icon-moon');
-    const iconSun = document.getElementById('icon-sun');
+  <script is:inline>
+    // Executa na carga inicial e após cada navegação do ViewTransitions
+    function initUI() {
+      // Theme toggle
+      const themeBtn = document.getElementById('theme-toggle');
+      const iconMoon = document.getElementById('icon-moon');
+      const iconSun = document.getElementById('icon-sun');
 
-    function setTheme(theme) {
-      document.documentElement.className = theme;
-      localStorage.setItem('pd-theme', theme);
-      if (iconMoon) iconMoon.style.display = theme === 'dark' ? 'block' : 'none';
-      if (iconSun) iconSun.style.display = theme === 'light' ? 'block' : 'none';
+      function setTheme(theme) {
+        document.documentElement.className = theme;
+        localStorage.setItem('pd-theme', theme);
+        if (iconMoon) iconMoon.style.display = theme === 'dark' ? 'block' : 'none';
+        if (iconSun) iconSun.style.display = theme === 'light' ? 'block' : 'none';
+      }
+
+      const current = document.documentElement.className.includes('light') ? 'light' : 'dark';
+      if (iconMoon) iconMoon.style.display = current === 'dark' ? 'block' : 'none';
+      if (iconSun) iconSun.style.display = current === 'light' ? 'block' : 'none';
+
+      // Remover listener anterior para evitar duplicação
+      if (themeBtn && !themeBtn._pdListener) {
+        themeBtn._pdListener = true;
+        themeBtn.addEventListener('click', () => {
+          setTheme(document.documentElement.className.includes('light') ? 'dark' : 'light');
+        });
+      }
+
+      // Mobile menu
+      const menuBtn = document.getElementById('menu-toggle');
+      const mobileNav = document.getElementById('mobile-nav');
+      if (menuBtn && !menuBtn._pdListener) {
+        menuBtn._pdListener = true;
+        menuBtn.addEventListener('click', () => {
+          const isOpen = mobileNav?.classList.toggle('open');
+          menuBtn.setAttribute('aria-expanded', String(isOpen));
+        });
+      }
+
+      // Active nav
+      const path = window.location.pathname;
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        const href = link.getAttribute('href');
+        if (href === path || (path.startsWith('/blog') && href === '/blog') || (path.startsWith('/tools') && href?.startsWith('/tools') && path.startsWith(href))) {
+          link.classList.add('active');
+        }
+      });
     }
 
-    const current = document.documentElement.className === 'dark' ? 'dark' : 'light';
-    if (iconMoon) iconMoon.style.display = current === 'dark' ? 'block' : 'none';
-    if (iconSun) iconSun.style.display = current === 'light' ? 'block' : 'none';
-
-    themeBtn?.addEventListener('click', () => {
-      setTheme(document.documentElement.className === 'dark' ? 'light' : 'dark');
-    });
-
-    // Mobile menu
-    const menuBtn = document.getElementById('menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav');
-    menuBtn?.addEventListener('click', () => {
-      const isOpen = mobileNav?.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    // Active nav
-    const path = window.location.pathname;
-    document.querySelectorAll('.nav-link').forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === path || (path.startsWith('/blog') && href === '/blog') || (path.startsWith('/tools') && href?.startsWith('/tools') && path.startsWith(href))) {
-        link.classList.add('active');
-      }
-    });
+    // Executa na carga inicial
+    initUI();
+    // Executa após cada navegação do View Transitions
+    document.addEventListener('astro:page-load', initUI);
   </script>
 </body>
 </html>

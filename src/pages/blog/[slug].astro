@@ -85,6 +85,21 @@ const readTimeMin = Math.max(1, Math.ceil(readTimeWords / 200));
           </div>
         </header>
 
+        <!-- Hero image -->
+        {post.data.image && (
+          <div style="margin-bottom:36px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);">
+            <img
+              src={post.data.image}
+              alt={post.data.title}
+              width="1200"
+              height="630"
+              loading="eager"
+              decoding="async"
+              style="width:100%;height:auto;display:block;aspect-ratio:1200/630;object-fit:cover;"
+            />
+          </div>
+        )}
+
         <!-- Content -->
         <div class="prose">
           <Content />

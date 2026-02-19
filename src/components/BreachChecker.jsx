@@ -4,9 +4,9 @@ const WORKER_URL = '/api';
 
 function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 function formatCount(n) {
-  if (n>=1e9) return `${(n/1e9).toFixed(1)}B`;
-  if (n>=1e6) return `${(n/1e6).toFixed(1)}M`;
-  if (n>=1e3) return `${(n/1e3).toFixed(0)}K`;
+  if (n>=1e9) return `${(n/1e9).toFixed(1).replace('.',',')}bi`;
+  if (n>=1e6) return `${(n/1e6).toFixed(1).replace('.',',')}mi`;
+  if (n>=1e3) return `${(n/1e3).toFixed(0)}mil`;
   return n.toLocaleString('pt-BR');
 }
 
@@ -18,6 +18,62 @@ const S = {
 const severityColor = (s) => s==='high'?'var(--red)':s==='medium'?'var(--orange)':'var(--yellow)';
 const severityBg = (s) => s==='high'?'rgba(255,23,68,0.06)':s==='medium'?'rgba(255,109,0,0.06)':'rgba(255,214,0,0.06)';
 const severityBorder = (s) => s==='high'?'rgba(255,23,68,0.2)':s==='medium'?'rgba(255,109,0,0.2)':'rgba(255,214,0,0.2)';
+
+
+const TRADUCAO_DADOS = {
+  'email addresses': 'Endereços de e-mail',
+  'passwords': 'Senhas',
+  'ip addresses': 'Endereços IP',
+  'names': 'Nomes',
+  'usernames': 'Nomes de usuário',
+  'phone numbers': 'Números de telefone',
+  'physical addresses': 'Endereços físicos',
+  'geographic locations': 'Localização geográfica',
+  'dates of birth': 'Datas de nascimento',
+  'genders': 'Gênero',
+  'social media profiles': 'Perfis de redes sociais',
+  'website activity': 'Atividade no site',
+  'account balances': 'Saldo em conta',
+  'credit cards': 'Cartões de crédito',
+  'bank account numbers': 'Números de conta bancária',
+  'credit card cvv': 'CVV de cartão',
+  'personal health data': 'Dados de saúde',
+  'historical passwords': 'Senhas históricas',
+  'security questions and answers': 'Perguntas de segurança',
+  'auth tokens': 'Tokens de autenticação',
+  'device information': 'Informações de dispositivo',
+  'browsing histories': 'Histórico de navegação',
+  'purchases': 'Compras',
+  'partial credit card data': 'Dados parciais de cartão',
+  'social security numbers': 'CPF/Número de seguridade social',
+  'education levels': 'Nível de educação',
+  'sexual orientations': 'Orientação sexual',
+  'employment statuses': 'Status de emprego',
+  'ethnicities': 'Etnia',
+  'religions': 'Religião',
+  'political views': 'Visões políticas',
+  'income levels': 'Nível de renda',
+  'ages': 'Idades',
+  'avatar': 'Fotos de perfil',
+};
+
+function traduzirDado(d) {
+  return TRADUCAO_DADOS[d.toLowerCase()] || d;
+}
+
+
+async function traduzirTexto(texto) {
+  if (!texto || texto.length < 10) return texto;
+  try {
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto.slice(0,500))}&langpair=en|pt-BR&de=protetordigital@protetordigital.com`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data?.responseStatus === 200 && data?.responseData?.translatedText) {
+      return data.responseData.translatedText;
+    }
+  } catch {}
+  return texto;
+}
 
 export default function BreachChecker() {
   const [email, setEmail] = useState('');
@@ -35,6 +91,16 @@ export default function BreachChecker() {
       if (res.status===429) throw new Error('Muitas consultas. Aguarde alguns minutos.');
       if (!res.ok) throw new Error(`Erro ${res.status}`);
       const data = await res.json();
+      // Traduzir descrições dos breaches para PT-BR
+      if (data.breaches && data.breaches.length > 0) {
+        const translated = await Promise.all(
+          data.breaches.map(async (b) => ({
+            ...b,
+            description: b.description ? await traduzirTexto(b.description) : '',
+          }))
+        );
+        data.breaches = translated;
+      }
       setResult({...data, email:trimmed, checkedAt:new Date()});
     } catch(err) { setError(err.message||'Erro ao verificar. Tente novamente.'); }
     finally { setLoading(false); }
@@ -69,7 +135,7 @@ export default function BreachChecker() {
         </div>
         {error && <p style={{marginTop:10,fontSize:13,color:'var(--red)'}}> ⚠️ {error}</p>}
         <p style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--text-muted)',marginTop:10}}>
-          🔒 Powered by Have I Been Pwned (HIBP) — 15B+ registros em mais de 700 vazamentos
+          🔒 Powered by Have I Been Pwned (HIBP) — 15bi+ registros em mais de 700 vazamentos
         </p>
       </div>
 
@@ -127,10 +193,10 @@ export default function BreachChecker() {
                 </div>
                 {b.exposedData?.length>0 && (
                   <div style={{display:'flex',flexWrap:'wrap',gap:5,marginBottom:10}}>
-                    {b.exposedData.map((d,j) => <span key={j} style={{fontFamily:'var(--font-mono)',fontSize:11,padding:'2px 7px',borderRadius:4,background:'var(--surface)',color:'var(--text-dim)',border:'1px solid var(--border)'}}>{d}</span>)}
+                    {b.exposedData.map((d,j) => <span key={j} style={{fontFamily:'var(--font-mono)',fontSize:11,padding:'2px 7px',borderRadius:4,background:'var(--surface)',color:'var(--text-dim)',border:'1px solid var(--border)'}}>{traduzirDado(d)}</span>)}
                   </div>
                 )}
-                {b.description && <p style={{fontSize:13,color:'var(--text-dim)',lineHeight:1.6,marginBottom:10,display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical',overflow:'hidden'}}>{b.description}</p>}
+                {b.description && <p style={{fontSize:13,color:'var(--text-dim)',lineHeight:1.6,marginBottom:10,display:'block'}}>{b.description}</p>}
                 <div style={{padding:'10px 12px',borderRadius:8,background:'var(--surface)',border:'1px solid var(--border)'}}>
                   <p style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--text-muted)',marginBottom:4}}>{'>'} ação recomendada</p>
                   <p style={{fontSize:13,color:'var(--text-dim)'}}>
