@@ -1,10 +1,11 @@
-# wrangler.toml — Configuração do Cloudflare Worker
+# wrangler.toml — Configuração do Cloudflare Pages + Worker
 # Documentação: https://developers.cloudflare.com/workers/wrangler/configuration/
 
 name = "segurancaonline-worker"
 main = "workers/worker.js"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
 
 # Cron trigger — atualiza Safe Browsing a cada 30 minutos
 [triggers]
