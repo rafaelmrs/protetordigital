@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL || 'https://your-worker.workers.dev';
+const WORKER_URL = 'https://protetordigital-worker.dev-fretereal.workers.dev';
 
 // ── HIBP k-anonymity ────────────────────────────────────────────
 // Verifica se a senha apareceu em vazamentos reais.
