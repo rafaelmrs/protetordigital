@@ -1,0 +1,28 @@
+{
+  "name": "seguranca-online",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^4.5.10",
+    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/react": "^3.1.1",
+    "@astrojs/mdx": "^2.3.1",
+    "@astrojs/sitemap": "^3.1.4",
+    "@astrojs/rss": "^4.0.5",
+    "zxcvbn": "^4.4.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.3",
+    "@types/react": "^18.3.1",
+    "@types/zxcvbn": "^4.4.4",
+    "autoprefixer": "^10.4.19",
+    "typescript": "^5.4.5"
+  }
+}

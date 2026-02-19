@@ -1,0 +1,230 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+}
+
+const { title, description, image = '/og-default.png', url = Astro.url.href } = Astro.props;
+
+const GA_ID = import.meta.env.PUBLIC_GA_ID;
+const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
+const siteUrl = 'https://segurancaonline.com.br';
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1e3a8a" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="canonical" href={url} />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="SegurançaOnline Blog" href="/rss.xml" />
+
+  <!-- Primary Meta -->
+  <title>{title} | SegurançaOnline.com.br</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content="segurança online, senha forte, verificar vazamento, URL maliciosa, privacidade, LGPD, cybersegurança brasil" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="SegurançaOnline.com.br" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={url} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={`${siteUrl}${image}`} />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="SegurançaOnline.com.br" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={`${siteUrl}${image}`} />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SegurançaOnline.com.br",
+    "url": "https://segurancaonline.com.br",
+    "description": "Ferramentas gratuitas de segurança online para brasileiros",
+    "inLanguage": "pt-BR",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://segurancaonline.com.br/blog?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Google AdSense -->
+  {ADSENSE_ID && (
+    <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`} crossorigin="anonymous"></script>
+  )}
+
+  <!-- Google Analytics 4 -->
+  {GA_ID && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+      <script define:vars={{ GA_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', GA_ID, { anonymize_ip: true });
+      </script>
+    </>
+  )}
+
+  <!-- Dark mode init (prevent flash) -->
+  <script is:inline>
+    const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  </script>
+
+  <ViewTransitions />
+</head>
+<body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans">
+
+  <!-- AdSense Header Banner 728x90 -->
+  {ADSENSE_ID && (
+    <div class="flex justify-center bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-2 hidden md:flex">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client={ADSENSE_ID}
+           data-ad-slot="HEADER_SLOT_ID"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  )}
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="/" class="flex items-center gap-2 font-bold text-xl text-primary-700 dark:text-primary-400">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>SegurançaOnline</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+          <a href="/tools/senha" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">🔐 Senhas</a>
+          <a href="/tools/link" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">🔗 URLs</a>
+          <a href="/tools/vazamento" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">📧 Vazamentos</a>
+          <a href="/blog" class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">📝 Blog</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="theme-toggle" aria-label="Alternar tema" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </button>
+
+          <!-- Mobile menu button -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800" aria-label="Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+      <div class="px-4 py-3 space-y-2">
+        <a href="/tools/senha" class="block py-2 text-gray-700 dark:text-gray-300">🔐 Analisador de Senhas</a>
+        <a href="/tools/link" class="block py-2 text-gray-700 dark:text-gray-300">🔗 Scanner de URLs</a>
+        <a href="/tools/vazamento" class="block py-2 text-gray-700 dark:text-gray-300">📧 Verificador de Vazamentos</a>
+        <a href="/blog" class="block py-2 text-gray-700 dark:text-gray-300">📝 Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="min-h-screen">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 dark:bg-black text-gray-300 mt-16">
+    <!-- AdSense Footer Mobile 320x50 -->
+    {ADSENSE_ID && (
+      <div class="flex justify-center py-2 md:hidden">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:320px;height:50px"
+             data-ad-client={ADSENSE_ID}
+             data-ad-slot="FOOTER_MOBILE_SLOT_ID"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    )}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center gap-2 font-bold text-xl text-white mb-4">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            SegurançaOnline.com.br
+          </div>
+          <p class="text-sm text-gray-400 max-w-md">
+            Ferramentas gratuitas de segurança digital para proteger brasileiros. Todas as análises são feitas localmente — seus dados não saem do seu dispositivo.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-white mb-3">Ferramentas</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/tools/senha" class="hover:text-white transition-colors">Analisador de Senhas</a></li>
+            <li><a href="/tools/link" class="hover:text-white transition-colors">Scanner de URLs</a></li>
+            <li><a href="/tools/vazamento" class="hover:text-white transition-colors">Verificador de Vazamentos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold text-white mb-3">Informações</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/blog" class="hover:text-white transition-colors">Blog</a></li>
+            <li><a href="/rss.xml" class="hover:text-white transition-colors">RSS Feed</a></li>
+            <li><a href="/politica-privacidade" class="hover:text-white transition-colors">Política de Privacidade</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-gray-500 flex flex-col md:flex-row justify-between gap-2">
+        <p>© {new Date().getFullYear()} SegurançaOnline.com.br — Todos os direitos reservados</p>
+        <p>Protegido pela <a href="https://www.gov.br/anpd" target="_blank" rel="noopener" class="underline hover:text-gray-300">LGPD</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Mobile menu
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

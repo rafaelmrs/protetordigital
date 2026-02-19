@@ -1,0 +1,108 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BreachChecker from '../../components/BreachChecker.jsx';
+import AdSense from '../../components/AdSense.astro';
+---
+
+<Layout
+  title="Verificador de Vazamentos de Email — Seu Email Vazou?"
+  description="Descubra se seu email apareceu em vazamentos de dados. Relatório completo com breaches, datas e recomendações segundo a LGPD."
+  url="https://segurancaonline.com.br/tools/vazamento"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="breadcrumb">
+      <ol class="flex items-center gap-2">
+        <li><a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a></li>
+        <li>›</li>
+        <li class="text-gray-800 dark:text-gray-200">Verificador de Vazamentos</li>
+      </ol>
+    </nav>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Verificador de Vazamentos de Email",
+      "applicationCategory": "SecurityApplication",
+      "description": "Verifique se seu email apareceu em vazamentos de dados públicos",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+    }
+    </script>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <div class="mb-8">
+          <h1 class="text-3xl md:text-4xl font-bold mb-3">📧 Verificador de Vazamentos</h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            Verifique se seu email apareceu em algum banco de dados comprometido. Relatório com recomendações LGPD.
+          </p>
+        </div>
+
+        <BreachChecker client:load />
+
+        <AdSense slot="BETWEEN_RESULTS_SLOT_ID" width={336} height={280} className="my-8" />
+
+        <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+          <h2 class="text-xl font-bold mb-4">⚖️ Seus Direitos pela LGPD</h2>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            A <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong> garante direitos importantes quando seus dados são comprometidos:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { title: 'Direito de Acesso', desc: 'Solicitar quais dados a empresa possui sobre você' },
+              { title: 'Direito de Correção', desc: 'Exigir correção de dados incorretos ou desatualizados' },
+              { title: 'Direito de Exclusão', desc: 'Pedir remoção dos seus dados quando o tratamento for desnecessário' },
+              { title: 'Direito de Portabilidade', desc: 'Transferir seus dados para outro fornecedor de serviço' },
+              { title: 'Direito à Informação', desc: 'Ser informado sobre compartilhamento com terceiros' },
+              { title: 'Direito de Revogar Consentimento', desc: 'Cancelar autorizações dadas anteriormente' },
+            ].map(right => (
+              <div class="bg-blue-50 dark:bg-blue-950 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                <h3 class="font-semibold text-blue-800 dark:text-blue-200 text-sm">{right.title}</h3>
+                <p class="text-xs text-blue-700 dark:text-blue-300 mt-1">{right.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p class="text-xs text-gray-500 mt-4">
+            Acesse: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 underline">gov.br/anpd</a> para registrar reclamações.
+          </p>
+        </div>
+      </div>
+
+      <aside class="space-y-6">
+        <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
+
+        <div class="bg-amber-50 dark:bg-amber-950 rounded-2xl p-5 border border-amber-200 dark:border-amber-800">
+          <h3 class="font-bold text-amber-800 dark:text-amber-200 mb-3">📊 Maiores Vazamentos Brasileiros</h3>
+          <ul class="space-y-2 text-sm text-amber-700 dark:text-amber-300">
+            <li>🔴 DETRAN/SP — 77M CPFs (2021)</li>
+            <li>🔴 Serasa — 223M registros (2021)</li>
+            <li>🔴 SUS — 243M dados (2022)</li>
+            <li>🟠 LinkedIn — 700M globais (2021)</li>
+            <li>🟠 Facebook — 533M globais (2021)</li>
+          </ul>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-200 dark:border-gray-700">
+          <h3 class="font-bold mb-3">Outras Ferramentas</h3>
+          <div class="space-y-2">
+            <a href="/tools/senha" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span class="text-2xl">🔐</span>
+              <div>
+                <p class="font-medium text-sm">Analisador de Senhas</p>
+                <p class="text-xs text-gray-500">Verifique e gere senhas fortes</p>
+              </div>
+            </a>
+            <a href="/tools/link" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <span class="text-2xl">🔗</span>
+              <div>
+                <p class="font-medium text-sm">Scanner de URLs</p>
+                <p class="text-xs text-gray-500">Verifique links suspeitos</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>
