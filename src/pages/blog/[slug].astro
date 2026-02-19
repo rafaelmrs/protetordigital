@@ -5,121 +5,108 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
 }
-
 const { post } = Astro.props;
 const { Content } = await post.render();
-
 const allPosts = await getCollection('blog');
-const related = allPosts
-  .filter(p => p.slug !== post.slug && p.data.tags.some(t => post.data.tags.includes(t)))
-  .slice(0, 2);
+const related = allPosts.filter(p => p.slug !== post.slug && p.data.tags.some(t => post.data.tags.includes(t))).slice(0, 2);
 ---
-
-<Layout
-  title={post.data.title}
-  description={post.data.description}
-  url={`https://segurancaonline.com.br/blog/${post.slug}`}
->
+<Layout title={post.data.title} description={post.data.description} url={`https://protetordigital.com.br/blog/${post.slug}`}>
   <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": post.data.title,
-    "description": post.data.description,
-    "author": { "@type": "Organization", "name": post.data.author },
-    "datePublished": post.data.pubDate.toISOString(),
-    "dateModified": (post.data.updatedDate || post.data.pubDate).toISOString(),
-    "publisher": {
-      "@type": "Organization",
-      "name": "SegurançaOnline.com.br",
-      "url": "https://segurancaonline.com.br"
-    },
-    "url": `https://segurancaonline.com.br/blog/${post.slug}`,
-    "inLanguage": "pt-BR"
+    "@context":"https://schema.org","@type":"BlogPosting",
+    "headline":post.data.title,"description":post.data.description,
+    "author":{"@type":"Organization","name":post.data.author},
+    "datePublished":post.data.pubDate.toISOString(),
+    "publisher":{"@type":"Organization","name":"ProtetorDigital","url":"https://protetordigital.com.br"},
+    "url":`https://protetordigital.com.br/blog/${post.slug}`,"inLanguage":"pt-BR"
   })} />
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="breadcrumb">
-      <ol class="flex items-center gap-2">
-        <li><a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a></li>
-        <li>›</li>
-        <li><a href="/blog" class="hover:text-primary-600 dark:hover:text-primary-400">Blog</a></li>
-        <li>›</li>
-        <li class="text-gray-800 dark:text-gray-200 truncate max-w-xs">{post.data.title}</li>
+  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
+    <nav style="margin-bottom:24px;" aria-label="breadcrumb">
+      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
+        <li><a href="/" style="color:var(--text-muted);text-decoration:none;">home</a></li>
+        <li>/</li>
+        <li><a href="/blog" style="color:var(--text-muted);text-decoration:none;">blog</a></li>
+        <li>/</li>
+        <li style="color:var(--green);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">{post.data.title}</li>
       </ol>
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <article class="lg:col-span-2">
-        <!-- Header -->
-        <header class="mb-8">
-          <div class="flex flex-wrap gap-2 mb-4">
-            {post.data.tags.map(tag => (
-              <span class="text-xs bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 px-2 py-0.5 rounded-full">
-                #{tag}
-              </span>
-            ))}
+    <div style="display:grid;grid-template-columns:1fr;gap:32px;" id="article-layout">
+      <article>
+        <!-- Article header -->
+        <header style="margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+            {post.data.tags.map(tag => <span class="tag tag-cyan">#{tag}</span>)}
           </div>
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
-            {post.data.title}
-          </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400 mb-4">{post.data.description}</p>
-          <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4">
-            <span>✍️ {post.data.author}</span>
-            <span>·</span>
-            <time datetime={post.data.pubDate.toISOString()}>
-              {post.data.pubDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+          <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;line-height:1.2;margin-bottom:16px;">{post.data.title}</h1>
+          <p style="font-size:16px;color:var(--text-dim);line-height:1.6;margin-bottom:20px;">{post.data.description}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
+            <span style="font-size:13px;color:var(--text-muted);">✍️ {post.data.author}</span>
+            <time style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);" datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
             </time>
           </div>
         </header>
 
         <!-- Content -->
-        <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:rounded prose-code:px-1">
+        <div class="prose">
           <Content />
         </div>
 
-        <AdSense slot="BETWEEN_RESULTS_SLOT_ID" width={336} height={280} className="my-8" />
+        <!-- AdSense mid article -->
+        <div style="margin:40px 0;">
+          <AdSense slot="BETWEEN_RESULTS_SLOT_ID" format="auto" />
+        </div>
 
         <!-- Related posts -->
         {related.length > 0 && (
-          <div class="mt-12">
-            <h2 class="text-2xl font-bold mb-6">📚 Posts Relacionados</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {related.map(r => (
-                <a href={`/blog/${r.slug}`} class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 transition-all hover:-translate-y-0.5">
-                  <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1 hover:text-primary-600 dark:hover:text-primary-400">{r.data.title}</h3>
-                  <p class="text-xs text-gray-500">{r.data.description}</p>
+          <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);">
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px;">Leia também</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+              {related.map(p => (
+                <a href={`/blog/${p.slug}`} class="card card-hover" style="padding:18px;text-decoration:none;">
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+                    {p.data.tags.slice(0,1).map(t => <span class="tag tag-cyan">#{t}</span>)}
+                  </div>
+                  <h4 class="font-display" style="font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.4;">{p.data.title}</h4>
                 </a>
               ))}
             </div>
           </div>
         )}
+
+        <!-- CTA -->
+        <div class="card" style="margin-top:40px;padding:28px;background:rgba(0,230,118,0.04);border-color:rgba(0,230,118,0.2);text-align:center;">
+          <p class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;">🛡️ Verifique sua segurança agora</p>
+          <p style="font-size:14px;color:var(--text-dim);margin-bottom:20px;">Use nossas ferramentas gratuitas para proteger sua conta.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+            <a href="/tools/senha" class="btn-primary" style="padding:12px 24px;font-size:14px;">🔐 Analisar Senha</a>
+            <a href="/tools/vazamento" class="btn-ghost" style="padding:12px 24px;font-size:14px;">📧 Ver Vazamentos</a>
+          </div>
+        </div>
       </article>
 
-      <aside class="space-y-6">
+      <!-- Sidebar -->
+      <aside style="display:flex;flex-direction:column;gap:16px;" id="article-sidebar">
         <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
-
-        <!-- Tools CTA -->
-        <div class="bg-gradient-to-br from-primary-600 to-indigo-700 rounded-2xl p-5 text-white sticky top-20">
-          <h3 class="font-bold mb-2">🛡️ Ferramentas Gratuitas</h3>
-          <p class="text-blue-100 text-sm mb-4">Proteja-se com nossas ferramentas de segurança.</p>
-          <div class="space-y-2">
-            <a href="/tools/senha" class="block text-center py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
-              🔐 Analisar Senha
+        <div class="card" style="padding:20px;">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🛠️ Ferramentas</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="/tools/senha" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>🔐</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Analisador de Senhas</p><p style="font-size:12px;color:var(--text-muted);">100% local</p></div>
             </a>
-            <a href="/tools/link" class="block text-center py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
-              🔗 Scanner de URL
+            <a href="/tools/link" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>🔗</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Scanner de URLs</p><p style="font-size:12px;color:var(--text-muted);">Detecte phishing</p></div>
             </a>
-            <a href="/tools/vazamento" class="block text-center py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
-              📧 Verificar Email
+            <a href="/tools/vazamento" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>📧</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Verificador de Vazamentos</p><p style="font-size:12px;color:var(--text-muted);">HIBP v3</p></div>
             </a>
           </div>
         </div>
       </aside>
     </div>
   </div>
+  <style>@media (min-width: 1024px) { #article-layout { grid-template-columns: 1fr 300px !important; } }</style>
 </Layout>

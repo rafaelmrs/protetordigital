@@ -2,183 +2,160 @@
 import Layout from '../layouts/Layout.astro';
 import AdSense from '../components/AdSense.astro';
 import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('blog'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
 ---
+<Layout title="Proteção Digital Gratuita para Brasileiros" description="Verifique senhas, detecte URLs maliciosas e descubra vazamentos de dados. Ferramentas gratuitas de cibersegurança feitas para o Brasil.">
 
-<Layout
-  title="Ferramentas Gratuitas de Segurança Online"
-  description="Analise a força de senhas, verifique URLs maliciosas e descubra se seu email vazou. Ferramentas gratuitas de cibersegurança para brasileiros."
->
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-blue-900 text-white py-20">
-    <div class="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.6))]"></div>
-    <!-- Animated blobs -->
-    <div class="absolute top-20 left-10 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-10 right-10 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s"></div>
+  <!-- HERO -->
+  <section style="position:relative;overflow:hidden;padding:64px 16px 80px;background:var(--bg);">
+    <!-- Grid bg -->
+    <div class="grid-bg" style="position:absolute;inset:0;pointer-events:none;"></div>
+    <!-- Glow orbs -->
+    <div style="position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,230,118,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(0,229,255,0.05) 0%,transparent 70%);pointer-events:none;"></div>
 
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm mb-6">
-        🇧🇷 Feito para brasileiros · 100% gratuito
+    <div style="max-width:900px;margin:0 auto;text-align:center;position:relative;">
+      <!-- Status badge -->
+      <div class="animate-slide-up" style="display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid rgba(0,230,118,0.25);border-radius:100px;padding:6px 16px 6px 10px;margin-bottom:28px;">
+        <span style="width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;animation:ping2 1.5s ease-out infinite;"></span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--green);">Sistema Online</span>
+        <span style="font-size:12px;color:var(--text-muted);">·</span>
+        <span style="font-size:12px;color:var(--text-muted);">🇧🇷 Para brasileiros</span>
       </div>
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-        Sua Segurança Digital<br/>
-        <span class="text-blue-300">Começa Aqui</span>
+
+      <h1 class="font-display animate-slide-up stagger-1" style="font-size:clamp(2.4rem,6vw,4rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;color:var(--text);margin-bottom:20px;">
+        Sua Proteção Digital<br/>
+        <span style="color:var(--green);" class="text-glow">Começa Aqui</span>
       </h1>
-      <p class="text-xl text-blue-100 max-w-2xl mx-auto mb-10">
-        Ferramentas profissionais de cibersegurança, gratuitas e sem cadastro. Proteja-se de senhas fracas, links maliciosos e vazamentos de dados.
-      </p>
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="/tools/senha" class="px-8 py-4 bg-white text-primary-900 font-bold rounded-xl hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-          🔐 Analisar Senha
-        </a>
-        <a href="/tools/vazamento" class="px-8 py-4 bg-white/10 backdrop-blur border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all">
-          📧 Verificar Vazamentos
-        </a>
-      </div>
-    </div>
-  </section>
 
-  <!-- Stats Bar -->
-  <section class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <p class="animate-slide-up stagger-2" style="font-size:clamp(1rem,2.5vw,1.2rem);color:var(--text-dim);max-width:560px;margin:0 auto 40px;line-height:1.6;">
+        Ferramentas profissionais de cibersegurança, <strong style="color:var(--text);">100% gratuitas</strong> e sem cadastro. Proteção real para o brasileiro.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="animate-slide-up stagger-3" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:56px;">
+        <a href="/tools/senha" class="btn-primary" style="padding:14px 28px;font-size:15px;">🔐 Analisar Senha</a>
+        <a href="/tools/vazamento" class="btn-ghost" style="padding:14px 28px;font-size:15px;">📧 Verificar Vazamentos</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="animate-slide-up stagger-4" style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;max-width:640px;margin:0 auto;">
         {[
-          { value: '15B+', label: 'Credenciais Vazadas no Mundo' },
-          { value: '100%', label: 'Análise Local (Zero Upload)' },
-          { value: '<50ms', label: 'Latência de Verificação' },
-          { value: 'LGPD', label: 'Compliance Garantido' },
-        ].map(({ value, label }) => (
-          <div>
-            <div class="text-2xl md:text-3xl font-bold text-primary-600 dark:text-primary-400">{value}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{label}</div>
+          { v: '15B+', l: 'Credenciais no banco de dados' },
+          { v: '<50ms', l: 'Latência de verificação' },
+          { v: '100%', l: 'Análise local — zero upload' },
+          { v: 'LGPD', l: 'Conformidade garantida' },
+        ].map(({ v, l }) => (
+          <div style="background:var(--surface);padding:20px;text-align:center;">
+            <div class="font-display" style="font-size:1.6rem;font-weight:800;color:var(--green);letter-spacing:-0.02em;">{v}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">{l}</div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Tools Cards -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h2 class="text-3xl font-bold text-center mb-4">Ferramentas de Segurança</h2>
-    <p class="text-gray-600 dark:text-gray-400 text-center max-w-xl mx-auto mb-10">
-      Todas as ferramentas são gratuitas, sem cadastro e respeitam sua privacidade.
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {[
-        {
-          icon: '🔐',
-          title: 'Analisador de Senhas',
-          desc: 'Avalie a força da sua senha em tempo real com análise local. Score visual, tempo estimado de crack e gerador de senhas fortes.',
-          href: '/tools/senha',
-          tags: ['100% Local', 'OWASP', 'Grátis'],
-          color: 'from-blue-500 to-indigo-600',
-        },
-        {
-          icon: '🔗',
-          title: 'Scanner de URLs',
-          desc: 'Verifique se um link é malicioso antes de clicar. Powered by Google Safe Browsing com resposta em menos de 50ms.',
-          href: '/tools/link',
-          tags: ['Safe Browsing', '<50ms', 'Phishing'],
-          color: 'from-purple-500 to-pink-600',
-        },
-        {
-          icon: '📧',
-          title: 'Verificador de Vazamentos',
-          desc: 'Descubra se seu email apareceu em vazamentos de dados. Relatório completo com recomendações LGPD.',
-          href: '/tools/vazamento',
-          tags: ['XposedOrNot', 'LGPD', 'Breaches'],
-          color: 'from-orange-500 to-red-600',
-        },
-      ].map(tool => (
-        <a
-          href={tool.href}
-          class="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-        >
-          <div class={`w-14 h-14 rounded-2xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-2xl mb-4 shadow-lg`}>
-            {tool.icon}
-          </div>
-          <h3 class="text-xl font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-            {tool.title}
-          </h3>
-          <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{tool.desc}</p>
-          <div class="flex flex-wrap gap-2">
-            {tool.tags.map(tag => (
-              <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full">
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div class="absolute bottom-6 right-6 text-gray-400 group-hover:text-primary-500 transition-colors">
-            →
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- AdSense Mid-page -->
-  <AdSense slot="MID_PAGE_SLOT_ID" format="auto" className="my-4" />
-
-  <!-- Blog Posts -->
-  {posts.length > 0 && (
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold">Blog de Segurança</h2>
-        <a href="/blog" class="text-primary-600 dark:text-primary-400 hover:underline text-sm font-medium">
-          Ver todos os posts →
-        </a>
+  <!-- TOOLS SECTION -->
+  <section style="padding:64px 16px;background:var(--bg2);border-top:1px solid var(--border);">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="margin-bottom:40px;">
+        <p style="font-family:var(--font-mono);font-size:12px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">> ferramentas disponíveis</p>
+        <h2 class="font-display" style="font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.02em;">Proteção em 3 camadas</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {posts.map(post => (
-          <a
-            href={`/blog/${post.slug}`}
-            class="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
-          >
-            <div class="p-6">
-              <div class="flex flex-wrap gap-2 mb-3">
-                {post.data.tags.slice(0,2).map(tag => (
-                  <span class="text-xs bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 px-2 py-0.5 rounded-full">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-              <h3 class="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug">
-                {post.data.title}
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-                {post.data.description}
-              </p>
-              <div class="flex justify-between items-center text-xs text-gray-400">
-                <span>{post.data.author}</span>
-                <time datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
-                </time>
-              </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
+        {[
+          {
+            icon: '🔐', href: '/tools/senha',
+            label: '01', color: 'var(--green)',
+            title: 'Analisador de Senhas',
+            desc: 'Score em tempo real, tempo de quebra estimado, verificação no banco HIBP de 15B senhas vazadas e gerador criptograficamente seguro.',
+            tags: ['100% Local', 'HIBP', 'OWASP'],
+          },
+          {
+            icon: '🔗', href: '/tools/link',
+            label: '02', color: 'var(--cyan)',
+            title: 'Scanner de URLs',
+            desc: 'Detecte malware, phishing e sites maliciosos antes de clicar. Powered by Google Safe Browsing com cache Cloudflare em <50ms.',
+            tags: ['Safe Browsing', '<50ms', 'Phishing'],
+          },
+          {
+            icon: '📧', href: '/tools/vazamento',
+            label: '03', color: 'var(--orange)',
+            title: 'Verificador de Vazamentos',
+            desc: 'Descubra se seu email apareceu em algum dos 700+ vazamentos catalogados. Relatório completo com guia de ações e direitos LGPD.',
+            tags: ['HIBP v3', 'LGPD', '700+ Breaches'],
+          },
+        ].map(tool => (
+          <a href={tool.href} class="card card-hover" style="padding:28px;text-decoration:none;display:block;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;">
+              <div style={`width:48px;height:48px;border-radius:12px;background:${tool.color}18;border:1px solid ${tool.color}30;display:flex;align-items:center;justify-content:center;font-size:22px;`}>{tool.icon}</div>
+              <span class="font-mono" style={`font-size:11px;color:${tool.color};opacity:0.6;`}>{tool.label}</span>
+            </div>
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.01em;">{tool.title}</h3>
+            <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:16px;">{tool.desc}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
+              {tool.tags.map(t => <span class="tag">{t}</span>)}
+            </div>
+            <div style={`font-family:var(--font-mono);font-size:12px;color:${tool.color};display:flex;align-items:center;gap:6px;`}>
+              Acessar ferramenta <span>→</span>
             </div>
           </a>
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- ADSENSE MID -->
+  <AdSense slot="MID_PAGE_SLOT_ID" format="auto" className="my-4" />
+
+  <!-- BLOG -->
+  {posts.length > 0 && (
+    <section style="padding:64px 16px;background:var(--bg);border-top:1px solid var(--border);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <p style="font-family:var(--font-mono);font-size:12px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">> últimas publicações</p>
+            <h2 class="font-display" style="font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:var(--text);letter-spacing:-0.02em;">Blog de Segurança</h2>
+          </div>
+          <a href="/blog" style="font-family:var(--font-mono);font-size:13px;color:var(--green);text-decoration:none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Ver todos →</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+          {posts.map(post => (
+            <a href={`/blog/${post.slug}`} class="card card-hover" style="text-decoration:none;display:block;padding:24px;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+                {post.data.tags.slice(0,2).map(tag => <span class="tag tag-cyan">#{tag}</span>)}
+              </div>
+              <h3 class="font-display" style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.35;letter-spacing:-0.01em;">{post.data.title}</h3>
+              <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{post.data.description}</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:11px;color:var(--text-muted);">{post.data.author}</span>
+                <time style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);" datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' })}
+                </time>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
     </section>
   )}
 
-  <!-- Trust Signals -->
-  <section class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl font-bold mb-8">Por que confiar no SegurançaOnline?</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <!-- TRUST -->
+  <section style="padding:64px 16px;background:var(--bg2);border-top:1px solid var(--border);">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 class="font-display" style="font-size:1.4rem;font-weight:800;color:var(--text);text-align:center;margin-bottom:36px;letter-spacing:-0.02em;">Por que confiar no ProtetorDigital?</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
         {[
-          { icon: '🔒', title: 'Sem Coleta de Dados', desc: 'Senhas analisadas localmente. Nunca enviamos para servidores.' },
-          { icon: '⚡', title: 'Ultra Rápido', desc: 'Infraestrutura Cloudflare. Latência <50ms em todo o Brasil.' },
-          { icon: '📋', title: 'LGPD Compliant', desc: 'Conformidade total com a Lei Geral de Proteção de Dados.' },
-          { icon: '🆓', title: 'Sempre Gratuito', desc: 'Ferramentas profissionais sem custo, sem cadastro.' },
+          { icon:'🔒', title:'Zero Upload de Senhas', desc:'Senhas são analisadas 100% no seu dispositivo. Nada é enviado para servidores.' },
+          { icon:'⚡', title:'Infraestrutura Cloudflare', desc:'Edge computing em 300+ cidades. Latência <50ms em qualquer lugar do Brasil.' },
+          { icon:'📋', title:'LGPD Compliant', desc:'Conformidade total. Sem cookies desnecessários, sem rastreamento invasivo.' },
+          { icon:'🆓', title:'Sempre Gratuito', desc:'Ferramentas profissionais sem custo, sem cadastro, sem pegadinha.' },
         ].map(item => (
-          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 text-center">
-            <div class="text-4xl mb-3">{item.icon}</div>
-            <h3 class="font-bold mb-1">{item.title}</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400">{item.desc}</p>
+          <div class="card" style="padding:24px;text-align:center;">
+            <div style="font-size:32px;margin-bottom:12px;">{item.icon}</div>
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:8px;">{item.title}</h3>
+            <p style="font-size:13px;color:var(--text-dim);line-height:1.6;">{item.desc}</p>
           </div>
         ))}
       </div>

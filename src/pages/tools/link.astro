@@ -3,106 +3,51 @@ import Layout from '../../layouts/Layout.astro';
 import URLScanner from '../../components/URLScanner.jsx';
 import AdSense from '../../components/AdSense.astro';
 ---
-
 <Layout
-  title="Scanner de URLs Maliciosas — Verifique Links Suspeitos"
-  description="Verifique se uma URL é maliciosa, phishing ou contém malware. Powered by Google Safe Browsing via Cloudflare Workers. Resposta em menos de 50ms."
-  url="https://segurancaonline.com.br/tools/link"
+  title="Scanner de URLs — Verifique Links Antes de Clicar"
+  description="Detecte malware, phishing e URLs maliciosas antes de clicar. Powered by Google Safe Browsing via Cloudflare Workers. Resposta em <50ms."
+  url="https://protetordigital.com.br/tools/link"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="breadcrumb">
-      <ol class="flex items-center gap-2">
-        <li><a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a></li>
-        <li>›</li>
-        <li class="text-gray-800 dark:text-gray-200">Scanner de URLs</li>
+  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
+    <nav style="margin-bottom:24px;" aria-label="breadcrumb">
+      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
+        <li><a href="/" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-muted)'">home</a></li>
+        <li>/</li><li><a href="/tools/link" style="color:var(--green);text-decoration:none;">urls</a></li>
       </ol>
     </nav>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Scanner de URLs Maliciosas",
-      "applicationCategory": "SecurityApplication",
-      "description": "Verifique se uma URL é maliciosa, phishing ou contém malware",
-      "operatingSystem": "Web Browser",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
-    }
-    </script>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2">
-        <div class="mb-8">
-          <h1 class="text-3xl md:text-4xl font-bold mb-3">🔗 Scanner de URLs</h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
-            Verifique links suspeitos antes de clicar. Base de dados atualizada a cada 30 minutos com Google Safe Browsing.
-          </p>
-        </div>
-
-        <URLScanner client:load />
-
-        <AdSense slot="BETWEEN_RESULTS_SLOT_ID" width={336} height={280} className="my-8" />
-
-        <!-- Education -->
-        <div class="mt-8 space-y-4">
-          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 class="text-xl font-bold mb-4">🎣 Como Identificar Phishing</h2>
-            <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-              <p>Phishing é a técnica mais comum de fraude online. Fique atento a:</p>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                {[
-                  { icon: '⚠️', tip: 'URLs com erros ortográficos (amaz0n.com, itau-seguro.net)' },
-                  { icon: '⚠️', tip: 'Domínios suspeitos (.xyz, .tk, .ml) para sites bancários' },
-                  { icon: '⚠️', tip: 'HTTP (sem o S) em sites que pedem dados pessoais' },
-                  { icon: '⚠️', tip: 'URLs muito longas com redirecionamentos' },
-                  { icon: '⚠️', tip: 'Links recebidos por SMS ou WhatsApp de desconhecidos' },
-                  { icon: '✅', tip: 'Sempre acesse bancos digitando o endereço no navegador' },
-                ].map(item => (
-                  <div class="flex items-start gap-2 bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-                    <span class="shrink-0">{item.icon}</span>
-                    <p>{item.tip}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🔗</div>
+        <span class="tag tag-cyan">Ferramenta 02</span>
+      </div>
+      <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Scanner de URLs</h1>
+      <p style="font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.6;">Verifique se um link é seguro antes de clicar. Powered by Google Safe Browsing com resposta em menos de 50ms via Cloudflare Edge.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:24px;" id="tool-layout">
+      <div id="tool-main"><URLScanner client:load /></div>
+      <aside id="tool-sidebar" style="display:flex;flex-direction:column;gap:16px;">
+        <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
+        <div class="card" style="padding:20px;">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">⚠️ Sinais de Phishing</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            {['URLs com erros ortográficos sutis','Subdomínios suspeitos (banco.malicioso.com)','HTTP sem S em sites de login','Domínios recém-registrados','Redirecionamentos encadeados'].map(d => (
+              <p style="font-size:13px;color:var(--text-dim);padding:8px 0;border-bottom:1px solid var(--border);">→ {d}</p>
+            ))}
           </div>
         </div>
-      </div>
-
-      <aside class="space-y-6">
-        <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
-
-        <div class="bg-red-50 dark:bg-red-950 rounded-2xl p-5 border border-red-200 dark:border-red-800">
-          <h3 class="font-bold text-red-800 dark:text-red-200 mb-3">🚨 Se você clicou num link suspeito:</h3>
-          <ol class="space-y-2 text-sm text-red-700 dark:text-red-300 list-decimal list-inside">
-            <li>Não insira nenhum dado</li>
-            <li>Feche o site imediatamente</li>
-            <li>Troque suas senhas</li>
-            <li>Escaneie o dispositivo com antivírus</li>
-            <li>Monitore seus dados bancários</li>
-          </ol>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-200 dark:border-gray-700">
-          <h3 class="font-bold mb-3">Outras Ferramentas</h3>
-          <div class="space-y-2">
-            <a href="/tools/senha" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="text-2xl">🔐</span>
-              <div>
-                <p class="font-medium text-sm">Analisador de Senhas</p>
-                <p class="text-xs text-gray-500">Força e gerador de senhas</p>
-              </div>
+        <div class="card" style="padding:20px;">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🛠️ Outras Ferramentas</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="/tools/senha" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>🔐</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Analisador de Senhas</p><p style="font-size:12px;color:var(--text-muted);">Sua senha é forte?</p></div>
             </a>
-            <a href="/tools/vazamento" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="text-2xl">📧</span>
-              <div>
-                <p class="font-medium text-sm">Verificador de Vazamentos</p>
-                <p class="text-xs text-gray-500">Email comprometido?</p>
-              </div>
+            <a href="/tools/vazamento" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>📧</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Verificador de Vazamentos</p><p style="font-size:12px;color:var(--text-muted);">Seu email vazou?</p></div>
             </a>
           </div>
         </div>
       </aside>
     </div>
   </div>
+  <style>@media (min-width: 1024px) { #tool-layout { grid-template-columns: 1fr 320px !important; } }</style>
 </Layout>

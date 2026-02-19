@@ -3,111 +3,70 @@ import Layout from '../../layouts/Layout.astro';
 import PasswordAnalyzer from '../../components/PasswordAnalyzer.jsx';
 import AdSense from '../../components/AdSense.astro';
 ---
-
 <Layout
-  title="Analisador de Força de Senhas + Gerador de Senhas Fortes"
-  description="Verifique a força da sua senha e gere senhas seguras gratuitamente. Análise 100% local com score OWASP, tempo estimado de crack e entropia."
-  url="https://segurancaonline.com.br/tools/senha"
+  title="Analisador de Senhas + Gerador de Senhas Fortes"
+  description="Verifique a força da sua senha em tempo real, descubra se ela vazou e gere senhas criptograficamente seguras. 100% local, sem upload."
+  url="https://protetordigital.com.br/tools/senha"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
     <!-- Breadcrumb -->
-    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="breadcrumb">
-      <ol class="flex items-center gap-2">
-        <li><a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a></li>
-        <li>›</li>
-        <li class="text-gray-800 dark:text-gray-200">Analisador de Senhas</li>
+    <nav style="margin-bottom:24px;" aria-label="breadcrumb">
+      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
+        <li><a href="/" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-muted)'">home</a></li>
+        <li>/</li><li><a href="/tools/senha" style="color:var(--green);text-decoration:none;">senhas</a></li>
       </ol>
     </nav>
 
-    <!-- Schema.org -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Analisador de Força de Senhas",
-      "applicationCategory": "SecurityApplication",
-      "description": "Ferramenta gratuita para verificar a força de senhas e gerar senhas seguras",
-      "operatingSystem": "Web Browser",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
-      "url": "https://segurancaonline.com.br/tools/senha"
-    }
-    </script>
+    <!-- Page header -->
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🔐</div>
+        <span class="tag tag-green">Ferramenta 01</span>
+      </div>
+      <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Analisador de Senhas</h1>
+      <p style="font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.6;">Análise em tempo real com verificação no banco HIBP de 15 bilhões de senhas vazadas. Sua senha nunca sai do seu dispositivo.</p>
+    </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Main content -->
-      <div class="lg:col-span-2">
-        <div class="mb-8">
-          <h1 class="text-3xl md:text-4xl font-bold mb-3">
-            🔐 Analisador de Senhas
-          </h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
-            Analise a força da sua senha em tempo real. 100% local — nenhum dado é enviado para nossos servidores.
-          </p>
-        </div>
-
+    <!-- Layout: tool + sidebar -->
+    <div style="display:grid;grid-template-columns:1fr;gap:24px;" id="tool-layout">
+      <!-- Main tool -->
+      <div id="tool-main">
         <PasswordAnalyzer client:load />
-
-        <!-- AdSense between tools -->
-        <AdSense slot="BETWEEN_RESULTS_SLOT_ID" width={336} height={280} className="my-8" />
-
-        <!-- Educational content -->
-        <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-          <h2 class="text-xl font-bold mb-4">📚 Requisitos de Senha Segundo OWASP</h2>
-          <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-            <p>O <strong class="text-gray-800 dark:text-white">OWASP (Open Web Application Security Project)</strong> define os seguintes requisitos mínimos:</p>
-            <ul class="space-y-2">
-              <li class="flex items-center gap-2">✅ Mínimo de <strong>8 caracteres</strong> (12+ recomendado)</li>
-              <li class="flex items-center gap-2">✅ Letras maiúsculas e minúsculas</li>
-              <li class="flex items-center gap-2">✅ Números (0-9)</li>
-              <li class="flex items-center gap-2">✅ Caracteres especiais (!@#$%...)</li>
-              <li class="flex items-center gap-2">❌ Sem sequências óbvias (123456, qwerty)</li>
-              <li class="flex items-center gap-2">❌ Sem palavras do dicionário</li>
-            </ul>
-            <p class="mt-4">
-              Use nossa ferramenta para gerar senhas que atendem a todos esses critérios automaticamente.
-              Para máxima segurança, use um <strong>gerenciador de senhas</strong> como Bitwarden ou KeePass.
-            </p>
-          </div>
-        </div>
       </div>
 
       <!-- Sidebar -->
-      <aside class="space-y-6">
-        <!-- AdSense Sidebar 300x600 -->
+      <aside id="tool-sidebar" style="display:flex;flex-direction:column;gap:16px;">
         <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
 
-        <!-- Quick tips -->
-        <div class="bg-blue-50 dark:bg-blue-950 rounded-2xl p-5 border border-blue-200 dark:border-blue-800">
-          <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-3">💡 Dicas Rápidas</h3>
-          <ul class="space-y-2 text-sm text-blue-700 dark:text-blue-300">
-            <li>→ Use senhas diferentes para cada conta</li>
-            <li>→ Ative o 2FA sempre que possível</li>
-            <li>→ Use um gerenciador de senhas</li>
-            <li>→ Jamais compartilhe senhas por email/WhatsApp</li>
-          </ul>
+        <div class="card" style="padding:20px;">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">💡 Dicas Rápidas</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            {['Use senhas diferentes em cada conta','Ative o 2FA sempre que possível','Use um gerenciador de senhas','Nunca compartilhe por WhatsApp/email'].map(d => (
+              <p style="font-size:13px;color:var(--text-dim);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.5;">→ {d}</p>
+            ))}
+          </div>
         </div>
 
-        <!-- Other tools -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-200 dark:border-gray-700">
-          <h3 class="font-bold mb-3">Outras Ferramentas</h3>
-          <div class="space-y-2">
-            <a href="/tools/link" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="text-2xl">🔗</span>
-              <div>
-                <p class="font-medium text-sm">Scanner de URLs</p>
-                <p class="text-xs text-gray-500">Verifique links maliciosos</p>
-              </div>
+        <div class="card" style="padding:20px;">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🛠️ Outras Ferramentas</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="/tools/link" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>🔗</span>
+              <div><p style="font-size:13px;font-weight:600;color:var(--text);">Scanner de URLs</p><p style="font-size:12px;color:var(--text-muted);">Detecte links maliciosos</p></div>
             </a>
-            <a href="/tools/vazamento" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="text-2xl">📧</span>
-              <div>
-                <p class="font-medium text-sm">Verificador de Vazamentos</p>
-                <p class="text-xs text-gray-500">Cheque se seu email vazou</p>
-              </div>
+            <a href="/tools/vazamento" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>📧</span>
+              <div><p style="font-size:13px;font-weight:600;color:var(--text);">Verificador de Vazamentos</p><p style="font-size:12px;color:var(--text-muted);">Seu email vazou?</p></div>
             </a>
           </div>
         </div>
       </aside>
     </div>
   </div>
+
+  <style>
+    @media (min-width: 1024px) {
+      #tool-layout { grid-template-columns: 1fr 320px !important; }
+    }
+  </style>
 </Layout>

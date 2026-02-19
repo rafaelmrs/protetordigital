@@ -3,106 +3,53 @@ import Layout from '../../layouts/Layout.astro';
 import BreachChecker from '../../components/BreachChecker.jsx';
 import AdSense from '../../components/AdSense.astro';
 ---
-
 <Layout
   title="Verificador de Vazamentos de Email — Seu Email Vazou?"
   description="Descubra se seu email apareceu em vazamentos de dados. Relatório completo com breaches, datas e recomendações segundo a LGPD."
-  url="https://segurancaonline.com.br/tools/vazamento"
+  url="https://protetordigital.com.br/tools/vazamento"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="breadcrumb">
-      <ol class="flex items-center gap-2">
-        <li><a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a></li>
-        <li>›</li>
-        <li class="text-gray-800 dark:text-gray-200">Verificador de Vazamentos</li>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Verificador de Vazamentos","applicationCategory":"SecurityApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"}}</script>
+  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
+    <nav style="margin-bottom:24px;" aria-label="breadcrumb">
+      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
+        <li><a href="/" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-muted)'">home</a></li>
+        <li>/</li><li><a href="/tools/vazamento" style="color:var(--green);text-decoration:none;">vazamentos</a></li>
       </ol>
     </nav>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Verificador de Vazamentos de Email",
-      "applicationCategory": "SecurityApplication",
-      "description": "Verifique se seu email apareceu em vazamentos de dados públicos",
-      "operatingSystem": "Web Browser",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
-    }
-    </script>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2">
-        <div class="mb-8">
-          <h1 class="text-3xl md:text-4xl font-bold mb-3">📧 Verificador de Vazamentos</h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">
-            Verifique se seu email apareceu em algum banco de dados comprometido. Relatório com recomendações LGPD.
-          </p>
-        </div>
-
-        <BreachChecker client:load />
-
-        <AdSense slot="BETWEEN_RESULTS_SLOT_ID" width={336} height={280} className="my-8" />
-
-        <div class="mt-8 bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
-          <h2 class="text-xl font-bold mb-4">⚖️ Seus Direitos pela LGPD</h2>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            A <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong> garante direitos importantes quando seus dados são comprometidos:
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[
-              { title: 'Direito de Acesso', desc: 'Solicitar quais dados a empresa possui sobre você' },
-              { title: 'Direito de Correção', desc: 'Exigir correção de dados incorretos ou desatualizados' },
-              { title: 'Direito de Exclusão', desc: 'Pedir remoção dos seus dados quando o tratamento for desnecessário' },
-              { title: 'Direito de Portabilidade', desc: 'Transferir seus dados para outro fornecedor de serviço' },
-              { title: 'Direito à Informação', desc: 'Ser informado sobre compartilhamento com terceiros' },
-              { title: 'Direito de Revogar Consentimento', desc: 'Cancelar autorizações dadas anteriormente' },
-            ].map(right => (
-              <div class="bg-blue-50 dark:bg-blue-950 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
-                <h3 class="font-semibold text-blue-800 dark:text-blue-200 text-sm">{right.title}</h3>
-                <p class="text-xs text-blue-700 dark:text-blue-300 mt-1">{right.desc}</p>
-              </div>
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="width:40px;height:40px;background:rgba(255,109,0,0.1);border:1px solid rgba(255,109,0,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">📧</div>
+        <span class="tag tag-orange">Ferramenta 03</span>
+      </div>
+      <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Verificador de Vazamentos</h1>
+      <p style="font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.6;">Descubra se seu email apareceu em algum dos 700+ vazamentos catalogados pelo Have I Been Pwned. Relatório completo com guia de ações LGPD.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:24px;" id="tool-layout">
+      <div id="tool-main"><BreachChecker client:load /></div>
+      <aside id="tool-sidebar" style="display:flex;flex-direction:column;gap:16px;">
+        <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
+        <div class="card" style="padding:20px;border-color:rgba(255,109,0,0.2);">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">⚖️ Seus Direitos (LGPD)</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            {['Solicitar exclusão de dados das empresas afetadas','Registrar ocorrência na ANPD','Entrar com ação indenizatória se houver dano','Ativar 2FA em todas as contas imediatamente'].map(d => (
+              <p style="font-size:13px;color:var(--text-dim);padding:8px 0;border-bottom:1px solid var(--border);">→ {d}</p>
             ))}
           </div>
-          <p class="text-xs text-gray-500 mt-4">
-            Acesse: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 underline">gov.br/anpd</a> para registrar reclamações.
-          </p>
+          <a href="https://www.gov.br/anpd/reclamacoes" target="_blank" rel="noopener" class="btn-ghost" style="margin-top:14px;padding:10px 16px;font-size:13px;width:100%;justify-content:center;">ANPD — Registrar Reclamação</a>
         </div>
-      </div>
-
-      <aside class="space-y-6">
-        <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
-
-        <div class="bg-amber-50 dark:bg-amber-950 rounded-2xl p-5 border border-amber-200 dark:border-amber-800">
-          <h3 class="font-bold text-amber-800 dark:text-amber-200 mb-3">📊 Maiores Vazamentos Brasileiros</h3>
-          <ul class="space-y-2 text-sm text-amber-700 dark:text-amber-300">
-            <li>🔴 DETRAN/SP — 77M CPFs (2021)</li>
-            <li>🔴 Serasa — 223M registros (2021)</li>
-            <li>🔴 SUS — 243M dados (2022)</li>
-            <li>🟠 LinkedIn — 700M globais (2021)</li>
-            <li>🟠 Facebook — 533M globais (2021)</li>
-          </ul>
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 border border-gray-200 dark:border-gray-700">
-          <h3 class="font-bold mb-3">Outras Ferramentas</h3>
-          <div class="space-y-2">
-            <a href="/tools/senha" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="text-2xl">🔐</span>
-              <div>
-                <p class="font-medium text-sm">Analisador de Senhas</p>
-                <p class="text-xs text-gray-500">Verifique e gere senhas fortes</p>
-              </div>
+        <div class="card" style="padding:20px;">
+          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🛠️ Outras Ferramentas</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="/tools/senha" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>🔐</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Analisador de Senhas</p><p style="font-size:12px;color:var(--text-muted);">Sua senha é forte?</p></div>
             </a>
-            <a href="/tools/link" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-              <span class="text-2xl">🔗</span>
-              <div>
-                <p class="font-medium text-sm">Scanner de URLs</p>
-                <p class="text-xs text-gray-500">Verifique links suspeitos</p>
-              </div>
+            <a href="/tools/link" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <span>🔗</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Scanner de URLs</p><p style="font-size:12px;color:var(--text-muted);">Detecte links maliciosos</p></div>
             </a>
           </div>
         </div>
       </aside>
     </div>
   </div>
+  <style>@media (min-width: 1024px) { #tool-layout { grid-template-columns: 1fr 320px !important; } }</style>
 </Layout>
