@@ -141,6 +141,17 @@ const SITE = 'https://protetordigital.com';
       --text-3: #4a6080;
       --nav-bg: rgba(8, 13, 26, 0.88);
       --glow-blue: 0 0 40px rgba(59,130,246,0.12);
+      /* Aliases para componentes React */
+      --bg2: #0c1220;
+      --surface2: #172035;
+      --border2: #263752;
+      --text-dim: #8da4c4;
+      --text-muted: #4a6080;
+      --font-display: var(--font-body);
+      --green: #10b981;
+      --red: #ef4444;
+      --orange: #f97316;
+      --yellow: #eab308;
     }
 
     .light {
@@ -157,6 +168,17 @@ const SITE = 'https://protetordigital.com';
       --text-3: #8fa3bf;
       --nav-bg: rgba(245, 247, 251, 0.9);
       --glow-blue: 0 0 40px rgba(59,130,246,0.06);
+      /* Aliases para componentes React */
+      --bg2: #ffffff;
+      --surface2: #f8faff;
+      --border2: #c8d3e8;
+      --text-dim: #4a5e7a;
+      --text-muted: #8fa3bf;
+      --font-display: var(--font-body);
+      --green: #059669;
+      --red: #dc2626;
+      --orange: #ea580c;
+      --yellow: #ca8a04;
     }
 
     /* ===================== RESET ===================== */
@@ -214,8 +236,23 @@ const SITE = 'https://protetordigital.com';
       letter-spacing: -0.01em;
     }
     .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 11px 22px;
+      letter-spacing: -0.01em;
       background: var(--blue);
       color: #fff;
+      transition: all var(--transition);
     }
     .btn-primary:hover {
       background: var(--blue-dark);
@@ -300,6 +337,7 @@ const SITE = 'https://protetordigital.com';
       flex-shrink: 0;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
     /* Divider */
     .divider { height: 1px; background: var(--border); }
