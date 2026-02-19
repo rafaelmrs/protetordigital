@@ -11,7 +11,7 @@ const siteUrl = 'https://protetordigital.com.br';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#00e676" />
+  <meta name="theme-color" content="#4f8ef7" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="canonical" href={url} />
@@ -36,7 +36,7 @@ const siteUrl = 'https://protetordigital.com.br';
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ProtetorDigital","url":"https://protetordigital.com.br","description":"Ferramentas gratuitas de proteção digital para brasileiros","inLanguage":"pt-BR"}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   {ADSENSE_ID && (<script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`} crossorigin="anonymous"></script>)}
   {GA_ID && (<><script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script><script define:vars={{ GA_ID }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',GA_ID,{anonymize_ip:true});</script></>)}
   <script is:inline>
@@ -46,64 +46,70 @@ const siteUrl = 'https://protetordigital.com.br';
   </script>
   <style>
     :root {
-      --green: #00e676; --green-dim: #00c853; --cyan: #00e5ff;
-      --red: #ff1744; --orange: #ff6d00; --yellow: #ffd600;
-      --font-display: 'Syne', sans-serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --blue: #4f8ef7;
+      --blue-dim: #3a76e0;
+      --blue-pale: #7aaeff;
+      --cyan: #38bdf8;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --emerald: #10b981;
+      --font-sans: 'Manrope', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
     }
     .dark {
-      --bg: #07090d; --bg2: #0c1018; --surface: #111620;
-      --surface2: #171f2e; --border: #1c2535; --border2: #243040;
-      --text: #e8edf5; --text-dim: #8899b0; --text-muted: #3d5068;
-      --nav-bg: rgba(7,9,13,0.85); --card-shadow: 0 0 0 1px #1c2535;
+      --bg: #080c14;
+      --bg2: #0d1220;
+      --surface: #111827;
+      --surface2: #161e2e;
+      --surface3: #1a2538;
+      --border: #1e2d47;
+      --border2: #263547;
+      --text: #e2e8f4;
+      --text-dim: #7b90aa;
+      --text-muted: #3a4f6a;
+      --nav-bg: rgba(8,12,20,0.9);
+      --card-shadow: 0 1px 0 0 #1e2d47;
     }
     .light {
-      --bg: #f0f4f8; --bg2: #ffffff; --surface: #ffffff;
-      --surface2: #f8fafc; --border: #e2e8f0; --border2: #cbd5e1;
-      --text: #0f1923; --text-dim: #4a6177; --text-muted: #94a3b8;
-      --nav-bg: rgba(240,244,248,0.85); --card-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --bg: #f4f7fc;
+      --bg2: #ffffff;
+      --surface: #ffffff;
+      --surface2: #f8faff;
+      --surface3: #eef2fa;
+      --border: #dde3ef;
+      --border2: #c8d3e8;
+      --text: #0f172a;
+      --text-dim: #475569;
+      --text-muted: #94a3b8;
+      --nav-bg: rgba(244,247,252,0.92);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 0 0 #dde3ef;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: var(--bg); color: var(--text); font-family: var(--font-body); }
-    body { background: var(--bg); min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+    html { background: var(--bg); color: var(--text); font-family: var(--font-sans); }
+    body { background: var(--bg); min-height: 100vh; overflow-x: hidden; transition: background 0.25s, color 0.25s; }
 
-    /* Grid texture */
-    .grid-bg {
-      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 48px 48px;
-      opacity: 0.5;
+    .dot-bg {
+      background-image: radial-gradient(var(--border) 1px, transparent 1px);
+      background-size: 28px 28px;
     }
-
-    /* Typography */
-    .font-display { font-family: var(--font-display); }
     .font-mono { font-family: var(--font-mono); }
 
-    /* Glows */
-    .glow { box-shadow: 0 0 24px rgba(0,230,118,0.12); }
-    .glow-lg { box-shadow: 0 0 48px rgba(0,230,118,0.15), 0 0 96px rgba(0,230,118,0.05); }
-    .text-glow { text-shadow: 0 0 24px rgba(0,230,118,0.45); }
-    .dark .text-glow { text-shadow: 0 0 24px rgba(0,230,118,0.45); }
-    .light .text-glow { text-shadow: 0 0 16px rgba(0,180,80,0.3); }
-
-    /* Cards */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 12px;
       box-shadow: var(--card-shadow);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .card-hover:hover {
-      border-color: rgba(0,230,118,0.3);
-      box-shadow: 0 0 20px rgba(0,230,118,0.08), var(--card-shadow);
+      border-color: var(--border2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15), var(--card-shadow);
     }
 
-    /* Buttons */
     .btn-primary {
-      background: var(--green);
-      color: #060a0e;
-      font-family: var(--font-display);
+      background: var(--blue);
+      color: #fff;
+      font-family: var(--font-sans);
       font-weight: 700;
       border-radius: 8px;
       border: none;
@@ -113,18 +119,18 @@ const siteUrl = 'https://protetordigital.com.br';
       align-items: center;
       justify-content: center;
       gap: 8px;
-      letter-spacing: 0.01em;
+      letter-spacing: -0.01em;
     }
-    .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 0 24px rgba(0,230,118,0.35); transform: translateY(-1px); }
+    .btn-primary:hover { background: var(--blue-dim); box-shadow: 0 4px 20px rgba(79,142,247,0.3); transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled { background: var(--border2); color: var(--text-muted); cursor: not-allowed; box-shadow: none; transform: none; filter: none; }
+    .btn-primary:disabled { background: var(--border2); color: var(--text-muted); cursor: not-allowed; box-shadow: none; transform: none; }
 
     .btn-ghost {
       background: transparent;
       color: var(--text-dim);
       border: 1px solid var(--border2);
       border-radius: 8px;
-      font-family: var(--font-display);
+      font-family: var(--font-sans);
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -132,13 +138,12 @@ const siteUrl = 'https://protetordigital.com.br';
       align-items: center;
       gap: 8px;
     }
-    .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
 
-    /* Inputs */
     .input {
       background: var(--bg2);
       border: 1px solid var(--border2);
-      border-radius: 10px;
+      border-radius: 8px;
       color: var(--text);
       font-family: var(--font-mono);
       font-size: 14px;
@@ -148,100 +153,109 @@ const siteUrl = 'https://protetordigital.com.br';
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .input::placeholder { color: var(--text-muted); }
-    .input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,230,118,0.12); }
+    .input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(79,142,247,0.15); }
 
-    /* Tags & badges */
     .tag {
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
       padding: 3px 8px;
-      border-radius: 5px;
+      border-radius: 4px;
       background: var(--surface2);
       color: var(--text-dim);
       border: 1px solid var(--border);
     }
-    .tag-green { background: rgba(0,230,118,0.08); color: var(--green); border-color: rgba(0,230,118,0.2); }
-    .tag-red { background: rgba(255,23,68,0.08); color: var(--red); border-color: rgba(255,23,68,0.2); }
-    .tag-cyan { background: rgba(0,229,255,0.08); color: var(--cyan); border-color: rgba(0,229,255,0.2); }
-    .tag-orange { background: rgba(255,109,0,0.08); color: var(--orange); border-color: rgba(255,109,0,0.2); }
+    .tag-blue { background: rgba(79,142,247,0.08); color: var(--blue-pale); border-color: rgba(79,142,247,0.2); }
+    .tag-red { background: rgba(239,68,68,0.08); color: #fca5a5; border-color: rgba(239,68,68,0.2); }
+    .tag-cyan { background: rgba(56,189,248,0.08); color: #7dd3fc; border-color: rgba(56,189,248,0.2); }
+    .tag-amber { background: rgba(245,158,11,0.08); color: #fcd34d; border-color: rgba(245,158,11,0.2); }
+    .tag-emerald { background: rgba(16,185,129,0.08); color: #6ee7b7; border-color: rgba(16,185,129,0.2); }
+    .light .tag-blue { color: #2563eb; }
+    .light .tag-cyan { color: #0284c7; }
+    .light .tag-amber { color: #b45309; }
+    /* Aliases for backward compat */
+    .tag-green { background: rgba(16,185,129,0.08); color: #6ee7b7; border-color: rgba(16,185,129,0.2); }
+    .tag-orange { background: rgba(245,158,11,0.08); color: #fcd34d; border-color: rgba(245,158,11,0.2); }
+    .light .tag-green { color: #059669; }
+    .light .tag-orange { color: #b45309; }
 
-    /* Terminal line */
-    .terminal-line::before { content: '> '; color: var(--green); font-family: var(--font-mono); }
+    .nav-link {
+      color: var(--text-dim);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 14px;
+      transition: color 0.15s;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 7px;
+    }
+    .nav-link:hover { color: var(--text); background: var(--surface2); }
+    .nav-link.active { color: var(--blue); }
 
-    /* Scrollbar */
+    .status-dot {
+      width: 7px; height: 7px;
+      background: var(--emerald);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+      50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+    }
+
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg2); }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--blue-dim); }
 
-    /* Nav link */
-    .nav-link {
-      color: var(--text-dim);
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 14px;
-      transition: color 0.2s;
-      text-decoration: none;
-      padding: 6px 12px;
-      border-radius: 8px;
-    }
-    .nav-link:hover { color: var(--text); background: var(--surface2); }
-    .nav-link.active { color: var(--green); }
+    .divider { height: 1px; background: var(--border); }
+    .strength-bar { height: 3px; border-radius: 2px; transition: width 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s; }
+    input[type="range"] { accent-color: var(--blue); }
+    input[type="checkbox"] { accent-color: var(--blue); }
 
-    /* Prose */
-    .prose h1, .prose h2, .prose h3 { font-family: var(--font-display); color: var(--text); }
-    .prose h2 { font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-    .prose h3 { font-size: 1.15rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    #mobile-menu.open { max-height: 400px; }
+
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(79,142,247,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .prose h1, .prose h2, .prose h3 { font-family: var(--font-sans); color: var(--text); }
+    .prose h2 { font-size: 1.3rem; font-weight: 700; margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .prose h3 { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
     .prose p { color: var(--text-dim); line-height: 1.8; margin-bottom: 1rem; }
-    .prose a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+    .prose a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
     .prose ul, .prose ol { color: var(--text-dim); padding-left: 1.5rem; margin-bottom: 1rem; }
     .prose li { margin-bottom: 0.5rem; line-height: 1.7; }
     .prose strong { color: var(--text); }
     .prose code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--cyan); }
-    .prose pre { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
+    .prose pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
     .prose pre code { background: none; border: none; padding: 0; }
 
-    /* Animations */
-    @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-    @keyframes scanLine { from { top: -2px; } to { top: 100%; } }
-    @keyframes ping2 { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(2.5); opacity: 0; } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-    .animate-slide-up { animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+    .animate-slide-up { animation: slideUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
     .animate-fade-in { animation: fadeIn 0.4s ease both; }
-    .animate-float { animation: float 5s ease-in-out infinite; }
-    .animate-ping2 { animation: ping2 1.5s ease-out infinite; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
 
-    .stagger-1 { animation-delay: 0.05s; }
-    .stagger-2 { animation-delay: 0.1s; }
-    .stagger-3 { animation-delay: 0.15s; }
-    .stagger-4 { animation-delay: 0.2s; }
+    .stagger-1 { animation-delay: 0.06s; }
+    .stagger-2 { animation-delay: 0.12s; }
+    .stagger-3 { animation-delay: 0.18s; }
+    .stagger-4 { animation-delay: 0.24s; }
 
-    /* Progress bar */
-    .strength-bar { height: 4px; border-radius: 2px; transition: width 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s; }
-
-    /* Range input */
-    input[type="range"] { accent-color: var(--green); }
-    input[type="checkbox"] { accent-color: var(--green); }
-
-    /* Mobile menu transition */
-    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    #mobile-menu.open { max-height: 400px; }
-
-    /* Spinner */
-    .spinner { width: 16px; height: 16px; border: 2px solid rgba(0,230,118,0.2); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Section divider */
-    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); }
+    /* Legacy compat */
+    .glow { box-shadow: 0 0 20px rgba(79,142,247,0.12); }
+    .text-glow { color: var(--blue-pale); }
+    .font-display { font-family: var(--font-sans); }
+    .terminal-line::before { content: '> '; color: var(--blue); font-family: var(--font-mono); }
+    .animate-ping2 { animation: pulse-dot 2s ease-out infinite; }
   </style>
   <ViewTransitions />
 </head>
 <body>
 
-  <!-- Top AdSense Banner — Desktop only -->
   {ADSENSE_ID && (
     <div class="hidden md:flex justify-center" style="background:var(--bg2); border-bottom:1px solid var(--border); padding:8px 0;">
       <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client={ADSENSE_ID} data-ad-slot="HEADER_SLOT_ID"></ins>
@@ -250,100 +264,93 @@ const siteUrl = 'https://protetordigital.com.br';
   )}
 
   <!-- NAV -->
-  <nav id="main-nav" style="position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:var(--nav-bg);border-bottom:1px solid var(--border);">
-    <div style="max-width:1200px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:60px;">
+  <nav id="main-nav" style="position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:var(--nav-bg);border-bottom:1px solid var(--border);">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:58px;">
 
-      <!-- Logo -->
       <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-        <div style="width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#060a0e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div style="width:30px;height:30px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
         </div>
-        <span style="font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--text);letter-spacing:-0.02em;">ProtetorDigital</span>
+        <span style="font-family:var(--font-sans);font-weight:800;font-size:17px;color:var(--text);letter-spacing:-0.03em;">ProtetorDigital</span>
       </a>
 
-      <!-- Desktop Nav -->
-      <div style="display:none;" id="desktop-nav" class="desktop-nav-links">
-        <a href="/tools/senha" class="nav-link">🔐 Senhas</a>
-        <a href="/tools/link" class="nav-link">🔗 URLs</a>
-        <a href="/tools/vazamento" class="nav-link">📧 Vazamentos</a>
+      <div style="display:none;" id="desktop-nav">
+        <a href="/tools/senha" class="nav-link">Senhas</a>
+        <a href="/tools/link" class="nav-link">URLs</a>
+        <a href="/tools/vazamento" class="nav-link">Vazamentos</a>
         <a href="/blog" class="nav-link">Blog</a>
       </div>
 
-      <!-- Actions -->
       <div style="display:flex;align-items:center;gap:8px;">
-        <!-- Theme toggle -->
-        <button id="theme-btn" aria-label="Alternar tema" style="width:40px;height:40px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">
-          <span id="theme-icon-dark" style="font-size:16px;">🌙</span>
-          <span id="theme-icon-light" style="font-size:16px;display:none;">☀️</span>
+        <button id="theme-btn" aria-label="Alternar tema" style="width:38px;height:38px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">
+          <svg id="theme-icon-dark" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--text-dim);">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;color:var(--text-dim);">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
         </button>
-
-        <!-- Mobile menu btn -->
-        <button id="mobile-btn" aria-label="Menu" style="width:40px;height:40px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <button id="mobile-btn" aria-label="Menu" style="width:38px;height:38px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
       </div>
     </div>
-
-    <!-- Mobile Menu -->
     <div id="mobile-menu" style="background:var(--surface);border-top:1px solid var(--border);">
-      <div style="padding:12px 16px;display:flex;flex-direction:column;gap:4px;">
-        <a href="/tools/senha" class="nav-link" style="padding:12px 16px;">🔐 Analisador de Senhas</a>
-        <a href="/tools/link" class="nav-link" style="padding:12px 16px;">🔗 Scanner de URLs</a>
-        <a href="/tools/vazamento" class="nav-link" style="padding:12px 16px;">📧 Verificador de Vazamentos</a>
-        <a href="/blog" class="nav-link" style="padding:12px 16px;">📝 Blog de Segurança</a>
+      <div style="padding:10px 16px;display:flex;flex-direction:column;gap:2px;">
+        <a href="/tools/senha" class="nav-link" style="padding:11px 16px;">Analisador de Senhas</a>
+        <a href="/tools/link" class="nav-link" style="padding:11px 16px;">Scanner de URLs</a>
+        <a href="/tools/vazamento" class="nav-link" style="padding:11px 16px;">Verificador de Vazamentos</a>
+        <a href="/blog" class="nav-link" style="padding:11px 16px;">Blog de Segurança</a>
       </div>
     </div>
   </nav>
 
-  <!-- Main -->
   <main style="min-height:100vh;">
     <slot />
   </main>
 
-  <!-- Footer -->
   <footer style="background:var(--bg2);border-top:1px solid var(--border);margin-top:80px;">
-    <!-- Mobile AdSense -->
     {ADSENSE_ID && (
       <div class="md:hidden" style="display:flex;justify-content:center;padding:8px 0;border-bottom:1px solid var(--border);">
         <ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client={ADSENSE_ID} data-ad-slot="FOOTER_MOBILE_SLOT_ID"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
     )}
-    <div style="max-width:1200px;margin:0 auto;padding:48px 16px 32px;">
+    <div style="max-width:1200px;margin:0 auto;padding:48px 20px 32px;">
       <div style="display:grid;grid-template-columns:1fr;gap:40px;" class="footer-grid">
         <div>
-          <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:12px;">
-            <div style="width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#060a0e" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <a href="/" style="display:flex;align-items:center;gap:9px;text-decoration:none;margin-bottom:14px;">
+            <div style="width:26px;height:26px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <span style="font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--text);">ProtetorDigital</span>
+            <span style="font-family:var(--font-sans);font-weight:800;font-size:15px;color:var(--text);letter-spacing:-0.02em;">ProtetorDigital</span>
           </a>
-          <p style="font-size:13px;color:var(--text-dim);line-height:1.6;max-width:280px;">Ferramentas gratuitas de proteção digital para o brasileiro. Análise 100% local — seus dados nunca saem do dispositivo.</p>
-          <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-            <span class="tag tag-green">LGPD</span>
+          <p style="font-size:13px;color:var(--text-dim);line-height:1.7;max-width:270px;">Ferramentas gratuitas de proteção digital para o brasileiro. Análise 100% local — seus dados nunca saem do dispositivo.</p>
+          <div style="margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="tag tag-blue">LGPD</span>
             <span class="tag tag-cyan">100% Grátis</span>
-            <span class="tag">🇧🇷 Made in Brazil</span>
+            <span class="tag">BR</span>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
           <div>
-            <p style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em;">Ferramentas</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <a href="/tools/senha" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'">Analisador de Senhas</a>
-              <a href="/tools/link" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'">Scanner de URLs</a>
-              <a href="/tools/vazamento" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'">Verificador de Vazamentos</a>
+            <p style="font-family:var(--font-sans);font-weight:700;font-size:12px;color:var(--text);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.08em;">Ferramentas</p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <a href="/tools/senha" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Analisador de Senhas</a>
+              <a href="/tools/link" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Scanner de URLs</a>
+              <a href="/tools/vazamento" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Verificador de Vazamentos</a>
             </div>
           </div>
           <div>
-            <p style="font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em;">Info</p>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <a href="/blog" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'">Blog</a>
-              <a href="/rss.xml" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'">RSS Feed</a>
-              <a href="/politica-privacidade" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'">Privacidade</a>
+            <p style="font-family:var(--font-sans);font-weight:700;font-size:12px;color:var(--text);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.08em;">Info</p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <a href="/blog" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Blog</a>
+              <a href="/rss.xml" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">RSS Feed</a>
+              <a href="/politica-privacidade" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Privacidade</a>
             </div>
           </div>
         </div>
@@ -351,21 +358,20 @@ const siteUrl = 'https://protetordigital.com.br';
       <div class="divider" style="margin:32px 0 20px;"></div>
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;">
         <p style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);">© {new Date().getFullYear()} ProtetorDigital — Todos os direitos reservados</p>
-        <p style="font-size:12px;color:var(--text-muted);">Conforme a <a href="https://www.gov.br/anpd" target="_blank" rel="noopener" style="color:var(--green);text-decoration:none;">LGPD</a></p>
+        <p style="font-size:12px;color:var(--text-muted);">Conforme a <a href="https://www.gov.br/anpd" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">LGPD</a></p>
       </div>
     </div>
   </footer>
 
   <style>
     @media (min-width: 768px) {
-      #desktop-nav { display: flex !important; align-items: center; gap: 4px; }
+      #desktop-nav { display: flex !important; align-items: center; gap: 2px; }
       #mobile-btn { display: none !important; }
       .footer-grid { grid-template-columns: 1fr 1fr !important; }
     }
   </style>
 
   <script>
-    // Theme toggle
     const btn = document.getElementById('theme-btn');
     const iconDark = document.getElementById('theme-icon-dark');
     const iconLight = document.getElementById('theme-icon-light');
@@ -377,7 +383,6 @@ const siteUrl = 'https://protetordigital.com.br';
       if (iconLight) iconLight.style.display = isDark ? 'none' : 'block';
       localStorage.setItem('theme', theme);
     }
-    // Init icons
     const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
     if (iconDark) iconDark.style.display = current === 'dark' ? 'block' : 'none';
     if (iconLight) iconLight.style.display = current === 'light' ? 'block' : 'none';
@@ -385,15 +390,9 @@ const siteUrl = 'https://protetordigital.com.br';
       const isDark = document.documentElement.classList.contains('dark');
       applyTheme(isDark ? 'light' : 'dark');
     });
-
-    // Mobile menu
     const mobileBtn = document.getElementById('mobile-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    mobileBtn?.addEventListener('click', () => {
-      mobileMenu?.classList.toggle('open');
-    });
-
-    // Active nav link
+    mobileBtn?.addEventListener('click', () => { mobileMenu?.classList.toggle('open'); });
     const path = window.location.pathname;
     document.querySelectorAll('.nav-link').forEach(link => {
       if (link.getAttribute('href') === path || (path.startsWith('/blog') && link.getAttribute('href') === '/blog')) {

@@ -8,55 +8,69 @@ import AdSense from '../../components/AdSense.astro';
   description="Verifique a força da sua senha em tempo real, descubra se ela vazou e gere senhas criptograficamente seguras. 100% local, sem upload."
   url="https://protetordigital.com.br/tools/senha"
 >
-  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
+  <div style="max-width:1100px;margin:0 auto;padding:32px 20px;">
+
     <!-- Breadcrumb -->
     <nav style="margin-bottom:24px;" aria-label="breadcrumb">
-      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
-        <li><a href="/" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-muted)'">home</a></li>
-        <li>/</li><li><a href="/tools/senha" style="color:var(--green);text-decoration:none;">senhas</a></li>
+      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:12px;color:var(--text-muted);font-family:var(--font-mono);">
+        <li><a href="/" style="color:var(--text-muted);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-muted)'">início</a></li>
+        <li style="color:var(--border2);">/</li>
+        <li style="color:var(--text-dim);">senhas</li>
       </ol>
     </nav>
 
     <!-- Page header -->
     <div style="margin-bottom:32px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-        <div style="width:40px;height:40px;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🔐</div>
-        <span class="tag tag-green">Ferramenta 01</span>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div style="width:40px;height:40px;background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--blue);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <span class="tag tag-blue">Ferramenta 01</span>
       </div>
-      <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Analisador de Senhas</h1>
-      <p style="font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.6;">Análise em tempo real com verificação no banco HIBP de 15 bilhões de senhas vazadas. Sua senha nunca sai do seu dispositivo.</p>
+      <h1 style="font-family:var(--font-sans);font-size:clamp(1.6rem,4vw,2.1rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Analisador de Senhas</h1>
+      <p style="font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.65;">Análise em tempo real com verificação no banco HIBP de 15 bilhões de senhas comprometidas. Sua senha nunca sai do seu dispositivo.</p>
     </div>
 
     <!-- Layout: tool + sidebar -->
     <div style="display:grid;grid-template-columns:1fr;gap:24px;" id="tool-layout">
-      <!-- Main tool -->
       <div id="tool-main">
         <PasswordAnalyzer client:load />
       </div>
 
-      <!-- Sidebar -->
       <aside id="tool-sidebar" style="display:flex;flex-direction:column;gap:16px;">
         <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
 
         <div class="card" style="padding:20px;">
-          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">💡 Dicas Rápidas</h3>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            {['Use senhas diferentes em cada conta','Ative o 2FA sempre que possível','Use um gerenciador de senhas','Nunca compartilhe por WhatsApp/email'].map(d => (
-              <p style="font-size:13px;color:var(--text-dim);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.5;">→ {d}</p>
+          <h3 style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:-0.01em;">Boas práticas de segurança</h3>
+          <div style="display:flex;flex-direction:column;">
+            {['Use senhas diferentes em cada conta','Ative autenticação de dois fatores','Utilize um gerenciador de senhas','Nunca compartilhe por mensageiros','Troque senhas a cada 6 meses'].map((d, i, arr) => (
+              <p style={`font-size:13px;color:var(--text-dim);padding:10px 0;line-height:1.5;display:flex;align-items:baseline;gap:8px;${i < arr.length-1 ? 'border-bottom:1px solid var(--border);' : ''}`}>
+                <span style="color:var(--blue);font-family:var(--font-mono);font-size:11px;flex-shrink:0;">→</span>{d}
+              </p>
             ))}
           </div>
         </div>
 
         <div class="card" style="padding:20px;">
-          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🛠️ Outras Ferramentas</h3>
+          <h3 style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:-0.01em;">Outras ferramentas</h3>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <a href="/tools/link" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
-              <span>🔗</span>
-              <div><p style="font-size:13px;font-weight:600;color:var(--text);">Scanner de URLs</p><p style="font-size:12px;color:var(--text-muted);">Detecte links maliciosos</p></div>
+              <div style="width:32px;height:32px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
+              <div>
+                <p style="font-size:13px;font-weight:600;color:var(--text);">Scanner de URLs</p>
+                <p style="font-size:12px;color:var(--text-muted);">Detecte links maliciosos</p>
+              </div>
             </a>
             <a href="/tools/vazamento" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
-              <span>📧</span>
-              <div><p style="font-size:13px;font-weight:600;color:var(--text);">Verificador de Vazamentos</p><p style="font-size:12px;color:var(--text-muted);">Seu email vazou?</p></div>
+              <div style="width:32px;height:32px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--amber);flex-shrink:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              </div>
+              <div>
+                <p style="font-size:13px;font-weight:600;color:var(--text);">Verificador de Vazamentos</p>
+                <p style="font-size:12px;color:var(--text-muted);">Seu e-mail apareceu em algum vazamento?</p>
+              </div>
             </a>
           </div>
         </div>

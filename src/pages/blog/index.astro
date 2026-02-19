@@ -5,33 +5,33 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <Layout title="Blog de Segurança Digital — Dicas e Proteção Online" description="Artigos sobre cibersegurança, privacidade, LGPD e proteção de dados para brasileiros. Conteúdo gratuito e atualizado semanalmente." url="https://protetordigital.com.br/blog">
-  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
+  <div style="max-width:1100px;margin:0 auto;padding:32px 20px;">
     <nav style="margin-bottom:24px;" aria-label="breadcrumb">
-      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
-        <li><a href="/" style="color:var(--text-muted);text-decoration:none;" onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-muted)'">home</a></li>
-        <li>/</li><li style="color:var(--green);">blog</li>
+      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:12px;color:var(--text-muted);font-family:var(--font-mono);">
+        <li><a href="/" style="color:var(--text-muted);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-muted)'">início</a></li>
+        <li style="color:var(--border2);">/</li>
+        <li style="color:var(--text-dim);">blog</li>
       </ol>
     </nav>
     <div style="margin-bottom:40px;">
-      <p style="font-family:var(--font-mono);font-size:12px;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">> publicações</p>
-      <h1 class="font-display" style="font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Blog de Segurança</h1>
-      <p style="font-size:15px;color:var(--text-dim);">Artigos semanais sobre cibersegurança e proteção digital para o brasileiro.</p>
+      <span class="tag tag-cyan" style="margin-bottom:12px;display:inline-block;">Publicações</span>
+      <h1 style="font-family:var(--font-sans);font-size:clamp(1.8rem,4vw,2.3rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;">Blog de Segurança</h1>
+      <p style="font-size:15px;color:var(--text-dim);">Artigos sobre cibersegurança e proteção digital para o brasileiro.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr;gap:24px;" id="blog-layout">
-      <!-- Posts -->
-      <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
         {posts.map((post, i) => (
           <>
             <a href={`/blog/${post.slug}`} class="card card-hover" style="text-decoration:none;display:block;padding:24px;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
               <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
                 {post.data.tags.slice(0,3).map(tag => <span class="tag tag-cyan">#{tag}</span>)}
-                {post.data.featured && <span class="tag tag-green">⭐ Destaque</span>}
+                {post.data.featured && <span class="tag tag-blue">Destaque</span>}
               </div>
-              <h2 class="font-display" style="font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.01em;line-height:1.35;">{post.data.title}</h2>
+              <h2 style="font-family:var(--font-sans);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.02em;line-height:1.35;">{post.data.title}</h2>
               <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:16px;">{post.data.description}</p>
               <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span style="font-size:12px;color:var(--text-muted);">✍️ {post.data.author}</span>
-                <time style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);" datetime={post.data.pubDate.toISOString()}>
+                <span style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);">{post.data.author}</span>
+                <time style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);" datetime={post.data.pubDate.toISOString()}>
                   {post.data.pubDate.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
                 </time>
               </div>
@@ -41,32 +41,39 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueO
         ))}
         {posts.length === 0 && (
           <div class="card" style="padding:48px;text-align:center;">
-            <p style="font-size:40px;margin-bottom:12px;">📝</p>
-            <p class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;">Posts em breve!</p>
+            <div style="width:48px;height:48px;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+            </div>
+            <p style="font-family:var(--font-sans);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px;">Posts em breve</p>
             <p style="font-size:14px;color:var(--text-dim);">Estamos preparando conteúdo sobre segurança digital.</p>
           </div>
         )}
       </div>
-      <!-- Sidebar -->
       <aside style="display:flex;flex-direction:column;gap:16px;" id="blog-sidebar">
         <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
-        <div class="card" style="padding:20px;border-color:rgba(255,109,0,0.25);">
-          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;">📡 RSS Feed</h3>
+        <div class="card" style="padding:20px;border-color:var(--border2);">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+            <h3 style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--text);">RSS Feed</h3>
+          </div>
           <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Novos artigos no seu leitor preferido.</p>
-          <a href="/rss.xml" class="btn-ghost" style="padding:10px 16px;font-size:13px;width:100%;justify-content:center;">Assinar RSS →</a>
+          <a href="/rss.xml" class="btn-ghost" style="padding:10px 16px;font-size:13px;width:100%;justify-content:center;text-decoration:none;">Assinar RSS</a>
         </div>
         <div class="card" style="padding:20px;">
-          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🏷️ Tópicos</h3>
+          <h3 style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;">Tópicos</h3>
           <div style="display:flex;flex-wrap:wrap;gap:6px;">
             {[...new Set(posts.flatMap(p => p.data.tags))].map(tag => <span class="tag">{tag}</span>)}
           </div>
         </div>
-        <div class="card" style="padding:20px;background:rgba(0,230,118,0.04);border-color:rgba(0,230,118,0.2);">
-          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;">🛡️ Proteja-se Agora</h3>
+        <div class="card" style="padding:20px;background:rgba(79,142,247,0.03);border-color:rgba(79,142,247,0.18);">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <h3 style="font-family:var(--font-sans);font-size:13px;font-weight:700;color:var(--text);">Proteja-se agora</h3>
+          </div>
           <p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;">Use nossas ferramentas gratuitas.</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="/tools/senha" class="btn-primary" style="padding:10px 16px;font-size:13px;">🔐 Analisar Senha</a>
-            <a href="/tools/vazamento" class="btn-ghost" style="padding:10px 16px;font-size:13px;justify-content:center;">📧 Ver Vazamentos</a>
+            <a href="/tools/senha" class="btn-primary" style="padding:10px 16px;font-size:13px;text-decoration:none;">Analisar Senha</a>
+            <a href="/tools/vazamento" class="btn-ghost" style="padding:10px 16px;font-size:13px;justify-content:center;text-decoration:none;">Verificar Vazamentos</a>
           </div>
         </div>
       </aside>
