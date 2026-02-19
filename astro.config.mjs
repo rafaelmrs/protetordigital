@@ -11,11 +11,4 @@ export default defineConfig({
     mdx(),
   ],
   output: 'static',
-  vite: {
-    define: {
-      'process.env.PUBLIC_WORKER_URL': JSON.stringify(process.env.PUBLIC_WORKER_URL || 'https://your-worker.workers.dev'),
-      'process.env.PUBLIC_GA_ID': JSON.stringify(process.env.PUBLIC_GA_ID || ''),
-      'process.env.PUBLIC_ADSENSE_ID': JSON.stringify(process.env.PUBLIC_ADSENSE_ID || ''),
-    }
-  }
 });
