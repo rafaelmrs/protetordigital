@@ -34,9 +34,9 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
 
 // Other tools data (excluding current)
 const allTools = [
-  { href: '/tools/senha', label: 'Analisador de Senhas', sub: 'Sua senha é suficientemente forte?', color: 'var(--blue)', bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` },
-  { href: '/tools/link', label: 'Verificador de Links', sub: 'Detecte links perigosos antes de clicar', color: 'var(--cyan)', bg: 'rgba(6,182,212,0.08)', border: 'rgba(6,182,212,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>` },
-  { href: '/tools/vazamento', label: 'Verificador de Vazamentos', sub: 'Seu e-mail apareceu em algum vazamento?', color: 'var(--amber)', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>` },
+  { href: '/tools/senha', label: 'Verificação de Senhas', sub: 'Sua senha é suficientemente forte?', color: 'var(--blue)', bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` },
+  { href: '/tools/link', label: 'Checagem de Links', sub: 'Detecte links perigosos antes de clicar', color: 'var(--cyan)', bg: 'rgba(6,182,212,0.08)', border: 'rgba(6,182,212,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>` },
+  { href: '/tools/vazamento', label: 'Busca de Vazamentos', sub: 'Seu e-mail apareceu em algum vazamento?', color: 'var(--amber)', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>` },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -56,10 +56,7 @@ const otherTools = allTools.filter(t => t.href !== currentPath);
 
   <!-- Page header -->
   <header style="margin-bottom:36px;">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-      <div style={`width:44px;height:44px;border-radius:var(--radius-md);background:${accentColor}18;border:1px solid ${accentColor}28;display:flex;align-items:center;justify-content:center;color:${accentVar};`} set:html={icon}></div>
-      <span class={`badge ${badgeClass}`}>Ferramenta {toolNum}</span>
-    </div>
+
     <h1 style="font-family:var(--font-body);font-size:clamp(1.7rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;margin-bottom:12px;">{title}</h1>
     <p style="font-size:15px;color:var(--text-2);max-width:560px;line-height:1.7;">{description}</p>
   </header>

@@ -36,7 +36,7 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
 
       <p class="anim-up delay-2" style="font-size:clamp(1rem,2.2vw,1.15rem);color:var(--text-2);max-width:500px;margin:0 auto 48px;line-height:1.7;">
         Ferramentas gratuitas para cuidar da sua segurança digital.<br/>
-        <strong style="color:var(--text);font-weight:600;">Sem cadastro. Seus dados nunca saem do celular.</strong>
+        <strong style="color:var(--text);font-weight:600;">Sem cadastro. Seus dados nunca saem do seu dispositivo.</strong>
       </p>
 
       <!-- CTA buttons -->
@@ -55,7 +55,7 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
       <div class="anim-up delay-4" style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:560px;margin:0 auto;" id="stats-grid">
         {[
           { v: '15B+', l: 'Senhas verificadas' },
-          { v: '<50ms', l: 'Tempo de resposta' },
+          { v: 'Grátis', l: 'Para sempre' },
           { v: '100%', l: 'Privacidade local' },
           { v: 'LGPD', l: 'Dados protegidos' },
         ].map(({ v, l }) => (
@@ -80,14 +80,14 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
 
         <!-- Senha -->
-        <a href="/tools/senha" class="card card-hover" style="padding:28px;text-decoration:none;display:block;" aria-label="Abrir Analisador de Senhas">
+        <a href="/tools/senha" class="card card-hover" style="padding:28px;text-decoration:none;display:block;" aria-label="Abrir Verificação de Senhas">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
             <div style="width:46px;height:46px;border-radius:var(--radius-md);background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:center;color:var(--blue);">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
             <span class="mono" style="font-size:11px;color:var(--blue);opacity:0.5;">01</span>
           </div>
-          <h3 style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.02em;">Analisador de Senhas</h3>
+          <h3 style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.02em;">Verificação de Senhas</h3>
           <p style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px;">Descubra em segundos se sua senha é fraca ou se já apareceu em algum vazamento. Também gera senhas seguras para você.</p>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
             <span class="badge">100% Local</span>
@@ -97,14 +97,14 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
         </a>
 
         <!-- URL -->
-        <a href="/tools/link" class="card card-hover" style="padding:28px;text-decoration:none;display:block;" aria-label="Abrir Verificador de Links">
+        <a href="/tools/link" class="card card-hover" style="padding:28px;text-decoration:none;display:block;" aria-label="Abrir Checagem de Links">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
             <div style="width:46px;height:46px;border-radius:var(--radius-md);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);display:flex;align-items:center;justify-content:center;color:var(--cyan);">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             </div>
             <span class="mono" style="font-size:11px;color:var(--cyan);opacity:0.5;">02</span>
           </div>
-          <h3 style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.02em;">Verificador de Links</h3>
+          <h3 style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.02em;">Checagem de Links</h3>
           <p style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px;">Antes de clicar em um link suspeito, verifique se é seguro. Detectamos golpes, vírus e páginas falsas em instantes.</p>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
             <span class="badge badge-cyan">Anti-phishing</span>
@@ -114,14 +114,14 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
         </a>
 
         <!-- Vazamento -->
-        <a href="/tools/vazamento" class="card card-hover" style="padding:28px;text-decoration:none;display:block;" aria-label="Abrir Verificador de Vazamentos">
+        <a href="/tools/vazamento" class="card card-hover" style="padding:28px;text-decoration:none;display:block;" aria-label="Abrir Busca de Vazamentos">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
             <div style="width:46px;height:46px;border-radius:var(--radius-md);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);display:flex;align-items:center;justify-content:center;color:var(--amber);">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
             </div>
             <span class="mono" style="font-size:11px;color:var(--amber);opacity:0.5;">03</span>
           </div>
-          <h3 style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.02em;">Verificador de Vazamentos</h3>
+          <h3 style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:10px;letter-spacing:-0.02em;">Busca de Vazamentos</h3>
           <p style="font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:18px;">Seu e-mail apareceu em algum vazamento de dados? Saiba agora e veja o que fazer para se proteger, com base na LGPD.</p>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
             <span class="badge badge-amber">LGPD</span>
@@ -150,6 +150,7 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
           <div>
             <span class="badge badge-cyan" style="margin-bottom:14px;display:inline-block;">Publicações recentes</span>
             <h2 id="blog-heading" style="font-family:var(--font-body);font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;">Blog de Segurança</h2>
+          <p style="font-size:15px;color:var(--text-2);max-width:480px;line-height:1.7;margin-top:12px;">Artigos sobre cibersegurança e proteção digital para o brasileiro.</p>
           </div>
           <a href="/blog" style="font-family:var(--font-mono);font-size:13px;color:var(--blue);text-decoration:none;display:flex;align-items:center;gap:6px;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
             Todos os artigos <span aria-hidden="true">→</span>
@@ -181,7 +182,7 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
   <section class="section" style="background:var(--bg-2);border-top:1px solid var(--border);" aria-labelledby="trust-heading">
     <div class="container">
       <div style="text-align:center;margin-bottom:56px;">
-        <h2 id="trust-heading" style="font-family:var(--font-body);font-size:clamp(1.4rem,3vw,1.8rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;margin-bottom:12px;">Por que confiar no ProtetorDigital?</h2>
+        <h2 id="trust-heading" style="font-family:var(--font-body);font-size:clamp(1.4rem,3vw,1.8rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;margin-bottom:12px;">Por que confiar no Protetor Digital?</h2>
         <p style="font-size:14px;color:var(--text-2);max-width:400px;margin:0 auto;">Construído com os mais altos padrões de privacidade e segurança.</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
@@ -193,10 +194,10 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
             desc: 'Nenhuma senha é enviada para nossos servidores. A análise acontece inteiramente no seu navegador.',
           },
           {
-            icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+            icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>`,
             color: 'var(--cyan)',
-            title: 'Resposta quase instantânea',
-            desc: 'Infraestrutura distribuída globalmente garante resultados em menos de 50ms de qualquer ponto do Brasil.',
+            title: 'Sem coleta de dados pessoais',
+            desc: 'Não pedimos nome, CPF ou qualquer dado seu. Você usa as ferramentas de forma completamente anônima.',
           },
           {
             icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
@@ -226,7 +227,7 @@ const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "O ProtetorDigital é gratuito?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, todas as ferramentas são 100% gratuitas e sem necessidade de cadastro." } },
+      { "@type": "Question", "name": "O Protetor Digital é gratuito?", "acceptedAnswer": { "@type": "Answer", "text": "Sim, todas as ferramentas são 100% gratuitas e sem necessidade de cadastro." } },
       { "@type": "Question", "name": "Minha senha é enviada para algum servidor?", "acceptedAnswer": { "@type": "Answer", "text": "Não. A análise de senhas acontece inteiramente no seu dispositivo, sem nenhum envio de dados para nossos servidores." } },
       { "@type": "Question", "name": "O que é verificador de vazamentos?", "acceptedAnswer": { "@type": "Answer", "text": "É uma ferramenta que verifica se seu e-mail apareceu em vazamentos de dados de empresas hackeadas, usando o banco de dados Have I Been Pwned." } }
     ]
