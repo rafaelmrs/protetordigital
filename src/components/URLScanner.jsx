@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-const WORKER_URL = 'https://protetordigital-worker.dev-fretereal.workers.dev';
+const WORKER_URL = '/api';
 
 function isValidURL(str) {
   try { const u = new URL(str.startsWith('http')?str:`https://${str}`); return u.hostname.includes('.'); } catch { return false; }

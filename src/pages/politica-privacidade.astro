@@ -1,26 +1,68 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Política de Privacidade" description="Como o ProtetorDigital trata seus dados. Conformidade total com a LGPD." url="https://protetordigital.com.br/politica-privacidade">
-  <div style="max-width:800px;margin:0 auto;padding:48px 16px;">
-    <nav style="margin-bottom:24px;"><ol style="display:flex;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
-      <li><a href="/" style="color:var(--text-muted);text-decoration:none;">home</a></li><li>/</li><li style="color:var(--green);">privacidade</li>
-    </ol></nav>
-    <h1 class="font-display" style="font-size:2rem;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-0.03em;">Política de Privacidade</h1>
-    <p style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin-bottom:40px;">Atualizado em: Janeiro 2025</p>
+<Layout
+  title="Política de Privacidade"
+  description="Como o ProtetorDigital coleta, usa e protege seus dados. Em conformidade com a LGPD."
+  url="https://protetordigital.com/politica-privacidade"
+>
+  <div class="container" style="padding-top:48px;padding-bottom:80px;max-width:760px;">
+
+    <nav aria-label="Localização na página" style="margin-bottom:32px;">
+      <ol class="breadcrumb">
+        <li><a href="/">início</a></li>
+        <li class="breadcrumb-sep" aria-hidden="true">/</li>
+        <li style="color:var(--text-2);">política de privacidade</li>
+      </ol>
+    </nav>
+
+    <header style="margin-bottom:40px;">
+      <span class="badge badge-blue" style="display:inline-block;margin-bottom:14px;">LGPD</span>
+      <h1 style="font-family:var(--font-body);font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;margin-bottom:12px;">Política de Privacidade</h1>
+      <p style="font-size:14px;color:var(--text-3);font-family:var(--font-mono);">Atualizado em Janeiro de 2025</p>
+    </header>
+
     <div class="prose">
-      <h2>Compromisso com sua Privacidade</h2>
-      <p>O ProtetorDigital foi construído com privacidade como pilar fundamental. Todas as nossas ferramentas foram projetadas para operar localmente no seu dispositivo sempre que possível.</p>
-      <h2>Dados Coletados</h2>
-      <p><strong>Analisador de Senhas:</strong> Sua senha é analisada 100% localmente no navegador. Ela nunca é transmitida para nossos servidores. Para a verificação HIBP, apenas um prefixo de 5 caracteres do hash SHA-1 é enviado — nunca a senha em texto claro.</p>
-      <p><strong>Scanner de URLs:</strong> A URL que você insere é enviada ao nosso Cloudflare Worker para verificação no Google Safe Browsing. A URL não é armazenada permanentemente.</p>
-      <p><strong>Verificador de Vazamentos:</strong> Seu email é enviado ao nosso Worker para consulta na API HIBP. O resultado é cacheado por 24h para otimização — não compartilhamos seu email com terceiros além do HIBP.</p>
-      <h2>Cookies e Analytics</h2>
-      <p>Usamos Google Analytics 4 com IP anonimizado para métricas de tráfego. Não usamos cookies de rastreamento para fins publicitários próprios. O Google AdSense pode exibir anúncios baseados em interesses conforme a política do Google.</p>
-      <h2>Seus Direitos (LGPD)</h2>
-      <p>Conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), você tem direito a: acesso, correção, eliminação, portabilidade e revogação do consentimento dos seus dados pessoais. Entre em contato para exercer seus direitos.</p>
-      <h2>Infraestrutura</h2>
-      <p>Utilizamos Cloudflare Pages e Workers, com servidores edge distribuídos globalmente. Dados em trânsito são protegidos por TLS 1.3.</p>
+      <h2>1. Quem somos</h2>
+      <p>O ProtetorDigital (<strong>protetordigital.com</strong>) é um conjunto de ferramentas gratuitas de segurança digital para usuários brasileiros. Esta política explica de forma clara como tratamos seus dados.</p>
+
+      <h2>2. O que coletamos</h2>
+      <p>Nosso compromisso é coletar o mínimo possível. Veja o que coletamos e por quê:</p>
+      <ul>
+        <li><strong>Dados de uso anônimos:</strong> via Google Analytics, com anonimização de IP ativada. Usados apenas para entender quais ferramentas são mais úteis.</li>
+        <li><strong>Logs de servidor:</strong> endereço IP e data/hora de acesso, mantidos por até 30 dias para fins de segurança.</li>
+      </ul>
+      <p><strong>O que NÃO coletamos:</strong> senhas, e-mails ou qualquer dado inserido nas ferramentas. O Analisador de Senhas funciona 100% no seu dispositivo.</p>
+
+      <h2>3. Cookies</h2>
+      <p>Usamos apenas cookies essenciais para funcionamento do site e cookies de análise via Google Analytics. Não usamos cookies de rastreamento para publicidade comportamental.</p>
+
+      <h2>4. Google AdSense</h2>
+      <p>Exibimos anúncios do Google AdSense para manter o serviço gratuito. O Google pode usar cookies para exibir anúncios relevantes. Você pode gerenciar suas preferências em <a href="https://adssettings.google.com" target="_blank" rel="noopener">adssettings.google.com</a>.</p>
+
+      <h2>5. Seus direitos (LGPD)</h2>
+      <p>Conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018), você tem direito a:</p>
+      <ul>
+        <li>Confirmar se tratamos seus dados pessoais</li>
+        <li>Solicitar acesso, correção ou exclusão dos seus dados</li>
+        <li>Revogar consentimento a qualquer momento</li>
+        <li>Registrar reclamação na ANPD</li>
+      </ul>
+      <p>Para exercer seus direitos, entre em contato conosco.</p>
+
+      <h2>6. Segurança</h2>
+      <p>Nosso site usa HTTPS em todas as páginas. As ferramentas de análise de senhas operam localmente, sem envio de dados para servidores externos.</p>
+
+      <h2>7. Alterações</h2>
+      <p>Esta política pode ser atualizada. Mudanças significativas serão comunicadas na data de atualização no topo desta página.</p>
+    </div>
+
+    <div class="card" style="margin-top:48px;padding:28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;">
+      <div>
+        <p style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Dúvidas sobre privacidade?</p>
+        <p style="font-size:13px;color:var(--text-2);">Entre em contato conosco ou registre uma ocorrência na ANPD.</p>
+      </div>
+      <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">ANPD — Autoridade Nacional</a>
     </div>
   </div>
 </Layout>

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-const WORKER_URL = 'https://protetordigital-worker.dev-fretereal.workers.dev';
+const WORKER_URL = '/api';
 
 function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 function formatCount(n) {

@@ -1,52 +1,87 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import AdSense from '../../components/AdSense.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
 }
+
 const { post } = Astro.props;
 const { Content } = await post.render();
-const allPosts = await getCollection('blog');
-const related = allPosts.filter(p => p.slug !== post.slug && p.data.tags.some(t => post.data.tags.includes(t))).slice(0, 2);
----
-<Layout title={post.data.title} description={post.data.description} url={`https://protetordigital.com.br/blog/${post.slug}`}>
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context":"https://schema.org","@type":"BlogPosting",
-    "headline":post.data.title,"description":post.data.description,
-    "author":{"@type":"Organization","name":post.data.author},
-    "datePublished":post.data.pubDate.toISOString(),
-    "publisher":{"@type":"Organization","name":"ProtetorDigital","url":"https://protetordigital.com.br"},
-    "url":`https://protetordigital.com.br/blog/${post.slug}`,"inLanguage":"pt-BR"
-  })} />
 
-  <div style="max-width:1100px;margin:0 auto;padding:32px 16px;">
-    <nav style="margin-bottom:24px;" aria-label="breadcrumb">
-      <ol style="display:flex;align-items:center;gap:8px;list-style:none;font-size:13px;color:var(--text-muted);font-family:var(--font-mono);">
-        <li><a href="/" style="color:var(--text-muted);text-decoration:none;">home</a></li>
-        <li>/</li>
-        <li><a href="/blog" style="color:var(--text-muted);text-decoration:none;">blog</a></li>
-        <li>/</li>
-        <li style="color:var(--green);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">{post.data.title}</li>
+const allPosts = await getCollection('blog');
+const related = allPosts
+  .filter(p => p.slug !== post.slug && p.data.tags.some(t => post.data.tags.includes(t)))
+  .slice(0, 2);
+
+const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
+
+const readTimeWords = post.body.split(/\s+/).length;
+const readTimeMin = Math.max(1, Math.ceil(readTimeWords / 200));
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  url={`https://protetordigital.com/blog/${post.slug}`}
+  image={post.data.image || '/og-default.png'}
+  type="article"
+  schema={{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.data.title,
+    "description": post.data.description,
+    "author": { "@type": "Organization", "name": post.data.author },
+    "datePublished": post.data.pubDate.toISOString(),
+    "dateModified": post.data.updatedDate ? post.data.updatedDate.toISOString() : post.data.pubDate.toISOString(),
+    "publisher": { "@type": "Organization", "name": "ProtetorDigital", "url": "https://protetordigital.com", "logo": { "@type": "ImageObject", "url": "https://protetordigital.com/favicon.svg" } },
+    "url": `https://protetordigital.com/blog/${post.slug}`,
+    "inLanguage": "pt-BR",
+    "keywords": post.data.tags.join(', ')
+  }}
+>
+
+  <div class="container" style="padding-top:40px;padding-bottom:80px;">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="Localização na página" style="margin-bottom:28px;">
+      <ol class="breadcrumb">
+        <li><a href="/">início</a></li>
+        <li class="breadcrumb-sep" aria-hidden="true">/</li>
+        <li><a href="/blog">blog</a></li>
+        <li class="breadcrumb-sep" aria-hidden="true">/</li>
+        <li style="color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;" title={post.data.title}>{post.data.title}</li>
       </ol>
     </nav>
 
-    <div style="display:grid;grid-template-columns:1fr;gap:32px;" id="article-layout">
+    <!-- Article + Sidebar layout -->
+    <div style="display:grid;grid-template-columns:1fr;gap:32px;align-items:start;" id="article-layout">
+
+      <!-- Article -->
       <article>
+
         <!-- Article header -->
-        <header style="margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid var(--border);">
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
-            {post.data.tags.map(tag => <span class="tag tag-cyan">#{tag}</span>)}
+        <header style="margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;">
+            {post.data.tags.map(tag => <span class="badge badge-cyan">#{tag}</span>)}
+            {post.data.featured && <span class="badge badge-blue">Destaque</span>}
           </div>
-          <h1 class="font-display" style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--text);letter-spacing:-0.03em;line-height:1.2;margin-bottom:16px;">{post.data.title}</h1>
-          <p style="font-size:16px;color:var(--text-dim);line-height:1.6;margin-bottom:20px;">{post.data.description}</p>
+          <h1 style="font-family:var(--font-body);font-size:clamp(1.7rem,4.5vw,2.5rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;line-height:1.15;margin-bottom:18px;">{post.data.title}</h1>
+          <p style="font-size:16px;color:var(--text-2);line-height:1.7;margin-bottom:24px;max-width:640px;">{post.data.description}</p>
           <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
-            <span style="font-size:13px;color:var(--text-muted);">✍️ {post.data.author}</span>
-            <time style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);" datetime={post.data.pubDate.toISOString()}>
+            <div style="display:flex;align-items:center;gap:7px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span style="font-size:13px;color:var(--text-2);font-weight:500;">{post.data.author}</span>
+            </div>
+            <span style="color:var(--border-2);" aria-hidden="true">·</span>
+            <time class="mono" style="font-size:13px;color:var(--text-3);" datetime={post.data.pubDate.toISOString()}>
               {post.data.pubDate.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
             </time>
+            <span style="color:var(--border-2);" aria-hidden="true">·</span>
+            <span style="font-size:13px;color:var(--text-3);font-family:var(--font-mono);">{readTimeMin} min de leitura</span>
           </div>
         </header>
 
@@ -56,57 +91,134 @@ const related = allPosts.filter(p => p.slug !== post.slug && p.data.tags.some(t 
         </div>
 
         <!-- AdSense mid article -->
-        <div style="margin:40px 0;">
-          <AdSense slot="BETWEEN_RESULTS_SLOT_ID" format="auto" />
+        {ADSENSE_ID && (
+          <div style="margin:48px 0;display:flex;justify-content:center;">
+            <ins class="adsbygoogle" style="display:block" data-ad-client={ADSENSE_ID} data-ad-slot="ARTICLE_MID_SLOT" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        )}
+
+        <!-- Tags footer -->
+        <div style="margin-top:48px;padding-top:28px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+          <span style="font-size:13px;color:var(--text-3);margin-right:4px;">Tópicos:</span>
+          {post.data.tags.map(tag => <span class="badge">#{tag}</span>)}
+        </div>
+
+        <!-- Share inline (após tags, visível em mobile antes da sidebar) -->
+        <div style="margin-top:24px;padding:20px;background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.2);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <p style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;">Gostou deste artigo?</p>
+            <p style="font-size:13px;color:var(--text-2);">Compartilhe com quem precisa de proteção digital.</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0;">
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent('🛡️ ' + post.data.title + '\n\nLeia agora: https://protetordigital.com/blog/' + post.slug)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn"
+              style="background:#25D366;color:#fff;gap:8px;font-size:14px;"
+              aria-label="Compartilhar no WhatsApp"
+            >
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.561 4.14 1.535 5.872L0 24l6.27-1.512A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.887 0-3.649-.511-5.165-1.4L3 22l1.45-4.738A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+              </svg>
+              Compartilhar no WhatsApp
+            </a>
+            <button
+              onclick={`navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='✓ Copiado!';setTimeout(()=>{this.textContent='Copiar link'},2000)})`}
+              class="btn btn-outline"
+              aria-label="Copiar link do artigo"
+            >
+              Copiar link
+            </button>
+          </div>
         </div>
 
         <!-- Related posts -->
         {related.length > 0 && (
-          <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--border);">
-            <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:16px;">Leia também</h3>
+          <section style="margin-top:56px;" aria-labelledby="related-heading">
+            <h2 id="related-heading" style="font-family:var(--font-body);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:18px;letter-spacing:-0.02em;">Continue lendo</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
               {related.map(p => (
-                <a href={`/blog/${p.slug}`} class="card card-hover" style="padding:18px;text-decoration:none;">
+                <a href={`/blog/${p.slug}`} class="card card-hover" style="padding:20px;text-decoration:none;">
                   <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
-                    {p.data.tags.slice(0,1).map(t => <span class="tag tag-cyan">#{t}</span>)}
+                    {p.data.tags.slice(0,1).map(t => <span class="badge badge-cyan">#{t}</span>)}
                   </div>
-                  <h4 class="font-display" style="font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.4;">{p.data.title}</h4>
+                  <h3 style="font-family:var(--font-body);font-size:0.92rem;font-weight:700;color:var(--text);line-height:1.45;margin-bottom:8px;">{p.data.title}</h3>
+                  <span style="font-family:var(--font-mono);font-size:12px;color:var(--blue);">Ler artigo →</span>
                 </a>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        <!-- CTA -->
-        <div class="card" style="margin-top:40px;padding:28px;background:rgba(0,230,118,0.04);border-color:rgba(0,230,118,0.2);text-align:center;">
-          <p class="font-display" style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;">🛡️ Verifique sua segurança agora</p>
-          <p style="font-size:14px;color:var(--text-dim);margin-bottom:20px;">Use nossas ferramentas gratuitas para proteger sua conta.</p>
+        <!-- CTA block -->
+        <div class="card" style="margin-top:48px;padding:32px;text-align:center;background:rgba(59,130,246,0.03);border-color:rgba(59,130,246,0.18);">
+          <div style="width:48px;height:48px;background:var(--blue);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h2 style="font-family:var(--font-body);font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-0.02em;">Coloque em prática agora</h2>
+          <p style="font-size:14px;color:var(--text-2);margin-bottom:22px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7;">Use nossas ferramentas gratuitas para verificar sua segurança em menos de 1 minuto.</p>
           <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-            <a href="/tools/senha" class="btn-primary" style="padding:12px 24px;font-size:14px;">🔐 Analisar Senha</a>
-            <a href="/tools/vazamento" class="btn-ghost" style="padding:12px 24px;font-size:14px;">📧 Ver Vazamentos</a>
+            <a href="/tools/senha" class="btn btn-primary">Verificar minha senha</a>
+            <a href="/tools/vazamento" class="btn btn-outline">Verificar vazamentos</a>
           </div>
         </div>
+
       </article>
 
       <!-- Sidebar -->
-      <aside style="display:flex;flex-direction:column;gap:16px;" id="article-sidebar">
-        <AdSense slot="SIDEBAR_SLOT_ID" width={300} height={600} />
-        <div class="card" style="padding:20px;">
-          <h3 class="font-display" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;">🛠️ Ferramentas</h3>
+      <aside id="article-sidebar" style="display:flex;flex-direction:column;gap:16px;position:sticky;top:80px;">
+
+        <!-- AdSense Sidebar -->
+        {ADSENSE_ID && (
+          <ins class="adsbygoogle" style="display:block;width:300px;height:600px;max-width:100%;" data-ad-client={ADSENSE_ID} data-ad-slot="ARTICLE_SIDEBAR_SLOT"></ins>
+        )}
+        {ADSENSE_ID && <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>}
+
+        <!-- Tools widget -->
+        <div class="card" style="padding:22px;">
+          <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;">Ferramentas gratuitas</h2>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="/tools/senha" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
-              <span>🔐</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Analisador de Senhas</p><p style="font-size:12px;color:var(--text-muted);">100% local</p></div>
-            </a>
-            <a href="/tools/link" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
-              <span>🔗</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Scanner de URLs</p><p style="font-size:12px;color:var(--text-muted);">Detecte phishing</p></div>
-            </a>
-            <a href="/tools/vazamento" class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
-              <span>📧</span><div><p style="font-size:13px;font-weight:600;color:var(--text);">Verificador de Vazamentos</p><p style="font-size:12px;color:var(--text-muted);">HIBP v3</p></div>
-            </a>
+            {[
+              { href: '/tools/senha', label: 'Analisador de Senhas', sub: '100% local, sem envio de dados', color: 'var(--blue)', bg: 'rgba(59,130,246,0.08)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` },
+              { href: '/tools/link', label: 'Verificador de Links', sub: 'Detecta phishing em instantes', color: 'var(--cyan)', bg: 'rgba(6,182,212,0.08)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>` },
+              { href: '/tools/vazamento', label: 'Verificador de Vazamentos', sub: 'Seu e-mail apareceu em algum leak?', color: 'var(--amber)', bg: 'rgba(245,158,11,0.08)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>` },
+            ].map(tool => (
+              <a href={tool.href} class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+                <div style={`width:32px;height:32px;background:${tool.bg};border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:${tool.color};flex-shrink:0;`} set:html={tool.icon}></div>
+                <div>
+                  <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;">{tool.label}</p>
+                  <p style="font-size:12px;color:var(--text-3);">{tool.sub}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
+
+        <!-- Share -->
+        <div class="card" style="padding:22px;">
+          <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;">Compartilhar</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <a href={`https://wa.me/?text=${encodeURIComponent(post.data.title + ' https://protetordigital.com/blog/' + post.slug)}`} target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="gap:6px;flex:1;justify-content:center;" aria-label="Compartilhar no WhatsApp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.561 4.14 1.535 5.872L0 24l6.27-1.512A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.887 0-3.649-.511-5.165-1.4L3 22l1.45-4.738A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              WhatsApp
+            </a>
+            <button onclick={`navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='Copiado!';setTimeout(()=>{this.textContent='Copiar link'},2000)})`} class="btn btn-outline btn-sm" style="flex:1;" aria-label="Copiar link do artigo">
+              Copiar link
+            </button>
+          </div>
+        </div>
+
       </aside>
     </div>
   </div>
-  <style>@media (min-width: 1024px) { #article-layout { grid-template-columns: 1fr 300px !important; } }</style>
+
+  <style>
+    @media (min-width: 1024px) {
+      #article-layout { grid-template-columns: 1fr 300px !important; }
+    }
+  </style>
+
 </Layout>

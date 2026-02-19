@@ -1,202 +1,288 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-interface Props { title: string; description: string; image?: string; url?: string; }
-const { title, description, image = '/og-default.png', url = Astro.url.href } = Astro.props;
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  schema?: object;
+}
+const {
+  title,
+  description,
+  image = '/og-default.png',
+  url = Astro.url.href,
+  type = 'website',
+  schema,
+} = Astro.props;
+
 const GA_ID = import.meta.env.PUBLIC_GA_ID;
 const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
-const siteUrl = 'https://protetordigital.com.br';
+const SITE = 'https://protetordigital.com';
 ---
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark scroll-smooth">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#4f8ef7" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="canonical" href={url} />
-  <link rel="sitemap" href="/sitemap-index.xml" />
-  <link rel="alternate" type="application/rss+xml" title="ProtetorDigital Blog" href="/rss.xml" />
+  <link rel="sitemap" href="/sitemap.xml" />
+
+  <!-- Primary Meta -->
   <title>{title} | ProtetorDigital</title>
   <meta name="description" content={description} />
-  <meta name="keywords" content="proteção digital, segurança online, senha forte, verificar vazamento, URL maliciosa, privacidade, LGPD, cybersegurança brasil" />
+  <meta name="keywords" content="proteção digital, segurança online, verificar senha, vazamento de dados, link malicioso, privacidade, LGPD, brasil" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="ProtetorDigital" />
-  <meta property="og:type" content="website" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={type} />
   <meta property="og:url" content={url} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={`${siteUrl}${image}`} />
+  <meta property="og:image" content={`${SITE}${image}`} />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="ProtetorDigital" />
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={`${siteUrl}${image}`} />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ProtetorDigital","url":"https://protetordigital.com.br","description":"Ferramentas gratuitas de proteção digital para brasileiros","inLanguage":"pt-BR"}</script>
+  <meta name="twitter:image" content={`${SITE}${image}`} />
+
+  <!-- Schema.org base -->
+  <script type="application/ld+json">{JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ProtetorDigital",
+    "url": SITE,
+    "description": "Ferramentas gratuitas de proteção digital para brasileiros",
+    "inLanguage": "pt-BR",
+    "potentialAction": { "@type": "SearchAction", "target": `${SITE}/blog?q={search_term_string}`, "query-input": "required name=search_term_string" }
+  })}</script>
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  {ADSENSE_ID && (<script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`} crossorigin="anonymous"></script>)}
-  {GA_ID && (<><script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script><script define:vars={{ GA_ID }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config',GA_ID,{anonymize_ip:true});</script></>)}
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- AdSense -->
+  {ADSENSE_ID && (
+    <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`} crossorigin="anonymous"></script>
+  )}
+
+  <!-- Google Analytics -->
+  {GA_ID && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+      <script define:vars={{ GA_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', GA_ID, { anonymize_ip: true });
+      </script>
+    </>
+  )}
+
+  <!-- Inline theme init (prevents FOUC) — dark é o padrão -->
   <script is:inline>
-    const t = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', t === 'dark');
-    document.documentElement.classList.toggle('light', t === 'light');
+    (function() {
+      var stored = localStorage.getItem('pd-theme');
+      // Se não há preferência salva, usa dark por padrão
+      var t = stored || 'dark';
+      document.documentElement.className = t;
+    })();
   </script>
+
   <style>
+    /* ===================== DESIGN TOKENS ===================== */
     :root {
-      --blue: #4f8ef7;
-      --blue-dim: #3a76e0;
-      --blue-pale: #7aaeff;
-      --cyan: #38bdf8;
-      --red: #ef4444;
-      --amber: #f59e0b;
+      --blue: #3b82f6;
+      --blue-light: #60a5fa;
+      --blue-dark: #2563eb;
+      --cyan: #06b6d4;
       --emerald: #10b981;
-      --font-sans: 'Manrope', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --violet: #8b5cf6;
+
+      --font-body: 'Sora', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.06);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.08);
+
+      --transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .dark {
-      --bg: #080c14;
-      --bg2: #0d1220;
-      --surface: #111827;
-      --surface2: #161e2e;
-      --surface3: #1a2538;
+      --bg: #080d1a;
+      --bg-2: #0c1220;
+      --bg-3: #101828;
+      --surface: #131c2e;
+      --surface-2: #172035;
+      --surface-3: #1c2840;
       --border: #1e2d47;
-      --border2: #263547;
-      --text: #e2e8f4;
-      --text-dim: #7b90aa;
-      --text-muted: #3a4f6a;
-      --nav-bg: rgba(8,12,20,0.9);
-      --card-shadow: 0 1px 0 0 #1e2d47;
+      --border-2: #263752;
+      --text: #e8edf7;
+      --text-2: #8da4c4;
+      --text-3: #4a6080;
+      --nav-bg: rgba(8, 13, 26, 0.88);
+      --glow-blue: 0 0 40px rgba(59,130,246,0.12);
     }
+
     .light {
-      --bg: #f4f7fc;
-      --bg2: #ffffff;
+      --bg: #f5f7fb;
+      --bg-2: #ffffff;
+      --bg-3: #eef2f9;
       --surface: #ffffff;
-      --surface2: #f8faff;
-      --surface3: #eef2fa;
-      --border: #dde3ef;
-      --border2: #c8d3e8;
-      --text: #0f172a;
-      --text-dim: #475569;
-      --text-muted: #94a3b8;
-      --nav-bg: rgba(244,247,252,0.92);
-      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 0 0 #dde3ef;
+      --surface-2: #f8faff;
+      --surface-3: #eef1f8;
+      --border: #dce3f0;
+      --border-2: #c8d3e8;
+      --text: #0f1929;
+      --text-2: #4a5e7a;
+      --text-3: #8fa3bf;
+      --nav-bg: rgba(245, 247, 251, 0.9);
+      --glow-blue: 0 0 40px rgba(59,130,246,0.06);
     }
+
+    /* ===================== RESET ===================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: var(--bg); color: var(--text); font-family: var(--font-sans); }
-    body { background: var(--bg); min-height: 100vh; overflow-x: hidden; transition: background 0.25s, color 0.25s; }
+    html { background: var(--bg); color: var(--text); font-family: var(--font-body); scroll-behavior: smooth; }
+    body { background: var(--bg); min-height: 100vh; overflow-x: hidden; transition: background var(--transition), color var(--transition); }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
 
-    .dot-bg {
-      background-image: radial-gradient(var(--border) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    .font-mono { font-family: var(--font-mono); }
+    /* ===================== SCROLLBAR ===================== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--blue); }
 
+    /* ===================== TYPOGRAPHY ===================== */
+    .mono { font-family: var(--font-mono); }
+
+    /* ===================== LAYOUT ===================== */
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+    @media (min-width: 768px) { .container { padding: 0 32px; } }
+
+    /* ===================== COMPONENTS ===================== */
+
+    /* Card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      transition: border-color 0.2s, box-shadow 0.2s;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
     }
     .card-hover:hover {
-      border-color: var(--border2);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15), var(--card-shadow);
+      border-color: var(--border-2);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
     }
 
-    .btn-primary {
-      background: var(--blue);
-      color: #fff;
-      font-family: var(--font-sans);
-      font-weight: 700;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
+    /* Buttons */
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+      white-space: nowrap;
+      padding: 11px 22px;
       letter-spacing: -0.01em;
     }
-    .btn-primary:hover { background: var(--blue-dim); box-shadow: 0 4px 20px rgba(79,142,247,0.3); transform: translateY(-1px); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled { background: var(--border2); color: var(--text-muted); cursor: not-allowed; box-shadow: none; transform: none; }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-dim);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      font-family: var(--font-sans);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
     }
-    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      box-shadow: 0 4px 20px rgba(59,130,246,0.32);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); box-shadow: none; }
+    .btn-primary:disabled { background: var(--surface-3); color: var(--text-3); cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border-2);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); background: rgba(59,130,246,0.04); }
+    .btn-ghost { background: transparent; color: var(--text-2); border: none; padding: 11px 16px; }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+    .btn-lg { padding: 14px 28px; font-size: 15px; }
+    .btn-full { width: 100%; }
 
+    /* Input */
     .input {
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
+      width: 100%;
+      background: var(--bg-2);
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius-md);
       color: var(--text);
       font-family: var(--font-mono);
       font-size: 14px;
       padding: 12px 16px;
-      width: 100%;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      -webkit-appearance: none;
     }
-    .input::placeholder { color: var(--text-muted); }
-    .input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(79,142,247,0.15); }
+    .input::placeholder { color: var(--text-3); }
+    .input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
 
-    .tag {
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background: var(--surface2);
-      color: var(--text-dim);
+      padding: 3px 9px;
+      border-radius: 100px;
       border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-3);
     }
-    .tag-blue { background: rgba(79,142,247,0.08); color: var(--blue-pale); border-color: rgba(79,142,247,0.2); }
-    .tag-red { background: rgba(239,68,68,0.08); color: #fca5a5; border-color: rgba(239,68,68,0.2); }
-    .tag-cyan { background: rgba(56,189,248,0.08); color: #7dd3fc; border-color: rgba(56,189,248,0.2); }
-    .tag-amber { background: rgba(245,158,11,0.08); color: #fcd34d; border-color: rgba(245,158,11,0.2); }
-    .tag-emerald { background: rgba(16,185,129,0.08); color: #6ee7b7; border-color: rgba(16,185,129,0.2); }
-    .light .tag-blue { color: #2563eb; }
-    .light .tag-cyan { color: #0284c7; }
-    .light .tag-amber { color: #b45309; }
-    /* Aliases for backward compat */
-    .tag-green { background: rgba(16,185,129,0.08); color: #6ee7b7; border-color: rgba(16,185,129,0.2); }
-    .tag-orange { background: rgba(245,158,11,0.08); color: #fcd34d; border-color: rgba(245,158,11,0.2); }
-    .light .tag-green { color: #059669; }
-    .light .tag-orange { color: #b45309; }
+    .badge-blue { background: rgba(59,130,246,0.08); color: var(--blue-light); border-color: rgba(59,130,246,0.18); }
+    .badge-cyan { background: rgba(6,182,212,0.08); color: #67e8f9; border-color: rgba(6,182,212,0.18); }
+    .badge-amber { background: rgba(245,158,11,0.08); color: #fcd34d; border-color: rgba(245,158,11,0.18); }
+    .badge-emerald { background: rgba(16,185,129,0.08); color: #6ee7b7; border-color: rgba(16,185,129,0.18); }
+    .badge-red { background: rgba(239,68,68,0.08); color: #fca5a5; border-color: rgba(239,68,68,0.18); }
+    .light .badge-blue { color: var(--blue-dark); }
+    .light .badge-cyan { color: #0891b2; }
+    .light .badge-amber { color: #b45309; }
+    .light .badge-emerald { color: #059669; }
 
-    .nav-link {
-      color: var(--text-dim);
-      font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 14px;
-      transition: color 0.15s;
-      text-decoration: none;
-      padding: 6px 12px;
-      border-radius: 7px;
-    }
-    .nav-link:hover { color: var(--text); background: var(--surface2); }
-    .nav-link.active { color: var(--blue); }
-
+    /* Status dot */
     .status-dot {
-      width: 7px; height: 7px;
-      background: var(--emerald);
-      border-radius: 50%;
       display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
       animation: pulse-dot 2.5s ease-in-out infinite;
     }
     @keyframes pulse-dot {
@@ -204,198 +290,252 @@ const siteUrl = 'https://protetordigital.com.br';
       50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
     }
 
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg2); }
-    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--blue-dim); }
+    /* Spinner */
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(59,130,246,0.2);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Divider */
     .divider { height: 1px; background: var(--border); }
+
+    /* Strength bar */
     .strength-bar { height: 3px; border-radius: 2px; transition: width 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s; }
+
+    /* Prose (blog content) */
+    .prose { font-size: 15px; line-height: 1.85; color: var(--text-2); }
+    .prose h2 { font-family: var(--font-body); font-size: clamp(1.15rem, 2.5vw, 1.35rem); font-weight: 700; color: var(--text); margin: 2.5rem 0 0.75rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border); letter-spacing: -0.02em; }
+    .prose h3 { font-family: var(--font-body); font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 1.75rem 0 0.5rem; letter-spacing: -0.01em; }
+    .prose p { margin-bottom: 1.1rem; }
+    .prose a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+    .prose a:hover { color: var(--blue-light); }
+    .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .prose li { margin-bottom: 0.4rem; }
+    .prose strong { font-weight: 600; color: var(--text); }
+    .prose code { font-family: var(--font-mono); font-size: 0.83em; background: var(--surface-2); padding: 2px 7px; border-radius: var(--radius-sm); border: 1px solid var(--border); color: var(--cyan); }
+    .prose pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; overflow-x: auto; margin-bottom: 1.1rem; }
+    .prose pre code { background: none; border: none; padding: 0; }
+    .prose blockquote { border-left: 3px solid var(--blue); padding: 0.75rem 1rem; background: var(--surface-2); border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 1rem; }
+    .prose blockquote p { margin: 0; color: var(--text-2); }
+
+    /* Animations */
+    @keyframes slide-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+    .anim-up { animation: slide-up 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+    .anim-fade { animation: fade-in 0.4s ease both; }
+    .delay-1 { animation-delay: 0.07s; }
+    .delay-2 { animation-delay: 0.14s; }
+    .delay-3 { animation-delay: 0.21s; }
+    .delay-4 { animation-delay: 0.28s; }
+
+    /* Range / checkbox accent */
     input[type="range"] { accent-color: var(--blue); }
     input[type="checkbox"] { accent-color: var(--blue); }
 
-    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    #mobile-menu.open { max-height: 400px; }
+    /* Mobile menu */
+    #mobile-nav { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    #mobile-nav.open { max-height: 400px; }
 
-    .spinner { width: 16px; height: 16px; border: 2px solid rgba(79,142,247,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* Nav */
+    .nav-link {
+      color: var(--text-2);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 14px;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      transition: color var(--transition), background var(--transition);
+    }
+    .nav-link:hover { color: var(--text); background: var(--surface-2); }
+    .nav-link.active { color: var(--blue); }
 
-    .prose h1, .prose h2, .prose h3 { font-family: var(--font-sans); color: var(--text); }
-    .prose h2 { font-size: 1.3rem; font-weight: 700; margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-    .prose h3 { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
-    .prose p { color: var(--text-dim); line-height: 1.8; margin-bottom: 1rem; }
-    .prose a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
-    .prose ul, .prose ol { color: var(--text-dim); padding-left: 1.5rem; margin-bottom: 1rem; }
-    .prose li { margin-bottom: 0.5rem; line-height: 1.7; }
-    .prose strong { color: var(--text); }
-    .prose code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); color: var(--cyan); }
-    .prose pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
-    .prose pre code { background: none; border: none; padding: 0; }
+    /* Section spacing */
+    .section { padding: 72px 0; }
+    .section-sm { padding: 48px 0; }
 
-    @keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-    .animate-slide-up { animation: slideUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
-    .animate-fade-in { animation: fadeIn 0.4s ease both; }
-    .animate-float { animation: float 6s ease-in-out infinite; }
-
-    .stagger-1 { animation-delay: 0.06s; }
-    .stagger-2 { animation-delay: 0.12s; }
-    .stagger-3 { animation-delay: 0.18s; }
-    .stagger-4 { animation-delay: 0.24s; }
-
-    /* Legacy compat */
-    .glow { box-shadow: 0 0 20px rgba(79,142,247,0.12); }
-    .text-glow { color: var(--blue-pale); }
-    .font-display { font-family: var(--font-sans); }
-    .terminal-line::before { content: '> '; color: var(--blue); font-family: var(--font-mono); }
-    .animate-ping2 { animation: pulse-dot 2s ease-out infinite; }
+    /* Breadcrumb */
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 12px; color: var(--text-3); list-style: none; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--text-3); text-decoration: none; transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--blue); }
+    .breadcrumb-sep { color: var(--border-2); }
   </style>
+
   <ViewTransitions />
 </head>
 <body>
 
+  <!-- AdSense Desktop Header Banner -->
   {ADSENSE_ID && (
-    <div class="hidden md:flex justify-center" style="background:var(--bg2); border-bottom:1px solid var(--border); padding:8px 0;">
-      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client={ADSENSE_ID} data-ad-slot="HEADER_SLOT_ID"></ins>
+    <div id="adsense-header" style="display:none;justify-content:center;padding:8px 0;background:var(--bg-2);border-bottom:1px solid var(--border);">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client={ADSENSE_ID} data-ad-slot="HEADER_LEADERBOARD_SLOT"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   )}
 
-  <!-- NAV -->
-  <nav id="main-nav" style="position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:var(--nav-bg);border-bottom:1px solid var(--border);">
-    <div style="max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:58px;">
+  <!-- NAVIGATION -->
+  <header id="site-nav" style="position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:var(--nav-bg);border-bottom:1px solid var(--border);">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:60px;">
 
-      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-        <div style="width:30px;height:30px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Logo -->
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;" aria-label="ProtetorDigital — Início">
+        <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
         </div>
-        <span style="font-family:var(--font-sans);font-weight:800;font-size:17px;color:var(--text);letter-spacing:-0.03em;">ProtetorDigital</span>
+        <span style="font-family:var(--font-body);font-weight:700;font-size:16px;color:var(--text);letter-spacing:-0.03em;">ProtetorDigital</span>
       </a>
 
-      <div style="display:none;" id="desktop-nav">
+      <!-- Desktop Nav -->
+      <nav id="desktop-nav" style="display:none;align-items:center;gap:2px;" aria-label="Navegação principal">
         <a href="/tools/senha" class="nav-link">Senhas</a>
-        <a href="/tools/link" class="nav-link">URLs</a>
+        <a href="/tools/link" class="nav-link">Links</a>
         <a href="/tools/vazamento" class="nav-link">Vazamentos</a>
         <a href="/blog" class="nav-link">Blog</a>
-      </div>
+        <a href="/sobre" class="nav-link">Sobre</a>
+        <a href="/contato" class="nav-link">Contato</a>
+      </nav>
 
+      <!-- Actions -->
       <div style="display:flex;align-items:center;gap:8px;">
-        <button id="theme-btn" aria-label="Alternar tema" style="width:38px;height:38px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">
-          <svg id="theme-icon-dark" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--text-dim);">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;color:var(--text-dim);">
-            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
+        <button id="theme-toggle" aria-label="Alternar tema claro/escuro" style="width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid var(--border-2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);color:var(--text-2);">
+          <svg id="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
-        <button id="mobile-btn" aria-label="Menu" style="width:38px;height:38px;border-radius:8px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <button id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" style="width:38px;height:38px;border-radius:var(--radius-sm);border:1px solid var(--border-2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-2);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
       </div>
     </div>
-    <div id="mobile-menu" style="background:var(--surface);border-top:1px solid var(--border);">
-      <div style="padding:10px 16px;display:flex;flex-direction:column;gap:2px;">
-        <a href="/tools/senha" class="nav-link" style="padding:11px 16px;">Analisador de Senhas</a>
-        <a href="/tools/link" class="nav-link" style="padding:11px 16px;">Scanner de URLs</a>
-        <a href="/tools/vazamento" class="nav-link" style="padding:11px 16px;">Verificador de Vazamentos</a>
-        <a href="/blog" class="nav-link" style="padding:11px 16px;">Blog de Segurança</a>
-      </div>
-    </div>
-  </nav>
 
-  <main style="min-height:100vh;">
+    <!-- Mobile Nav -->
+    <nav id="mobile-nav" aria-label="Menu mobile" style="background:var(--surface);border-top:1px solid var(--border);">
+      <div style="padding:8px 12px 12px;display:flex;flex-direction:column;gap:2px;">
+        <a href="/tools/senha" class="nav-link" style="padding:12px 16px;">Analisador de Senhas</a>
+        <a href="/tools/link" class="nav-link" style="padding:12px 16px;">Verificador de Links</a>
+        <a href="/tools/vazamento" class="nav-link" style="padding:12px 16px;">Verificador de Vazamentos</a>
+        <a href="/blog" class="nav-link" style="padding:12px 16px;">Blog de Segurança</a>
+        <a href="/sobre" class="nav-link" style="padding:12px 16px;">Sobre</a>
+        <a href="/contato" class="nav-link" style="padding:12px 16px;">Contato</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
     <slot />
   </main>
 
-  <footer style="background:var(--bg2);border-top:1px solid var(--border);margin-top:80px;">
+  <!-- FOOTER -->
+  <footer style="background:var(--bg-2);border-top:1px solid var(--border);padding:56px 0 32px;">
+    <!-- Mobile AdSense Footer -->
     {ADSENSE_ID && (
-      <div class="md:hidden" style="display:flex;justify-content:center;padding:8px 0;border-bottom:1px solid var(--border);">
-        <ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client={ADSENSE_ID} data-ad-slot="FOOTER_MOBILE_SLOT_ID"></ins>
+      <div id="adsense-footer-mobile" style="display:flex;justify-content:center;padding:8px 0;margin-bottom:32px;border-bottom:1px solid var(--border);">
+        <ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client={ADSENSE_ID} data-ad-slot="FOOTER_MOBILE_SLOT"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
     )}
-    <div style="max-width:1200px;margin:0 auto;padding:48px 20px 32px;">
-      <div style="display:grid;grid-template-columns:1fr;gap:40px;" class="footer-grid">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr;gap:44px;" id="footer-grid">
+        <!-- Brand -->
         <div>
-          <a href="/" style="display:flex;align-items:center;gap:9px;text-decoration:none;margin-bottom:14px;">
-            <div style="width:26px;height:26px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <a href="/" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;margin-bottom:14px;">
+            <div style="width:28px;height:28px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <span style="font-family:var(--font-sans);font-weight:800;font-size:15px;color:var(--text);letter-spacing:-0.02em;">ProtetorDigital</span>
+            <span style="font-family:var(--font-body);font-weight:700;font-size:15px;color:var(--text);letter-spacing:-0.02em;">ProtetorDigital</span>
           </a>
-          <p style="font-size:13px;color:var(--text-dim);line-height:1.7;max-width:270px;">Ferramentas gratuitas de proteção digital para o brasileiro. Análise 100% local — seus dados nunca saem do dispositivo.</p>
-          <div style="margin-top:16px;display:flex;gap:6px;flex-wrap:wrap;">
-            <span class="tag tag-blue">LGPD</span>
-            <span class="tag tag-cyan">100% Grátis</span>
-            <span class="tag">BR</span>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.7;max-width:280px;margin-bottom:18px;">Ferramentas gratuitas para proteger sua vida digital. Seus dados nunca saem do seu dispositivo.</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="badge badge-blue">LGPD</span>
+            <span class="badge badge-emerald">100% Grátis</span>
+            <span class="badge">🇧🇷 Brasil</span>
           </div>
         </div>
+
+        <!-- Links -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
           <div>
-            <p style="font-family:var(--font-sans);font-weight:700;font-size:12px;color:var(--text);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.08em;">Ferramentas</p>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <a href="/tools/senha" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Analisador de Senhas</a>
-              <a href="/tools/link" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Scanner de URLs</a>
-              <a href="/tools/vazamento" style="font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Verificador de Vazamentos</a>
-            </div>
+            <p style="font-family:var(--font-body);font-weight:700;font-size:11px;color:var(--text-3);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">Ferramentas</p>
+            <nav style="display:flex;flex-direction:column;gap:12px;" aria-label="Links de ferramentas">
+              <a href="/tools/senha" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Analisador de Senhas</a>
+              <a href="/tools/link" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Verificador de Links</a>
+              <a href="/tools/vazamento" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Verificador de Vazamentos</a>
+            </nav>
           </div>
           <div>
-            <p style="font-family:var(--font-sans);font-weight:700;font-size:12px;color:var(--text);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.08em;">Info</p>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <a href="/blog" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Blog</a>
-              <a href="/rss.xml" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">RSS Feed</a>
-              <a href="/politica-privacidade" style="font-size:13px;color:var(--text-dim);text-decoration:none;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-dim)'">Privacidade</a>
-            </div>
+            <p style="font-family:var(--font-body);font-weight:700;font-size:11px;color:var(--text-3);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.1em;">Informações</p>
+            <nav style="display:flex;flex-direction:column;gap:12px;" aria-label="Links informativos">
+              <a href="/blog" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Blog de Segurança</a>
+              <a href="/sobre" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Sobre</a>
+              <a href="/contato" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Contato</a>
+              <a href="/politica-privacidade" style="font-size:13px;color:var(--text-2);text-decoration:none;transition:color var(--transition);" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--text-2)'">Política de Privacidade</a>
+            </nav>
           </div>
         </div>
       </div>
-      <div class="divider" style="margin:32px 0 20px;"></div>
+
+      <div class="divider" style="margin:40px 0 24px;"></div>
+
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;">
-        <p style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);">© {new Date().getFullYear()} ProtetorDigital — Todos os direitos reservados</p>
-        <p style="font-size:12px;color:var(--text-muted);">Conforme a <a href="https://www.gov.br/anpd" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">LGPD</a></p>
+        <p style="font-size:12px;color:var(--text-3);font-family:var(--font-mono);">© {new Date().getFullYear()} ProtetorDigital</p>
+        <p style="font-size:12px;color:var(--text-3);">Em conformidade com a <a href="https://www.gov.br/anpd" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:none;">LGPD</a></p>
       </div>
     </div>
   </footer>
 
+  <!-- Responsive overrides -->
   <style>
     @media (min-width: 768px) {
-      #desktop-nav { display: flex !important; align-items: center; gap: 2px; }
-      #mobile-btn { display: none !important; }
-      .footer-grid { grid-template-columns: 1fr 1fr !important; }
+      #desktop-nav { display: flex !important; }
+      #menu-toggle { display: none !important; }
+      #adsense-header { display: flex !important; }
+      #adsense-footer-mobile { display: none !important; }
+      #footer-grid { grid-template-columns: 1.2fr 1fr !important; }
     }
   </style>
 
   <script>
-    const btn = document.getElementById('theme-btn');
-    const iconDark = document.getElementById('theme-icon-dark');
-    const iconLight = document.getElementById('theme-icon-light');
-    function applyTheme(theme) {
-      const isDark = theme === 'dark';
-      document.documentElement.classList.toggle('dark', isDark);
-      document.documentElement.classList.toggle('light', !isDark);
-      if (iconDark) iconDark.style.display = isDark ? 'block' : 'none';
-      if (iconLight) iconLight.style.display = isDark ? 'none' : 'block';
-      localStorage.setItem('theme', theme);
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle');
+    const iconMoon = document.getElementById('icon-moon');
+    const iconSun = document.getElementById('icon-sun');
+
+    function setTheme(theme) {
+      document.documentElement.className = theme;
+      localStorage.setItem('pd-theme', theme);
+      if (iconMoon) iconMoon.style.display = theme === 'dark' ? 'block' : 'none';
+      if (iconSun) iconSun.style.display = theme === 'light' ? 'block' : 'none';
     }
-    const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    if (iconDark) iconDark.style.display = current === 'dark' ? 'block' : 'none';
-    if (iconLight) iconLight.style.display = current === 'light' ? 'block' : 'none';
-    btn?.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      applyTheme(isDark ? 'light' : 'dark');
+
+    const current = document.documentElement.className === 'dark' ? 'dark' : 'light';
+    if (iconMoon) iconMoon.style.display = current === 'dark' ? 'block' : 'none';
+    if (iconSun) iconSun.style.display = current === 'light' ? 'block' : 'none';
+
+    themeBtn?.addEventListener('click', () => {
+      setTheme(document.documentElement.className === 'dark' ? 'light' : 'dark');
     });
-    const mobileBtn = document.getElementById('mobile-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    mobileBtn?.addEventListener('click', () => { mobileMenu?.classList.toggle('open'); });
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = mobileNav?.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Active nav
     const path = window.location.pathname;
     document.querySelectorAll('.nav-link').forEach(link => {
-      if (link.getAttribute('href') === path || (path.startsWith('/blog') && link.getAttribute('href') === '/blog')) {
+      const href = link.getAttribute('href');
+      if (href === path || (path.startsWith('/blog') && href === '/blog') || (path.startsWith('/tools') && href?.startsWith('/tools') && path.startsWith(href))) {
         link.classList.add('active');
       }
     });

@@ -1,0 +1,128 @@
+---
+// ToolLayout.astro — Shared layout component for all tool pages
+interface Props {
+  toolNum: string;
+  title: string;
+  description: string;
+  accentColor: string;
+  accentVar: string;
+  badgeClass: string;
+  icon: string;
+  breadcrumb: string;
+  tips: string[];
+  tipAccent: string;
+  tipsTitle: string;
+  lgpdNote?: string;
+}
+
+const {
+  toolNum,
+  title,
+  description,
+  accentColor,
+  accentVar,
+  badgeClass,
+  icon,
+  breadcrumb,
+  tips,
+  tipAccent,
+  tipsTitle,
+  lgpdNote,
+} = Astro.props;
+
+const ADSENSE_ID = import.meta.env.PUBLIC_ADSENSE_ID;
+
+// Other tools data (excluding current)
+const allTools = [
+  { href: '/tools/senha', label: 'Analisador de Senhas', sub: 'Sua senha é suficientemente forte?', color: 'var(--blue)', bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` },
+  { href: '/tools/link', label: 'Verificador de Links', sub: 'Detecte links perigosos antes de clicar', color: 'var(--cyan)', bg: 'rgba(6,182,212,0.08)', border: 'rgba(6,182,212,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>` },
+  { href: '/tools/vazamento', label: 'Verificador de Vazamentos', sub: 'Seu e-mail apareceu em algum vazamento?', color: 'var(--amber)', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.2)', icon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>` },
+];
+
+const currentPath = Astro.url.pathname;
+const otherTools = allTools.filter(t => t.href !== currentPath);
+---
+
+<div class="container" style="padding-top:32px;padding-bottom:80px;">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="Localização na página" style="margin-bottom:28px;">
+    <ol class="breadcrumb">
+      <li><a href="/">início</a></li>
+      <li class="breadcrumb-sep" aria-hidden="true">/</li>
+      <li style="color:var(--text-2);">{breadcrumb}</li>
+    </ol>
+  </nav>
+
+  <!-- Page header -->
+  <header style="margin-bottom:36px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style={`width:44px;height:44px;border-radius:var(--radius-md);background:${accentColor}18;border:1px solid ${accentColor}28;display:flex;align-items:center;justify-content:center;color:${accentVar};`} set:html={icon}></div>
+      <span class={`badge ${badgeClass}`}>Ferramenta {toolNum}</span>
+    </div>
+    <h1 style="font-family:var(--font-body);font-size:clamp(1.7rem,4vw,2.2rem);font-weight:800;color:var(--text);letter-spacing:-0.04em;margin-bottom:12px;">{title}</h1>
+    <p style="font-size:15px;color:var(--text-2);max-width:560px;line-height:1.7;">{description}</p>
+  </header>
+
+  <!-- Tool + Sidebar layout -->
+  <div style="display:grid;grid-template-columns:1fr;gap:24px;" id="tool-grid">
+
+    <!-- Tool slot -->
+    <div id="tool-main">
+      <slot />
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="tool-sidebar" style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- AdSense Sidebar -->
+      {ADSENSE_ID && (
+        <div style="min-height:280px;" id="adsense-sidebar-wrap">
+          <ins class="adsbygoogle" style="display:block;width:300px;height:600px;max-width:100%;" data-ad-client={ADSENSE_ID} data-ad-slot="TOOL_SIDEBAR_SLOT" data-ad-format="rectangle"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+      )}
+
+      <!-- Tips card -->
+      <div class="card" style={`padding:22px;${accentColor !== 'var(--blue)' ? `border-color:${accentColor}28;` : ''}`}>
+        <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px;letter-spacing:-0.01em;">{tipsTitle}</h2>
+        <div style="display:flex;flex-direction:column;">
+          {tips.map((tip, i) => (
+            <p style={`font-size:13px;color:var(--text-2);padding:10px 0;line-height:1.6;display:flex;align-items:baseline;gap:8px;${i < tips.length - 1 ? 'border-bottom:1px solid var(--border);' : ''}`}>
+              <span style={`color:${tipAccent};font-family:var(--font-mono);font-size:11px;flex-shrink:0;`} aria-hidden="true">→</span>
+              {tip}
+            </p>
+          ))}
+        </div>
+        {lgpdNote && (
+          <a href="https://www.gov.br/anpd/reclamacoes" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm btn-full" style="margin-top:16px;justify-content:center;">
+            {lgpdNote}
+          </a>
+        )}
+      </div>
+
+      <!-- Other tools -->
+      <div class="card" style="padding:22px;">
+        <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;">Outras ferramentas</h2>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          {otherTools.map(tool => (
+            <a href={tool.href} class="card card-hover" style="padding:12px;text-decoration:none;display:flex;align-items:center;gap:10px;">
+              <div style={`width:32px;height:32px;background:${tool.bg};border:1px solid ${tool.border};border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:${tool.color};flex-shrink:0;`} set:html={tool.icon}></div>
+              <div>
+                <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;">{tool.label}</p>
+                <p style="font-size:12px;color:var(--text-3);">{tool.sub}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<style>
+  @media (min-width: 1024px) {
+    #tool-grid { grid-template-columns: 1fr 320px !important; }
+  }
+</style>

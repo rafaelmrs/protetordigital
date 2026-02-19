@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const WORKER_URL = 'https://protetordigital-worker.dev-fretereal.workers.dev';
+const WORKER_URL = '/api';
 
 async function checkPwnedPassword(password) {
   if (!password || password.length < 4) return null;

@@ -1,0 +1,20 @@
+name = "protetordigital-api"
+main = "workers/worker.js"
+compatibility_date = "2025-01-01"
+
+# Todas as rotas /api/* apontam para este Worker
+routes = [
+  { pattern = "protetordigital.com/api/*", zone_name = "protetordigital.com" }
+]
+
+# KV Namespace (opcional — usado apenas para cache do /breach, não mais para /scan)
+# Crie o namespace no Dashboard e cole o ID abaixo:
+# [[kv_namespaces]]
+# binding = "URL_SAFETY_KV"
+# id = "SEU_KV_NAMESPACE_ID"
+
+# Variáveis de ambiente — NUNCA coloque secrets aqui em texto puro.
+# Use: wrangler secret put SAFE_BROWSING_API_KEY
+#      wrangler secret put HIBP_API_KEY
+[vars]
+# Apenas vars não-sensíveis aqui

@@ -1,3 +1,0 @@
-# Cloudflare Pages _redirects
-# SPA fallback (não necessário para Astro static, mas útil para safety)
-/blog/* /blog/:splat 200
