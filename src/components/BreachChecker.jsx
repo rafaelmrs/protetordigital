@@ -4,9 +4,9 @@ const WORKER_URL = '/api';
 
 function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 function formatCount(n) {
-  if (n>=1e9) return `${(n/1e9).toFixed(1).replace('.',',')}bi`;
-  if (n>=1e6) return `${(n/1e6).toFixed(1).replace('.',',')}mi`;
-  if (n>=1e3) return `${(n/1e3).toFixed(0)}mil`;
+  if (n>=1e9) return `${(n/1e9).toFixed(1).replace('.',',')} bi`;
+  if (n>=1e6) return `${(n/1e6).toFixed(1).replace('.',',')} mi`;
+  if (n>=1e3) return `${(n/1e3).toFixed(0)} mil`;
   return n.toLocaleString('pt-BR');
 }
 
@@ -62,10 +62,38 @@ function traduzirDado(d) {
 }
 
 
+
+// Traduções manuais dos principais breaches (sem depender de API)
+const TRADUCAO_BREACHES = {
+  '000webhost': 'Em março de 2015, o provedor de hospedagem gratuita 000webhost sofreu um grande vazamento que expôs cerca de 15 milhões de registros de clientes. Os dados incluíam nomes, endereços de e-mail e senhas armazenadas em texto puro, sem nenhuma proteção criptográfica.',
+  'adobe': 'Em outubro de 2013, a Adobe sofreu um vazamento massivo que afetou 153 milhões de registros de usuários. Foram expostos IDs internos, nomes de usuário, e-mails, senhas criptografadas e dicas de senha em texto puro. A fraca criptografia usada permitiu que muitas senhas fossem recuperadas.',
+  'canva': 'Em maio de 2019, a plataforma australiana de design gráfico Canva sofreu um ataque que expôs dados de 137 milhões de usuários. Foram comprometidos nomes, endereços de e-mail, cidades de origem, senhas com hash e nomes de usuário do Google.',
+  'collection #1': 'Em janeiro de 2019, uma enorme coleção de 773 milhões de e-mails e 21 milhões de senhas únicas foi encontrada em um serviço de armazenamento na nuvem. Apelidada de "Collection #1", trata-se de uma compilação de múltiplos vazamentos anteriores.',
+  'dropbox': 'Em meados de 2012, o Dropbox sofreu um vazamento que expôs 68 milhões de registros de clientes. Os dados incluíam endereços de e-mail e senhas protegidas com hash. O incidente só veio a público em 2016.',
+  'dubsmash': 'Em dezembro de 2018, o aplicativo de vídeo Dubsmash teve 162 milhões de registros de usuários roubados. Foram expostos endereços de e-mail, nomes de usuário e senhas com hash SHA-256.',
+  'facebook': 'Em abril de 2021, dados de 533 milhões de usuários do Facebook foram publicados gratuitamente em fóruns de hackers. As informações incluíam números de telefone, nomes completos, localizações, datas de nascimento e endereços de e-mail.',
+  'linkedin': 'Em junho de 2021, um conjunto de dados com informações de 700 milhões de usuários do LinkedIn foi colocado à venda na dark web. Os dados incluíam e-mails, números de telefone, endereços, dados de geolocalização e histórico profissional.',
+  'myspace': 'Em 2008, o MySpace sofreu um vazamento que só veio a público em 2016. Foram expostos 360 milhões de contas com combinações de e-mail, nome de usuário e senhas com hash SHA1.',
+  'neopets': 'Em julho de 2022, um hacker alegou ter roubado o banco de dados do Neopets contendo 69 milhões de registros de membros. Os dados incluíam nomes, e-mails, datas de nascimento, gênero, país, data de cadastro, senhas com hash MD5 e muito mais.',
+  'twitter': 'Em 2022, uma vulnerabilidade no Twitter foi explorada para coletar dados de 5,4 milhões de contas. Foram expostos números de telefone, endereços de e-mail e informações de perfil. Os dados foram publicados gratuitamente em 2023.',
+  'yahoo': 'Em 2013 e 2014, o Yahoo sofreu os dois maiores vazamentos da história até então, comprometendo 3 bilhões de contas no total. Foram expostos nomes, endereços de e-mail, datas de nascimento, números de telefone e perguntas de segurança.',
+  'zynga': 'Em setembro de 2019, a empresa de jogos Zynga (criadora do FarmVille) sofreu um vazamento que expôs 173 milhões de registros. Foram comprometidos nomes, endereços de e-mail, IDs de login, hashes de senha e números de telefone de alguns usuários.',
+  'haveibeenpwned': 'Dados desta conta foram encontrados em um ou mais vazamentos catalogados pelo Have I Been Pwned, banco de dados global de segurança digital.',
+};
+
+function traduzirBreachManual(nome, descricaoOriginal) {
+  const key = nome?.toLowerCase();
+  // Procurar por correspondência parcial
+  for (const [k, v] of Object.entries(TRADUCAO_BREACHES)) {
+    if (key?.includes(k)) return v;
+  }
+  return null; // Sem tradução manual → usar API
+}
+
 async function traduzirTexto(texto) {
   if (!texto || texto.length < 10) return texto;
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto.slice(0,500))}&langpair=en|pt-BR&de=protetordigital@protetordigital.com`;
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto.slice(0,500))}&langpair=en|pt-BR&de=dev.protetordigital@outlook.com`;
     const res = await fetch(url);
     const data = await res.json();
     if (data?.responseStatus === 200 && data?.responseData?.translatedText) {
@@ -94,10 +122,11 @@ export default function BreachChecker() {
       // Traduzir descrições dos breaches para PT-BR
       if (data.breaches && data.breaches.length > 0) {
         const translated = await Promise.all(
-          data.breaches.map(async (b) => ({
-            ...b,
-            description: b.description ? await traduzirTexto(b.description) : '',
-          }))
+          data.breaches.map(async (b) => {
+            const manual = traduzirBreachManual(b.name, b.description);
+            const desc = manual || (b.description ? await traduzirTexto(b.description) : '');
+            return { ...b, description: desc };
+          })
         );
         data.breaches = translated;
       }
@@ -135,7 +164,7 @@ export default function BreachChecker() {
         </div>
         {error && <p style={{marginTop:10,fontSize:13,color:'var(--red)'}}> ⚠️ {error}</p>}
         <p style={{fontFamily:'var(--font-mono)',fontSize:11,color:'var(--text-muted)',marginTop:10}}>
-          🔒 Powered by Have I Been Pwned (HIBP) — 15bi+ registros em mais de 700 vazamentos
+          Powered by Have I Been Pwned (HIBP) — 15 bi+ registros em mais de 700 vazamentos
         </p>
       </div>
 
