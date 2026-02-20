@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Shield -->
+  <path fill="#3b82f6" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+  <!-- User head -->
+  <circle fill="white" cx="12" cy="9" r="3"/>
+  <!-- User body -->
+  <path fill="white" d="M6.87 17c-.34-.5-.63-1-.87-1.53c0-1.65 2.71-3 6-3s6 1.32 6 3c-.24.53-.53 1.03-.87 1.53A9.69 9.69 0 0 1 12 20.92A9.69 9.69 0 0 1 6.87 17z"/>
+</svg>

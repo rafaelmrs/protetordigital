@@ -214,6 +214,10 @@ const readTimeMin = Math.max(1, Math.ceil(readTimeWords / 200));
     @media (max-width: 1023px) {
       .share-sidebar-only { display: none !important; }
     }
+    /* Fix X button height (icon-only needs explicit min-height to match siblings) */
+    .share-x-btn {
+      min-height: 34px;
+    }
     /* WhatsApp button hover */
     .share-wa-btn:hover {
       background: #25D366 !important;
