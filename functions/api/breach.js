@@ -53,9 +53,11 @@ async function translateWithDeepl(text, apiKey) {
   try {
     const res = await fetch(DEEPL_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `DeepL-Auth-Key ${apiKey}`,
+      },
       body: new URLSearchParams({
-        auth_key: apiKey,
         text: text.slice(0, 500),
         source_lang: 'EN',
         target_lang: 'PT-BR',
