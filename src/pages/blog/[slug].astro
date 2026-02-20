@@ -195,8 +195,8 @@ const readTimeMin = Math.max(1, Math.ceil(readTimeWords / 200));
           </div>
         </div>
 
-        <!-- Share -->
-        <div class="card" style="padding:22px;">
+        <!-- Share (sidebar — desktop only) -->
+        <div class="card share-sidebar-only" style="padding:22px;">
           <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;">Compartilhar</h2>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <a href={`https://wa.me/?text=${encodeURIComponent(post.data.title + ' https://protetordigital.com/blog/' + post.slug)}`} target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm share-wa-btn" style="gap:6px;flex:1;justify-content:center;" aria-label="Compartilhar no WhatsApp">
@@ -217,6 +217,9 @@ const readTimeMin = Math.max(1, Math.ceil(readTimeWords / 200));
     @media (min-width: 1024px) {
       #article-layout { grid-template-columns: 1fr 300px !important; }
       .share-mobile-inline { display: none !important; }
+    }
+    @media (max-width: 1023px) {
+      .share-sidebar-only { display: none !important; }
     }
     /* WhatsApp button hover */
     .share-wa-btn:hover {
