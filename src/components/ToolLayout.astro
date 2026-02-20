@@ -117,13 +117,21 @@ const otherTools = allTools.filter(t => t.href !== currentPath);
       <!-- Share (sidebar — visible on desktop) -->
       <div class="card tool-share-sidebar" style="padding:22px;">
         <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;">Compartilhar</h2>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <a id="share-wa-sidebar" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-wa-btn" style="gap:6px;flex:1;justify-content:center;" aria-label="Compartilhar no WhatsApp">
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <a id="share-wa-sidebar" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-wa-btn" style="gap:7px;justify-content:center;" aria-label="Compartilhar no WhatsApp">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.561 4.14 1.535 5.872L0 24l6.27-1.512A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.887 0-3.649-.511-5.165-1.4L3 22l1.45-4.738A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
             WhatsApp
           </a>
-          <button id="share-copy-sidebar" onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='Copiado!';setTimeout(()=>{this.textContent='Copiar link'},2000)})" class="btn btn-outline btn-sm" style="flex:1;" aria-label="Copiar link">
-            Copiar link
+          <a id="share-fb-sidebar" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-fb-btn" style="gap:7px;justify-content:center;" aria-label="Compartilhar no Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+          <a id="share-x-sidebar" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-x-btn" style="gap:7px;justify-content:center;" aria-label="Compartilhar no X">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.032 2.25H9.05l4.26 5.632 4.934-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <button id="share-copy-sidebar" onclick="navigator.clipboard.writeText(window.location.href).then(()=>{const t=this;t.querySelector('span').textContent='Copiado!';setTimeout(()=>{t.querySelector('span').textContent='Copiar link'},2000)})" class="btn btn-outline btn-sm" style="gap:7px;justify-content:center;" aria-label="Copiar link">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <span>Copiar link</span>
           </button>
         </div>
       </div>
@@ -134,13 +142,21 @@ const otherTools = allTools.filter(t => t.href !== currentPath);
   <!-- Share (mobile — below main tool) -->
   <div class="card tool-share-mobile" style="padding:22px;margin-top:16px;">
     <h2 style="font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;">Compartilhar</h2>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a id="share-wa-mobile" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-wa-btn" style="gap:6px;flex:1;justify-content:center;" aria-label="Compartilhar no WhatsApp">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <a id="share-wa-mobile" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-wa-btn" style="gap:6px;justify-content:center;" aria-label="Compartilhar no WhatsApp">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.561 4.14 1.535 5.872L0 24l6.27-1.512A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.887 0-3.649-.511-5.165-1.4L3 22l1.45-4.738A10 10 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
         WhatsApp
       </a>
-      <button id="share-copy-mobile" onclick="navigator.clipboard.writeText(window.location.href).then(()=>{this.textContent='Copiado!';setTimeout(()=>{this.textContent='Copiar link'},2000)})" class="btn btn-outline btn-sm" style="flex:1;" aria-label="Copiar link">
-        Copiar link
+      <a id="share-fb-mobile" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-fb-btn" style="gap:6px;justify-content:center;" aria-label="Compartilhar no Facebook">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+      <a id="share-x-mobile" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm tool-share-x-btn" style="gap:6px;justify-content:center;" aria-label="Compartilhar no X">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.032 2.25H9.05l4.26 5.632 4.934-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <button id="share-copy-mobile" onclick="navigator.clipboard.writeText(window.location.href).then(()=>{const t=this;t.querySelector('span').textContent='Copiado!';setTimeout(()=>{t.querySelector('span').textContent='Copiar link'},2000)})" class="btn btn-outline btn-sm" style="gap:6px;justify-content:center;" aria-label="Copiar link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span>Copiar link</span>
       </button>
     </div>
   </div>
@@ -159,12 +175,29 @@ const otherTools = allTools.filter(t => t.href !== currentPath);
     border-color: #25D366 !important;
     color: #fff !important;
   }
+  .tool-share-fb-btn:hover {
+    background: #1877F2 !important;
+    border-color: #1877F2 !important;
+    color: #fff !important;
+  }
+  .tool-share-x-btn:hover {
+    background: #000 !important;
+    border-color: #000 !important;
+    color: #fff !important;
+  }
 </style>
 
 <script>
-  // Set WhatsApp share URL dynamically
-  const waLinks = document.querySelectorAll('#share-wa-sidebar, #share-wa-mobile');
-  waLinks.forEach(el => {
-    el.href = 'https://wa.me/?text=' + encodeURIComponent(document.title + ' ' + window.location.href);
+  const url = window.location.href;
+  const title = document.title;
+
+  document.querySelectorAll('#share-wa-sidebar, #share-wa-mobile').forEach(el => {
+    el.href = 'https://wa.me/?text=' + encodeURIComponent(title + ' ' + url);
+  });
+  document.querySelectorAll('#share-fb-sidebar, #share-fb-mobile').forEach(el => {
+    el.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+  });
+  document.querySelectorAll('#share-x-sidebar, #share-x-mobile').forEach(el => {
+    el.href = 'https://x.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodeURIComponent(url);
   });
 </script>
