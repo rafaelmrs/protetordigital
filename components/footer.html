@@ -1,0 +1,18 @@
+<!-- ============================================================
+     FOOTER — Componente compartilhado
+     ============================================================ -->
+<footer style="padding: 2rem var(--content-padding); border-top: 1px solid var(--cinza-borda); background: var(--branco); margin-top: auto;">
+  <div style="max-width: 920px; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
+    <p style="font-family: var(--font-display); font-size: var(--text-xs); color: var(--cinza-medio);">
+      © <span id="footer-ano"></span> Protetor Digital &nbsp;·&nbsp; Gratuito, sem anúncios, sem rastreamento
+    </p>
+    <div style="margin-left: auto; display: flex; gap: 1.25rem; flex-wrap: wrap;">
+      <a href="/sobre.html" style="font-family: var(--font-display); font-size: var(--text-xs); color: var(--cinza-medio); text-decoration: none;" onmouseover="this.style.color='var(--azul-claro)'" onmouseout="this.style.color='var(--cinza-medio)'">Sobre</a>
+      <a href="/politica-privacidade.html" style="font-family: var(--font-display); font-size: var(--text-xs); color: var(--cinza-medio); text-decoration: none;" onmouseover="this.style.color='var(--azul-claro)'" onmouseout="this.style.color='var(--cinza-medio)'">Privacidade</a>
+      <a href="/contato.html" style="font-family: var(--font-display); font-size: var(--text-xs); color: var(--cinza-medio); text-decoration: none;" onmouseover="this.style.color='var(--azul-claro)'" onmouseout="this.style.color='var(--cinza-medio)'">Contato</a>
+    </div>
+  </div>
+</footer>
+<script>
+  document.getElementById('footer-ano').textContent = new Date().getFullYear();
+</script>

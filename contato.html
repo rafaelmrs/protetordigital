@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+  data-pagina="contato"
+  data-titulo="Contato"
+  data-descricao="Entre em contato com a equipe do Protetor Digital. Suporte, sugestões e dúvidas."
+  data-breadcrumb='[{"label":"Início","href":"/index.html"},{"label":"Contato"}]'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato — Protetor Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<div class="app-layout">
+
+  <div id="container-sidebar"></div>
+
+  <main class="main-area">
+    <div id="container-topbar"></div>
+
+    <div class="page-content">
+
+      <div class="page-header">
+        <h1 class="page-titulo">✉️ Contato</h1>
+        <p class="page-subtitulo">Tem uma dúvida, encontrou um problema ou quer sugerir algo? Adoramos ouvir de você.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+
+        <!-- Formulário -->
+        <div class="card" style="grid-column:1/-1">
+          <h2 style="font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--preto-titulo);margin-bottom:1.25rem">Envie uma mensagem</h2>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div>
+              <label class="campo-label" for="nome">Seu nome</label>
+              <input type="text" id="nome" class="campo" placeholder="Como você se chama?">
+            </div>
+            <div>
+              <label class="campo-label" for="email-contato">Seu e-mail</label>
+              <input type="email" id="email-contato" class="campo" placeholder="para@resposta.com">
+            </div>
+          </div>
+
+          <div style="margin-bottom:1rem">
+            <label class="campo-label" for="assunto">Assunto</label>
+            <select id="assunto" class="campo" style="cursor:pointer">
+              <option value="">Selecione o assunto</option>
+              <option>Dúvida sobre uma ferramenta</option>
+              <option>Reportar um bug ou problema</option>
+              <option>Sugestão de melhoria</option>
+              <option>Imprensa / Parcerias</option>
+              <option>Outros</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:1.25rem">
+            <label class="campo-label" for="mensagem">Mensagem</label>
+            <textarea id="mensagem" class="campo" rows="5" placeholder="Descreva sua dúvida ou sugestão em detalhes..." style="resize:vertical;line-height:1.6"></textarea>
+          </div>
+
+          <button class="btn btn-primario btn-lg">
+            Enviar mensagem
+          </button>
+          <p class="campo-ajuda" style="margin-top:0.5rem">Respondemos em até 2 dias úteis.</p>
+        </div>
+
+      </div>
+
+      <!-- Info de contato -->
+      <div class="selos-grid" style="margin-top:0">
+        <div class="selo">
+          <div class="selo-icone">📧</div>
+          <div>
+            <p class="selo-titulo">E-mail</p>
+            <p class="selo-desc">contato@protetordigital.com</p>
+          </div>
+        </div>
+        <div class="selo">
+          <div class="selo-icone">⏱️</div>
+          <div>
+            <p class="selo-titulo">Tempo de resposta</p>
+            <p class="selo-desc">Respondemos em até 2 dias úteis.</p>
+          </div>
+        </div>
+        <div class="selo">
+          <div class="selo-icone">🔒</div>
+          <div>
+            <p class="selo-titulo">Privacidade</p>
+            <p class="selo-desc">Seus dados de contato são usados apenas para responder.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="container-footer"></div>
+  </main>
+</div>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>

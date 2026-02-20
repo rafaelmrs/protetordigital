@@ -1,0 +1,105 @@
+<!-- ============================================================
+     SIDEBAR — Componente compartilhado
+     Edite aqui para atualizar toda a navegação do app
+     ============================================================ -->
+<nav class="sidebar" id="sidebar" aria-label="Navegação principal">
+
+  <!-- Marca -->
+  <a href="/index.html" class="sidebar-brand" id="sidebar-brand">
+    <svg class="brand-escudo" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 1L3 7V20C3 29.8 10.1 38.8 19 41C27.9 38.8 35 29.8 35 20V7L19 1Z" fill="#1A4B8C" stroke="#2563B8" stroke-width="1.5"/>
+      <path d="M19 5L6 10.2V20C6 28.1 11.8 35.6 19 37.8C26.2 35.6 32 28.1 32 20V10.2L19 5Z" fill="#0B2D5E"/>
+      <path d="M13 21L17.5 25.5L26 17" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-nome">Protetor Digital</span>
+      <span class="brand-tagline">Segurança para todos</span>
+    </div>
+  </a>
+
+  <!-- Navegação -->
+  <div class="sidebar-nav">
+
+    <span class="nav-grupo-label">Principal</span>
+
+    <a href="/index.html" class="nav-item" data-pagina="inicio">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+        <path d="M8 18V12h4v6"/>
+      </svg>
+      Início
+    </a>
+
+    <span class="nav-grupo-label">Ferramentas</span>
+
+    <a href="/ferramentas/senha.html" class="nav-item" data-pagina="senha">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="11" r="4"/>
+        <path d="M12 11h6M16 9v4"/>
+      </svg>
+      Verificar Senha
+    </a>
+
+    <a href="/ferramentas/vazamento.html" class="nav-item" data-pagina="vazamento">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="16" height="12" rx="2"/>
+        <path d="M6 8h8M6 12h5"/>
+      </svg>
+      Verificar Vazamento
+      <span class="nav-badge">API</span>
+    </a>
+
+    <a href="/ferramentas/link.html" class="nav-item" data-pagina="link">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13l-2 2a3.5 3.5 0 01-5-5l4-4a3.5 3.5 0 015 5"/>
+        <path d="M10 7l2-2a3.5 3.5 0 015 5l-4 4a3.5 3.5 0 01-5-5"/>
+      </svg>
+      Verificar Link
+    </a>
+
+    <span class="nav-grupo-label">Conteúdo</span>
+
+    <a href="/blog/index.html" class="nav-item" data-pagina="blog">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h12v12H4V4z"/>
+        <path d="M7 8h6M7 12h4"/>
+      </svg>
+      Blog Educacional
+    </a>
+
+    <span class="nav-grupo-label">Sobre</span>
+
+    <a href="/sobre.html" class="nav-item" data-pagina="sobre">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10" cy="10" r="8"/>
+        <path d="M10 9v5M10 7v.5"/>
+      </svg>
+      Sobre o Projeto
+    </a>
+
+    <a href="/contato.html" class="nav-item" data-pagina="contato">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 4l9 6 9-6"/>
+        <rect x="2" y="4" width="16" height="12" rx="2"/>
+      </svg>
+      Contato
+    </a>
+
+    <a href="/politica-privacidade.html" class="nav-item" data-pagina="privacidade">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 2l7 3v5c0 4.4-3.1 8.5-7 9.5C6.1 18.5 3 14.4 3 10V5l7-3z"/>
+      </svg>
+      Privacidade
+    </a>
+
+  </div>
+
+  <!-- Rodapé sidebar -->
+  <div class="sidebar-footer">
+    <p class="sidebar-footer-texto">
+      Versão 2.0 &nbsp;·&nbsp; 100% gratuito<br>
+      <a href="/politica-privacidade.html" class="sidebar-footer-link">Política de Privacidade</a>
+    </p>
+  </div>
+
+</nav>

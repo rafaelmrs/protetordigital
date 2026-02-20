@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+  data-pagina="senha"
+  data-titulo="Verificar Senha"
+  data-descricao="Verifique a força da sua senha e descubra se ela apareceu em algum vazamento. Análise 100% local — sua senha nunca sai do seu dispositivo."
+  data-breadcrumb='[{"label":"Início","href":"/index.html"},{"label":"Ferramentas"},{"label":"Verificar Senha"}]'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar Senha — Protetor Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<div class="app-layout">
+
+  <div id="container-sidebar"></div>
+
+  <main class="main-area">
+    <div id="container-topbar"></div>
+
+    <div class="page-content">
+
+      <div class="page-header">
+        <h1 class="page-titulo">🔐 Verificar Senha</h1>
+        <p class="page-subtitulo">
+          Descubra se sua senha é segura e se ela apareceu em algum vazamento.
+          <strong>A análise é feita aqui no seu dispositivo</strong> — nada é enviado aos nossos servidores.
+        </p>
+      </div>
+
+      <!-- Aviso de privacidade -->
+      <div class="alerta alerta-seguro" style="margin-bottom:1.5rem">
+        <span class="alerta-icone">🔒</span>
+        <div>
+          <p class="alerta-titulo">Sua senha fica no seu dispositivo</p>
+          <p>A análise de força é feita 100% no seu navegador. Para a verificação de vazamentos, enviamos apenas uma parte do código da senha (os primeiros 5 caracteres do hash SHA-1), nunca a senha em si.</p>
+        </div>
+      </div>
+
+      <!-- ANALISADOR DE SENHA -->
+      <div class="card">
+        <div class="card-titulo">
+          Analisar minha senha
+          <span class="badge badge-verde">100% local</span>
+        </div>
+        <p class="card-descricao">
+          Digite sua senha abaixo para ver o nível de segurança e receber recomendações.
+        </p>
+
+        <!-- Input de senha -->
+        <div class="campo-grupo" style="margin-bottom:0.75rem">
+          <label for="input-senha" class="campo-label">Sua senha</label>
+          <div style="position:relative">
+            <input
+              type="password"
+              id="input-senha"
+              class="campo campo-grande campo-mono"
+              placeholder="Digite sua senha aqui..."
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Campo para análise de senha"
+            >
+            <button
+              id="btn-mostrar-senha"
+              type="button"
+              style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:var(--cinza-papel);border:1px solid var(--cinza-borda2);border-radius:var(--radius-sm);padding:0.3rem 0.75rem;cursor:pointer;font-family:var(--font-display);font-size:0.72rem;color:var(--cinza-medio);white-space:nowrap"
+            >mostrar</button>
+          </div>
+          <p class="campo-ajuda">Sua senha não é armazenada nem enviada para nenhum servidor.</p>
+        </div>
+
+        <!-- Resultado da análise (preenchido pelo password.js) -->
+        <div id="container-analise" style="margin-top:0.25rem"></div>
+      </div>
+
+      <!-- Requisitos visuais -->
+      <div class="card" style="padding:1.375rem">
+        <p class="campo-label" style="margin-bottom:0.875rem">Critérios de segurança</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem" id="criterios">
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--cinza-medio)"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--cinza-borda2);display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0">○</span>Mínimo 12 caracteres</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--cinza-medio)"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--cinza-borda2);display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0">○</span>Letras maiúsculas (A-Z)</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--cinza-medio)"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--cinza-borda2);display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0">○</span>Letras minúsculas (a-z)</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--cinza-medio)"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--cinza-borda2);display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0">○</span>Números (0-9)</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--cinza-medio)"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--cinza-borda2);display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0">○</span>Símbolos (!@#$%...)</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--cinza-medio)"><span style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--cinza-borda2);display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;flex-shrink:0">○</span>Não está em listas de senhas comuns</div>
+        </div>
+      </div>
+
+      <!-- GERADOR DE SENHA -->
+      <div class="card" id="gerador">
+        <div class="card-titulo">
+          ⚡ Gerar senha segura
+          <span class="badge badge-azul">criptograficamente seguro</span>
+        </div>
+        <p class="card-descricao">
+          Crie uma senha forte automaticamente. A geração acontece no seu navegador — nada vai para nossos servidores.
+        </p>
+
+        <!-- Comprimento -->
+        <div style="margin-bottom:1.25rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+            <label for="slider-comprimento" class="campo-label" style="margin:0">Comprimento</label>
+            <span id="label-comprimento" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--azul-claro);font-weight:600">16 caracteres</span>
+          </div>
+          <input
+            type="range"
+            id="slider-comprimento"
+            min="8" max="64" value="16"
+            style="width:100%;accent-color:var(--azul-claro)"
+          >
+          <div style="display:flex;justify-content:space-between;margin-top:0.25rem">
+            <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cinza-leve)">8 (mín)</span>
+            <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cinza-leve)">32 (rec)</span>
+            <span style="font-family:var(--font-mono);font-size:0.65rem;color:var(--cinza-leve)">64</span>
+          </div>
+        </div>
+
+        <!-- Opções -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1.25rem">
+          <label style="display:flex;align-items:center;gap:0.625rem;cursor:pointer;padding:0.625rem 0.875rem;border-radius:var(--radius-sm);border:1.5px solid var(--cinza-borda);background:var(--cinza-papel)">
+            <input type="checkbox" id="opt-maiusculas" checked style="accent-color:var(--azul-claro);width:14px;height:14px">
+            <span style="font-size:0.85rem;color:var(--cinza-escuro)">Maiúsculas (A-Z)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:0.625rem;cursor:pointer;padding:0.625rem 0.875rem;border-radius:var(--radius-sm);border:1.5px solid var(--cinza-borda);background:var(--cinza-papel)">
+            <input type="checkbox" id="opt-minusculas" checked style="accent-color:var(--azul-claro);width:14px;height:14px">
+            <span style="font-size:0.85rem;color:var(--cinza-escuro)">Minúsculas (a-z)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:0.625rem;cursor:pointer;padding:0.625rem 0.875rem;border-radius:var(--radius-sm);border:1.5px solid var(--cinza-borda);background:var(--cinza-papel)">
+            <input type="checkbox" id="opt-numeros" checked style="accent-color:var(--azul-claro);width:14px;height:14px">
+            <span style="font-size:0.85rem;color:var(--cinza-escuro)">Números (0-9)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:0.625rem;cursor:pointer;padding:0.625rem 0.875rem;border-radius:var(--radius-sm);border:1.5px solid var(--cinza-borda);background:var(--cinza-papel)">
+            <input type="checkbox" id="opt-simbolos" checked style="accent-color:var(--azul-claro);width:14px;height:14px">
+            <span style="font-size:0.85rem;color:var(--cinza-escuro)">Símbolos (!@#$)</span>
+          </label>
+        </div>
+
+        <button id="btn-gerar" class="btn btn-primario btn-bloco btn-lg">
+          ⚡ Gerar senha
+        </button>
+
+        <!-- Resultado gerador -->
+        <div id="resultado-gerador" class="hidden" style="margin-top:1rem;padding:1.125rem;background:var(--cinza-papel);border-radius:var(--radius-md);border:1.5px solid var(--cinza-borda2)">
+          <div style="display:flex;align-items:center;gap:0.875rem">
+            <code id="senha-gerada-texto" style="font-family:var(--font-mono);font-size:0.9rem;word-break:break-all;color:var(--preto-titulo);flex:1;line-height:1.5"></code>
+            <button id="btn-copiar" class="btn btn-ghost btn-sm" style="flex-shrink:0">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+    <div id="container-footer"></div>
+  </main>
+</div>
+
+<script src="/js/app.js" defer></script>
+<script src="/js/password.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+  data-pagina="inicio"
+  data-titulo="Protetor Digital"
+  data-descricao="Ferramentas gratuitas de segurança digital para brasileiros. Verifique senhas, detecte vazamentos e analise links suspeitos — sem custo, sem anúncios."
+  data-breadcrumb='[{"label":"Início"}]'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protetor Digital — Sua segurança online começa aqui</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/design-system.css">
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Sidebar (injetada pelo app.js) -->
+  <div id="container-sidebar"></div>
+
+  <!-- Área principal -->
+  <main class="main-area">
+
+    <!-- Topbar (injetada pelo app.js) -->
+    <div id="container-topbar"></div>
+
+    <!-- Conteúdo -->
+    <div class="page-content">
+
+      <!-- Hero Institucional -->
+      <section style="background:linear-gradient(135deg, var(--azul-soberano) 0%, #0D3B7A 60%, #1A4B8C 100%);border-radius:var(--radius-xl);padding:3rem 2.5rem;margin-bottom:2.5rem;position:relative;overflow:hidden">
+
+        <!-- Padrão decorativo de fundo -->
+        <div style="position:absolute;top:-40px;right:-40px;width:280px;height:280px;border-radius:50%;background:rgba(59,130,246,0.08);pointer-events:none"></div>
+        <div style="position:absolute;bottom:-60px;right:80px;width:180px;height:180px;border-radius:50%;background:rgba(59,130,246,0.05);pointer-events:none"></div>
+
+        <div style="position:relative;z-index:1">
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem">
+            <span class="badge" style="background:rgba(59,130,246,0.2);color:#93c5fd;border-color:rgba(59,130,246,0.3);font-size:0.7rem">100% Gratuito</span>
+            <span class="badge" style="background:rgba(59,130,246,0.2);color:#93c5fd;border-color:rgba(59,130,246,0.3);font-size:0.7rem">Sem anúncios</span>
+            <span class="badge" style="background:rgba(59,130,246,0.2);color:#93c5fd;border-color:rgba(59,130,246,0.3);font-size:0.7rem">Sem rastreamento</span>
+          </div>
+
+          <h1 style="font-family:var(--font-display);font-size:clamp(1.6rem,4vw,2.5rem);font-weight:800;color:#fff;letter-spacing:-0.03em;line-height:1.15;margin-bottom:1rem;max-width:680px">
+            Proteja sua vida digital com ferramentas simples e confiáveis
+          </h1>
+
+          <p style="font-family:var(--font-body);font-size:1.05rem;color:rgba(255,255,255,0.75);line-height:1.65;max-width:560px;margin-bottom:2rem">
+            Criado para brasileiros comuns — sem linguagem técnica, sem complicação.
+            Verifique se suas senhas estão seguras, se seu e-mail foi vazado e se links suspeitos são perigosos.
+          </p>
+
+          <div style="display:flex;flex-wrap:wrap;gap:0.75rem">
+            <a href="/ferramentas/senha.html" class="btn btn-lg" style="background:white;color:var(--azul-soberano);">
+              🔐 Verificar minha senha
+            </a>
+            <a href="/ferramentas/vazamento.html" class="btn btn-lg btn-secundario" style="border-color:rgba(255,255,255,0.4);color:white;background:rgba(255,255,255,0.08)">
+              📋 Verificar vazamentos
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ferramentas disponíveis -->
+      <section style="margin-bottom:2.5rem">
+        <div style="margin-bottom:1.25rem">
+          <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin-bottom:0.25rem">
+            Ferramentas disponíveis
+          </h2>
+          <p style="font-size:var(--text-sm);color:var(--cinza-medio)">Todas gratuitas, sem cadastro e sem coletar seus dados.</p>
+        </div>
+
+        <div class="ferramentas-grid">
+
+          <a href="/ferramentas/senha.html" class="ferramenta-card">
+            <div class="ferramenta-icone" style="background:var(--azul-suave)">🔐</div>
+            <h3 class="ferramenta-nome">Verificar Senha</h3>
+            <p class="ferramenta-desc">Descubra se sua senha é forte o suficiente e se ela apareceu em algum vazamento. A análise é feita no seu próprio dispositivo — a senha nunca sai daqui.</p>
+            <span class="ferramenta-cta">Analisar agora →</span>
+          </a>
+
+          <a href="/ferramentas/senha.html#gerador" class="ferramenta-card">
+            <div class="ferramenta-icone" style="background:#F0FDF4">⚡</div>
+            <h3 class="ferramenta-nome">Gerar Senha Segura</h3>
+            <p class="ferramenta-desc">Crie senhas fortes e únicas para cada site que você usa. Geradas diretamente no seu navegador, de forma criptograficamente segura.</p>
+            <span class="ferramenta-cta">Gerar senha →</span>
+          </a>
+
+          <a href="/ferramentas/vazamento.html" class="ferramenta-card">
+            <div class="ferramenta-icone" style="background:#FFF7ED">📋</div>
+            <h3 class="ferramenta-nome">Verificar Vazamento</h3>
+            <p class="ferramenta-desc">Verifique se seu e-mail apareceu em algum dos 700+ vazamentos registrados. Alimentado pelo Have I Been Pwned, o maior banco de dados do mundo.</p>
+            <span class="ferramenta-cta">Verificar e-mail →</span>
+          </a>
+
+          <a href="/ferramentas/link.html" class="ferramenta-card">
+            <div class="ferramenta-icone" style="background:#EFF6FF">🔗</div>
+            <h3 class="ferramenta-nome">Verificar Link</h3>
+            <p class="ferramenta-desc">Recebeu um link suspeito? Verifique se ele é seguro antes de clicar. Usa o Google Safe Browsing para detectar phishing, malware e golpes.</p>
+            <span class="ferramenta-cta">Verificar link →</span>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- Como funciona -->
+      <section style="margin-bottom:2.5rem">
+        <div class="card" style="padding:2rem">
+          <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin-bottom:1.5rem">
+            Como funciona
+          </h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem">
+            ${[
+              { num: '1', titulo: 'Escolha a ferramenta', desc: 'Selecione o que quer verificar — senha, e-mail ou link.' },
+              { num: '2', titulo: 'Digite ou cole', desc: 'Insira a informação que quer analisar no campo indicado.' },
+              { num: '3', titulo: 'Veja o resultado', desc: 'Em segundos você recebe uma análise clara e em português.' },
+              { num: '4', titulo: 'Siga as orientações', desc: 'Se houver risco, mostramos o que fazer passo a passo.' },
+            ].map(e => `
+              <div style="display:flex;align-items:flex-start;gap:0.875rem">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--azul-suave);border:2px solid #BFDBFE;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <span style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--azul-claro)">${e.num}</span>
+                </div>
+                <div>
+                  <p style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--preto-titulo);margin-bottom:0.25rem">${e.titulo}</p>
+                  <p style="font-size:0.82rem;color:var(--cinza-medio);line-height:1.5">${e.desc}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </section>
+
+      <!-- Compromissos de Segurança -->
+      <section style="margin-bottom:2.5rem">
+        <div style="margin-bottom:1.25rem">
+          <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin-bottom:0.25rem">Nossos compromissos</h2>
+          <p style="font-size:var(--text-sm);color:var(--cinza-medio)">O que você pode esperar do Protetor Digital.</p>
+        </div>
+        <div class="selos-grid">
+          <div class="selo">
+            <div class="selo-icone">🔒</div>
+            <div>
+              <p class="selo-titulo">Suas senhas ficam aqui</p>
+              <p class="selo-desc">A análise de força é feita no seu navegador. Nenhuma senha é enviada ao servidor.</p>
+            </div>
+          </div>
+          <div class="selo">
+            <div class="selo-icone">📵</div>
+            <div>
+              <p class="selo-titulo">Sem anúncios, nunca</p>
+              <p class="selo-desc">Não exibimos anúncios e não vendemos espaço publicitário. Jamais.</p>
+            </div>
+          </div>
+          <div class="selo">
+            <div class="selo-icone">🎓</div>
+            <div>
+              <p class="selo-titulo">Foco em educação</p>
+              <p class="selo-desc">Explicamos tudo em linguagem simples para que você entenda o que está acontecendo.</p>
+            </div>
+          </div>
+          <div class="selo">
+            <div class="selo-icone">🇧🇷</div>
+            <div>
+              <p class="selo-titulo">Feito para o Brasil</p>
+              <p class="selo-desc">Em conformidade com a LGPD. Conteúdo e orientações pensados para o contexto brasileiro.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Blog recente -->
+      <section style="margin-bottom:2rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+          <div>
+            <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin-bottom:0.2rem">Aprenda sobre segurança</h2>
+            <p style="font-size:var(--text-sm);color:var(--cinza-medio)">Artigos em linguagem simples para o dia a dia.</p>
+          </div>
+          <a href="/blog/index.html" class="btn btn-ghost btn-sm">Ver todos →</a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem">
+          <a href="/blog/posts/autenticacao-dois-fatores.html" class="post-card">
+            <div class="post-meta">
+              <span class="badge badge-azul">Segurança</span>
+              <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">6 min de leitura</span>
+            </div>
+            <h3 class="post-titulo">O que é verificação em duas etapas e por que você precisa disso</h3>
+            <p class="post-resumo">A verificação em duas etapas é uma das formas mais simples de proteger suas contas — mesmo que sua senha seja descoberta.</p>
+          </a>
+          <a href="/blog/posts/maiores-vazamentos.html" class="post-card">
+            <div class="post-meta">
+              <span class="badge badge-ambar">Alerta</span>
+              <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">8 min de leitura</span>
+            </div>
+            <h3 class="post-titulo">Os maiores vazamentos de dados de 2024 e o que aprendemos</h3>
+            <p class="post-resumo">Bilhões de e-mails e senhas foram expostos. Veja quais empresas foram afetadas e o que você pode fazer para se proteger agora.</p>
+          </a>
+        </div>
+      </section>
+
+    </div><!-- /page-content -->
+
+    <!-- Footer (injetado pelo app.js) -->
+    <div id="container-footer"></div>
+
+  </main>
+</div>
+
+<script src="/js/app.js" defer></script>
+</body>
+</html>
