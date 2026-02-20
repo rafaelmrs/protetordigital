@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const WORKER_URL = '/api';
-
+// Chamada direta ao HIBP Pwned Passwords (API pública, sem chave, aceita CORS)
+// A senha NUNCA sai do navegador — apenas os 5 primeiros chars do hash SHA-1
 async function checkPwnedPassword(password) {
   if (!password || password.length < 4) return null;
   const encoder = new TextEncoder();
@@ -11,7 +11,9 @@ async function checkPwnedPassword(password) {
   const prefix = hashHex.slice(0, 5);
   const suffix = hashHex.slice(5);
   try {
-    const res = await fetch(`${WORKER_URL}/pwned-password`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({prefix}) });
+    const res = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`, {
+      headers: { 'Add-Padding': 'true' },
+    });
     if (!res.ok) return null;
     const text = await res.text();
     for (const line of text.split('\n')) {

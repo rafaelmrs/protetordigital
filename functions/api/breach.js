@@ -1,8 +1,10 @@
 // functions/api/breach.js
 // Cloudflare Pages Function — POST /api/breach
 // Verifica emails vazados via Have I Been Pwned v3
+// Traduções: JSON estático /breaches-pt.json (principal) + DeepL API (fallback)
 
 const HIBP_URL = 'https://haveibeenpwned.com/api/v3/breachedaccount/';
+const DEEPL_URL = 'https://api-free.deepl.com/v2/translate';
 
 function cors(origin) {
   return {
@@ -26,6 +28,45 @@ function determineSeverity(dataClasses) {
   return 'low';
 }
 
+// Busca tradução no JSON estático (carregado via fetch interno do CF Pages)
+async function getTranslationFromJson(name, env) {
+  try {
+    // Em Pages Functions, podemos usar fetch para o próprio domínio
+    const url = `https://protetordigital.com/breaches-pt.json`;
+    const res = await fetch(url, { cf: { cacheEverything: true, cacheTtl: 86400 } });
+    if (!res.ok) return null;
+    const pt = await res.json();
+    const key = name?.toLowerCase();
+    if (!key) return null;
+    if (pt[key]) return pt[key];
+    for (const [k, v] of Object.entries(pt)) {
+      if (k.startsWith('_')) continue;
+      if (key.includes(k) || k.includes(key)) return v;
+    }
+  } catch {}
+  return null;
+}
+
+// Fallback: traduz via DeepL API Free
+async function translateWithDeepl(text, apiKey) {
+  if (!text || !apiKey) return null;
+  try {
+    const res = await fetch(DEEPL_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        auth_key: apiKey,
+        text: text.slice(0, 500),
+        source_lang: 'EN',
+        target_lang: 'PT-BR',
+      }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.translations?.[0]?.text || null;
+  } catch { return null; }
+}
+
 export async function onRequestOptions({ request }) {
   return new Response(null, { status: 204, headers: cors(request.headers.get('Origin') || '') });
 }
@@ -47,15 +88,6 @@ export async function onRequestPost({ request, env }) {
   }
 
   const emailLower = email.toLowerCase();
-
-  // Cache KV 24h (opcional — só se URL_SAFETY_KV estiver vinculado)
-  const cacheKey = `hibp:${emailLower}`;
-  if (env.URL_SAFETY_KV) {
-    try {
-      const cached = await env.URL_SAFETY_KV.get(cacheKey, 'json');
-      if (cached) return json({ ...cached, cached: true }, 200, origin);
-    } catch {}
-  }
 
   let res;
   try {
@@ -91,17 +123,24 @@ export async function onRequestPost({ request, env }) {
     return json({ error: `Erro HIBP: ${res.status}` }, 502, origin);
   }
 
-  const result = {
+  // Traduzir descrições: JSON estático primeiro, DeepL como fallback
+  breaches = await Promise.all(breaches.map(async (b) => {
+    const fromJson = await getTranslationFromJson(b.name, env);
+    if (fromJson) return { ...b, description: fromJson };
+
+    // Fallback DeepL — só acionado se não está no JSON
+    if (b.description && env.DEEPL_API_KEY) {
+      const translated = await translateWithDeepl(b.description, env.DEEPL_API_KEY);
+      if (translated) return { ...b, description: translated };
+    }
+
+    return b; // Mantém em inglês se nenhuma tradução disponível
+  }));
+
+  return json({
     breaches,
     totalBreaches: breaches.length,
     checkedAt: new Date().toISOString(),
     source: 'hibp-v3',
-  };
-
-  // Gravar cache KV 24h se disponível
-  if (env.URL_SAFETY_KV) {
-    try { await env.URL_SAFETY_KV.put(cacheKey, JSON.stringify(result), { expirationTtl: 86400 }); } catch {}
-  }
-
-  return json(result, 200, origin);
+  }, 200, origin);
 }

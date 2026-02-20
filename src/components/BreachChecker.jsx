@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 const WORKER_URL = '/api';
 
@@ -18,7 +18,6 @@ const S = {
 const severityColor = (s) => s==='high'?'var(--red)':s==='medium'?'var(--orange)':'var(--yellow)';
 const severityBg = (s) => s==='high'?'rgba(255,23,68,0.06)':s==='medium'?'rgba(255,109,0,0.06)':'rgba(255,214,0,0.06)';
 const severityBorder = (s) => s==='high'?'rgba(255,23,68,0.2)':s==='medium'?'rgba(255,109,0,0.2)':'rgba(255,214,0,0.2)';
-
 
 const TRADUCAO_DADOS = {
   'email addresses': 'Endereços de e-mail',
@@ -61,46 +60,31 @@ function traduzirDado(d) {
   return TRADUCAO_DADOS[d.toLowerCase()] || d;
 }
 
+// Cache singleton do JSON de traduções (carregado uma vez por sessão)
+let _breachesPtCache = null;
+let _breachesPtLoading = null;
 
-
-// Traduções manuais dos principais breaches (sem depender de API)
-const TRADUCAO_BREACHES = {
-  '000webhost': 'Em março de 2015, o provedor de hospedagem gratuita 000webhost sofreu um grande vazamento que expôs cerca de 15 milhões de registros de clientes. Os dados incluíam nomes, endereços de e-mail e senhas armazenadas em texto puro, sem nenhuma proteção criptográfica.',
-  'adobe': 'Em outubro de 2013, a Adobe sofreu um vazamento massivo que afetou 153 milhões de registros de usuários. Foram expostos IDs internos, nomes de usuário, e-mails, senhas criptografadas e dicas de senha em texto puro. A fraca criptografia usada permitiu que muitas senhas fossem recuperadas.',
-  'canva': 'Em maio de 2019, a plataforma australiana de design gráfico Canva sofreu um ataque que expôs dados de 137 milhões de usuários. Foram comprometidos nomes, endereços de e-mail, cidades de origem, senhas com hash e nomes de usuário do Google.',
-  'collection #1': 'Em janeiro de 2019, uma enorme coleção de 773 milhões de e-mails e 21 milhões de senhas únicas foi encontrada em um serviço de armazenamento na nuvem. Apelidada de "Collection #1", trata-se de uma compilação de múltiplos vazamentos anteriores.',
-  'dropbox': 'Em meados de 2012, o Dropbox sofreu um vazamento que expôs 68 milhões de registros de clientes. Os dados incluíam endereços de e-mail e senhas protegidas com hash. O incidente só veio a público em 2016.',
-  'dubsmash': 'Em dezembro de 2018, o aplicativo de vídeo Dubsmash teve 162 milhões de registros de usuários roubados. Foram expostos endereços de e-mail, nomes de usuário e senhas com hash SHA-256.',
-  'facebook': 'Em abril de 2021, dados de 533 milhões de usuários do Facebook foram publicados gratuitamente em fóruns de hackers. As informações incluíam números de telefone, nomes completos, localizações, datas de nascimento e endereços de e-mail.',
-  'linkedin': 'Em junho de 2021, um conjunto de dados com informações de 700 milhões de usuários do LinkedIn foi colocado à venda na dark web. Os dados incluíam e-mails, números de telefone, endereços, dados de geolocalização e histórico profissional.',
-  'myspace': 'Em 2008, o MySpace sofreu um vazamento que só veio a público em 2016. Foram expostos 360 milhões de contas com combinações de e-mail, nome de usuário e senhas com hash SHA1.',
-  'neopets': 'Em julho de 2022, um hacker alegou ter roubado o banco de dados do Neopets contendo 69 milhões de registros de membros. Os dados incluíam nomes, e-mails, datas de nascimento, gênero, país, data de cadastro, senhas com hash MD5 e muito mais.',
-  'twitter': 'Em 2022, uma vulnerabilidade no Twitter foi explorada para coletar dados de 5,4 milhões de contas. Foram expostos números de telefone, endereços de e-mail e informações de perfil. Os dados foram publicados gratuitamente em 2023.',
-  'yahoo': 'Em 2013 e 2014, o Yahoo sofreu os dois maiores vazamentos da história até então, comprometendo 3 bilhões de contas no total. Foram expostos nomes, endereços de e-mail, datas de nascimento, números de telefone e perguntas de segurança.',
-  'zynga': 'Em setembro de 2019, a empresa de jogos Zynga (criadora do FarmVille) sofreu um vazamento que expôs 173 milhões de registros. Foram comprometidos nomes, endereços de e-mail, IDs de login, hashes de senha e números de telefone de alguns usuários.',
-  'haveibeenpwned': 'Dados desta conta foram encontrados em um ou mais vazamentos catalogados pelo Have I Been Pwned, banco de dados global de segurança digital.',
-};
-
-function traduzirBreachManual(nome, descricaoOriginal) {
-  const key = nome?.toLowerCase();
-  // Procurar por correspondência parcial
-  for (const [k, v] of Object.entries(TRADUCAO_BREACHES)) {
-    if (key?.includes(k)) return v;
-  }
-  return null; // Sem tradução manual → usar API
+async function getBreachesPt() {
+  if (_breachesPtCache) return _breachesPtCache;
+  if (_breachesPtLoading) return _breachesPtLoading;
+  _breachesPtLoading = fetch('/breaches-pt.json')
+    .then(r => r.json())
+    .then(data => { _breachesPtCache = data; _breachesPtLoading = null; return data; })
+    .catch(() => { _breachesPtLoading = null; return {}; });
+  return _breachesPtLoading;
 }
 
-async function traduzirTexto(texto) {
-  if (!texto || texto.length < 10) return texto;
-  try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto.slice(0,500))}&langpair=en|pt-BR&de=dev.protetordigital@outlook.com`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data?.responseStatus === 200 && data?.responseData?.translatedText) {
-      return data.responseData.translatedText;
-    }
-  } catch {}
-  return texto;
+// Busca tradução no JSON local. Tenta correspondência exata, depois parcial.
+async function traduzirBreachDesc(name) {
+  if (!name) return null;
+  const pt = await getBreachesPt();
+  const key = name.toLowerCase();
+  if (pt[key]) return pt[key];
+  for (const [k, v] of Object.entries(pt)) {
+    if (k.startsWith('_')) continue;
+    if (key.includes(k) || k.includes(key)) return v;
+  }
+  return null;
 }
 
 export default function BreachChecker() {
@@ -119,12 +103,11 @@ export default function BreachChecker() {
       if (res.status===429) throw new Error('Muitas consultas. Aguarde alguns minutos.');
       if (!res.ok) throw new Error(`Erro ${res.status}`);
       const data = await res.json();
-      // Traduzir descrições dos breaches para PT-BR
+      // Traduzir descrições usando JSON local (breaches-pt.json) — sem chamada a API externa
       if (data.breaches && data.breaches.length > 0) {
         const translated = await Promise.all(
           data.breaches.map(async (b) => {
-            const manual = traduzirBreachManual(b.name, b.description);
-            const desc = manual || (b.description ? await traduzirTexto(b.description) : '');
+            const desc = (await traduzirBreachDesc(b.name)) || b.description || '';
             return { ...b, description: desc };
           })
         );
