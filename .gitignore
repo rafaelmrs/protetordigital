@@ -1,0 +1,28 @@
+# Variáveis de ambiente — NUNCA versionar
+.env
+.env.local
+.env.production
+.dev.vars
+
+# Cloudflare
+.wrangler/
+wrangler.toml
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos temporários
+*.log
+*.tmp

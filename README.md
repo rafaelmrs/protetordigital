@@ -1,104 +1,120 @@
-# Protetor Digital — Documentação de Deploy
+# Protetor Digital
 
-## Arquitetura
+Plataforma brasileira de educação e ferramentas de segurança digital. Gratuita, sem cadastro, em linguagem simples.
+
+🌐 **[protetordigital.com](https://protetordigital.com)**
+
+---
+
+## O que é
+
+O Protetor Digital oferece ferramentas práticas para o usuário comum verificar e melhorar sua segurança digital, sem precisar de conhecimento técnico.
+
+**Ferramentas disponíveis:**
+- **Verificador de Senhas** — analisa a força da senha localmente no navegador (nenhum dado enviado ao servidor)
+- **Verificador de Vazamentos** — consulta se seu e-mail apareceu em bases de dados vazadas (via HIBP)
+- **Gerador de Senhas** — cria senhas fortes com `crypto.getRandomValues`
+- **Verificador de Links** — identifica URLs maliciosas via Google Safe Browsing
+- **Termômetro Digital** — avaliação geral do nível de segurança digital do usuário
+
+**Blog:**
+Artigos práticos sobre senhas, autenticação em dois fatores, golpes, vazamentos e proteção online.
+
+---
+
+## Privacidade por design
+
+- Senhas são analisadas **100% no navegador** — nunca saem do seu dispositivo
+- E-mails são verificados via k-Anonymity — apenas um prefixo parcial é enviado à API
+- Nenhum dado pessoal é armazenado em nossos servidores
+- Sem cookies de rastreamento próprios
+
+---
+
+## Tecnologia
+
+Site estático hospedado no **Cloudflare Pages**, com funções serverless para intermediar chamadas às APIs externas.
 
 ```
 /
-├── index.html                    ← Página inicial
-├── ferramentas/
-│   ├── verificador.html          ← Verificar Senha (análise local, OWASP)
-│   ├── gerador.html              ← Criar Senha Segura (crypto.getRandomValues)
-│   ├── email.html                ← Buscar Vazamentos por E-mail (HIBP paga)
-│   ├── senha.html                ← Verificar Senha Vazada (HIBP free, k-anonymity)
-│   └── url.html                  ← Checar Link (Google Safe Browsing)
+├── index.html                        ← Página inicial
 ├── blog/
-│   ├── index.html                ← Listagem de artigos
-│   └── posts/
-│       ├── senhas-seguras.html
-│       ├── dois-fatores.html
-│       ├── golpes-whatsapp.html
-│       └── dados-vazaram.html
-├── sobre.html
-├── contato.html
-├── politica-privacidade.html
+│   ├── index.html                    ← Listagem de artigos
+│   └── posts/                        ← Posts individuais (pasta/index.html)
+├── ferramentas/                      ← Ferramentas (pasta/index.html)
+├── sobre/
+├── contato/
+├── politica-privacidade/
 │
-├── components/                   ← Editados uma vez, carregados em todas as páginas
-│   ├── header.html               ← Topbar + botão mobile + overlay
-│   ├── sidebar.html              ← Navegação lateral completa
-│   └── footer.html               ← Rodapé com links e ano dinâmico
+├── components/                       ← Carregados em todas as páginas via app.js
+│   ├── header.html
+│   ├── sidebar.html
+│   └── footer.html
 │
 ├── js/
-│   ├── app.js                    ← Core: carrega componentes, sidebar, navegação
-│   ├── password.js               ← Análise de força e geração de senhas
-│   ├── breach.js                 ← Vazamentos de e-mail e senha
-│   └── scanner.js                ← Verificador de links
+│   ├── app.js                        ← Core: componentes, navegação, sidebar
+│   ├── blog-data.js                  ← Fonte única de dados do blog
+│   ├── password.js                   ← Análise e geração de senhas
+│   ├── breach.js                     ← Verificação de vazamentos
+│   └── scanner.js                    ← Verificador de links
 │
 ├── css/
-│   └── design-system.css         ← Sistema de design completo (variáveis + componentes)
+│   └── design-system.css             ← Design system completo
 │
-├── functions/                    ← Cloudflare Pages Functions (serverless)
-│   └── api/
-│       ├── breach.js             ← POST /api/breach → HIBP v3 paga + DeepL fallback
-│       ├── scan.js               ← POST /api/scan → Google Safe Browsing
-│       └── pwned-password.js     ← Deprecado (k-anonymity agora é client-side)
+├── functions/api/                    ← Cloudflare Pages Functions (serverless)
+│   ├── breach.js                     ← Proxy HIBP (e-mail) + DeepL
+│   └── scan.js                       ← Proxy Google Safe Browsing
 │
-├── data/
-│   └── breaches-pt.json          ← Traduções PT-BR de descrições de vazamentos
+├── images/blog/                      ← Imagens dos posts (WebP otimizado)
+├── data/breaches-pt.json             ← Traduções PT-BR de vazamentos
 │
-└── favicon.svg
+├── sitemap.xml
+├── rss.xml
+├── robots.txt
+├── _redirects                        ← Redirects Cloudflare Pages
+└── _headers                          ← Headers HTTP (segurança + cache)
 ```
 
-## Variáveis de Ambiente (Cloudflare Pages)
+---
 
-Configure em: Settings → Environment Variables
+## APIs externas utilizadas
 
-| Variável            | Descrição                                    | Obrigatório |
-|---------------------|----------------------------------------------|-------------|
-| `HIBP_API_KEY`      | Chave da API Have I Been Pwned (paga)        | Sim         |
-| `SAFE_BROWSING_API_KEY` | Chave da Google Safe Browsing API        | Sim         |
-| `DEEPL_API_KEY`     | Chave DeepL (Free tier ok) para fallback     | Não         |
+| API | Uso | Autenticação |
+|-----|-----|-------------|
+| [Have I Been Pwned](https://haveibeenpwned.com) | Verificação de e-mails em vazamentos | Chave de API (paga) |
+| [HIBP Passwords](https://haveibeenpwned.com/API/v3#SearchingPwnedPasswordsByRange) | Verificação de senhas (k-Anonymity) | Sem chave — client-side |
+| [Google Safe Browsing](https://developers.google.com/safe-browsing) | Verificação de links maliciosos | Chave de API (gratuita) |
+| [DeepL](https://www.deepl.com/docs-api) | Tradução de descrições de vazamentos | Chave de API (free tier) |
 
-## Como os componentes são carregados
+---
 
-O `app.js` usa `fetch()` para carregar os fragmentos HTML em cada slot:
-- `#slot-sidebar` → `components/sidebar.html`
-- `#slot-header` → `components/header.html`
-- `#slot-footer` → `components/footer.html`
+## Deploy (Cloudflare Pages)
 
-O caminho base é calculado automaticamente pela profundidade do arquivo na hierarquia.
-
-## APIs utilizadas
-
-### HIBP Free (Senhas) — Client-side
-- **URL:** `https://api.pwnedpasswords.com/range/{prefix}`
-- **Método:** k-anonimidade SHA-1 (sem chave de API)
-- **Onde:** `js/breach.js` → `verificarSenhaVazada()`
-- **Não precisa de Pages Function**
-
-### HIBP Pago (E-mails) — Via CF Function
-- **URL:** `/api/breach` → `functions/api/breach.js`
-- **Método:** POST com `{ email }`
-- **Requer:** `HIBP_API_KEY`
-
-### Google Safe Browsing — Via CF Function
-- **URL:** `/api/scan` → `functions/api/scan.js`
-- **Método:** POST com `{ url }`
-- **Requer:** `SAFE_BROWSING_API_KEY`
-
-## Deploy no Cloudflare Pages
-
-1. Conecte este repositório no Cloudflare Pages
+1. Conecte o repositório no [Cloudflare Pages](https://pages.cloudflare.com)
 2. Build command: *(deixe vazio — site estático)*
-3. Output directory: `/` (raiz)
-4. Configure as variáveis de ambiente acima
-5. Deploy!
+3. Output directory: `/`
+4. Configure as variáveis de ambiente abaixo em **Settings → Environment Variables**
 
-## Adicionar novo post no Blog
+### Variáveis de ambiente necessárias
 
-1. Crie `/blog/posts/meu-artigo.html` baseado em um post existente
-2. Adicione o card em `/blog/index.html`
-3. Adicione links "Leia também" nos artigos relacionados
+| Variável | Descrição | Obrigatório |
+|----------|-----------|-------------|
+| `HIBP_API_KEY` | Chave da API Have I Been Pwned | Sim |
+| `SAFE_BROWSING_API_KEY` | Chave Google Safe Browsing | Sim |
+| `DEEPL_API_KEY` | Chave DeepL (free tier suficiente) | Não |
 
-## Adicionar novo item na sidebar
+> ⚠️ **Nunca versione as chaves de API.** Configure exclusivamente pelas variáveis de ambiente do Cloudflare Pages. O arquivo `.gitignore` já protege arquivos `.env` locais.
 
-Edite apenas `components/sidebar.html` — o item aparecerá em todas as páginas automaticamente.
+---
+
+## Como adicionar um novo post
+
+1. Crie a pasta `/blog/posts/meu-artigo/` com um `index.html` baseado em um post existente
+2. Adicione a entrada no array `BLOG_CONFIG.posts` em `/js/blog-data.js`
+3. O post aparece automaticamente na listagem, no "Leia também" e no RSS
+
+---
+
+## Licença
+
+Conteúdo e código disponibilizados para fins educacionais.
