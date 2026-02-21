@@ -152,7 +152,7 @@
           <li>Desconfie de mensagens pedindo dados pessoais ou senhas, mesmo de remetentes conhecidos</li>
         </ol>
         <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
-          <a class="btn btn-primario" href="/ferramentas/verificador.html" style="font-size:0.85rem;">Verificar minha senha</a>
+          <a class="btn btn-primario" href="/ferramentas/termometro.html" style="font-size:0.85rem;">Verificar minha senha</a>
           <a class="btn btn-secundario" href="/ferramentas/gerador.html" style="font-size:0.85rem;">Criar senhas mais fortes</a>
         </div>
       </div>`;
@@ -355,7 +355,7 @@
               <li>Evite usar informações pessoais como datas de nascimento ou nomes</li>
             </ol>
             <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
-              <a class="btn btn-primario" href="/ferramentas/verificador.html" style="font-size:0.85rem;">Verificar força da senha</a>
+              <a class="btn btn-primario" href="/ferramentas/termometro.html" style="font-size:0.85rem;">Verificar força da senha</a>
             </div>
           </div>`;
       }

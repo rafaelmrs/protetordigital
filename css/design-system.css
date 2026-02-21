@@ -580,3 +580,18 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
   .ferramenta-titulo { font-size: 1.5rem; }
   .artigo-titulo { font-size: 1.5rem; }
 }
+
+/* Atribuição de fonte de dados nas ferramentas */
+.fonte-consulta {
+  font-size: 0.78rem;
+  color: var(--texto-secundario, #6b7280);
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--fundo-secundario, #f8fafc);
+  border-radius: 6px;
+  border-left: 2px solid var(--borda-suave, #e2e8f0);
+  line-height: 1.5;
+}
+.fonte-consulta strong {
+  color: var(--texto-primario, #374151);
+}

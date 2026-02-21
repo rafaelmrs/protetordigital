@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificar Senha — Protetor Digital</title>
-<meta name="description" content="Verifique se sua senha é forte o suficiente para proteger suas contas. Análise baseada em padrões OWASP, sem guardar nada.">
+<title>Verificar Link — Protetor Digital</title>
+<meta name="description" content="Verifique se um link é seguro antes de clicar. Proteção contra phishing e malware via Google Safe Browsing.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/css/design-system.css">
 </head>
@@ -17,88 +17,50 @@
 
   <main class="content-area" id="main-content">
 
-    <header class="ferramenta-header">
-      <span class="ferramenta-badge">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Segurança de Senha
-      </span>
-      <h1 class="ferramenta-titulo">Sua senha é forte o suficiente?</h1>
-      <p class="ferramenta-subtitulo">Digite sua senha e veja na hora se ela oferece proteção real — ou se precisa de melhorias. Não salvamos nada.</p>
+    <header class="ferramenta-header">      <h1 class="ferramenta-titulo">Esse link é seguro para clicar?</h1>
+      <p class="ferramenta-subtitulo">Recebeu um link suspeito pelo WhatsApp, e-mail ou SMS? Verifique antes de abrir — golpistas usam links falsos para roubar seus dados.</p>
     </header>
 
     <div class="ferramenta-layout">
       <div>
         <div class="ferramenta-barra-superior">
           <div class="form-grupo">
-            <label class="form-label" for="input-senha">
-              Digite sua senha
-              <span class="form-label-dica">— a análise acontece enquanto você digita</span>
+            <label class="form-label" for="input-link">
+              Cole o link aqui
+              <span class="form-label-dica">— pode começar com http:// ou https://</span>
             </label>
-            <div class="input-wrapper">
-              <input type="password" id="input-senha" class="form-input input-senha"
-                     placeholder="••••••••••••"
-                     oninput="analisarSenha(this.value)"
-                     autocomplete="new-password"
-                     aria-describedby="forca-label">
-              <button class="btn-toggle-senha" onclick="toggleSenha('input-senha','icone-olho')" type="button" aria-label="Mostrar ou ocultar senha">
-                <svg id="icone-olho" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                </svg>
-              </button>
-            </div>
+            <input type="url" id="input-link" class="form-input"
+                   placeholder="https://exemplo.com.br ou bit.ly/xyz123"
+                   onkeydown="if(event.key==='Enter') verificarLink()"
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false">
           </div>
-          <div class="forca-container" id="forca-container" style="display:none" role="status" aria-live="polite">
-            <div class="forca-barra-wrapper" id="forca-barra" aria-hidden="true">
-              <div class="forca-segmento"></div><div class="forca-segmento"></div>
-              <div class="forca-segmento"></div><div class="forca-segmento"></div>
-              <div class="forca-segmento"></div>
-            </div>
-            <div class="forca-info">
-              <span class="forca-label" id="forca-label">—</span>
-              <span class="forca-dica" id="forca-dica"></span>
-            </div>
-          </div>
+          <button class="btn btn-primario" onclick="verificarLink()">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Verificar link agora
+          </button>
         </div>
-        <div id="resultado-senha" aria-live="polite"></div>
+        <div id="resultado-link" aria-live="polite"></div>
       </div>
 
       <div>
         <div class="info-card">
-          <div class="info-card-header"><span class="info-card-titulo">O que faz uma senha forte?</span></div>
-          <ul class="dica-lista" id="dica-lista" aria-label="Critérios de senha forte">
-            <li class="dica-item" id="dica-tamanho">
-              <svg class="dica-item-icone dica-nao" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Pelo menos 12 caracteres
-            </li>
-            <li class="dica-item" id="dica-maiuscula">
-              <svg class="dica-item-icone dica-nao" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Letras maiúsculas (A–Z)
-            </li>
-            <li class="dica-item" id="dica-minuscula">
-              <svg class="dica-item-icone dica-nao" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Letras minúsculas (a–z)
-            </li>
-            <li class="dica-item" id="dica-numero">
-              <svg class="dica-item-icone dica-nao" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Números (0–9)
-            </li>
-            <li class="dica-item" id="dica-especial">
-              <svg class="dica-item-icone dica-nao" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Símbolos (!@#$%…)
-            </li>
-            <li class="dica-item" id="dica-comum">
-              <svg class="dica-item-icone dica-nao" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              Não é uma senha comum
-            </li>
+          <div class="info-card-header"><span class="info-card-titulo">Sinais de link perigoso</span></div>
+          <ul class="dica-lista">
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>URL muito longa e cheia de letras aleatórias</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Nome do banco ou loja escrito errado (bb.com → bbb.com)</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Promessas urgentes: "seu CPF será bloqueado"</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Links encurtados enviados por desconhecidos</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Começa com um número de IP (ex: 192.168.1.1)</li>
           </ul>
         </div>
         <div class="alerta alerta-info" style="margin-top:1rem;">
-          <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
+          <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <div class="alerta-conteudo">
-            <div class="alerta-titulo">Sua senha fica só com você</div>
-            <div class="alerta-texto">A análise é feita diretamente no seu navegador. Nenhuma senha é enviada ou salva em qualquer servidor.</div>
+            <div class="alerta-titulo">Como funciona a verificação</div>
+            <div class="alerta-texto">Este verificador usa o <strong>Google Safe Browsing</strong>, o mesmo sistema que protege o Chrome e o Gmail, para identificar sites de phishing, malware e golpes conhecidos. O link é verificado, não armazenado.</div>
           </div>
         </div>
       </div>
@@ -110,6 +72,6 @@
 </div>
 
 <script src="/js/app.js"></script>
-<script src="/js/password.js"></script>
+<script src="/js/scanner.js"></script>
 </body>
 </html>
