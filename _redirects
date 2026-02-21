@@ -1,4 +1,21 @@
 # Cloudflare Pages _redirects
-# Garante que rotas funcionem corretamente
+# Pretty URLs — remove .html de todas as rotas
 
-/sitemap.xml /sitemap.xml 200
+/index                              /                                       301
+/sobre                              /sobre.html                             200
+/contato                            /contato.html                           200
+/politica-privacidade               /politica-privacidade.html              200
+
+/ferramentas/termometro             /ferramentas/termometro.html            200
+/ferramentas/gerador                /ferramentas/gerador.html               200
+/ferramentas/verificador            /ferramentas/verificador.html           200
+/ferramentas/vazamentos             /ferramentas/vazamentos.html            200
+/ferramentas/senhas                 /ferramentas/senhas.html                200
+
+/blog                               /blog/index.html                        200
+/blog/posts/golpes-whatsapp         /blog/posts/golpes-whatsapp.html        200
+/blog/posts/senhas-seguras          /blog/posts/senhas-seguras.html         200
+/blog/posts/dados-vazaram           /blog/posts/dados-vazaram.html          200
+/blog/posts/dois-fatores            /blog/posts/dois-fatores.html           200
+/blog/posts/como-usar-2fa           /blog/posts/como-usar-2fa.html          200
+/blog/posts/maiores-vazamentos-2025 /blog/posts/maiores-vazamentos-2025.html 200
