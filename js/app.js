@@ -95,10 +95,10 @@
       item.classList.remove('ativo');
       const href = item.getAttribute('href');
       if (!href) return;
-      // Normaliza: compara o final do pathname
-      const hrefNorm = href.replace(/^\.\.?\/?/, '/').replace(/\/index\.html$/, '/');
-      const pathNorm = pathname.replace(/\/index\.html$/, '/');
-      if (pathNorm === hrefNorm || pathname.endsWith(href.replace(/^\.\.?\/?/, '/'))) {
+      // Compara pathname com href de forma exata
+      const pathNorm = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+      const hrefNorm = href.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+      if (pathNorm === hrefNorm) {
         item.classList.add('ativo');
         item.setAttribute('aria-current', 'page');
       }
