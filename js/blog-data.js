@@ -114,11 +114,13 @@ window.injetarLeiaTambem = function(slugAtual) {
       <h2 class="leia-tambem-titulo">Leia também:</h2>
       <div class="leia-tambem-grid">
         ${posts.map(p => {
-          const icone = (window.BLOG_ICONS[p.icone] || window.BLOG_ICONS.shield).replace(/{cor}/g, p.corCategoria);
+          const imgHtml = p.imagem
+            ? `<img src="${p.imagem}" alt="${p.imagemAlt}" loading="lazy" style="width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:0.75rem;">`
+            : '';
           return `
-            <a href="${p.url}" class="ferramenta-card">
-              <div class="card-icone-wrapper ${p.corCategoria}">${icone}</div>
-              <div class="card-titulo" style="font-size:0.9rem;">${p.titulo}</div>
+            <a href="${p.url}" class="ferramenta-card" style="display:block;">
+              ${imgHtml}
+              <div class="card-titulo" style="font-size:0.9rem;line-height:1.4;">${p.titulo}</div>
               <span class="badge badge-neutro" style="margin-top:0.5rem;">${p.leitura}</span>
             </a>`;
         }).join('')}
@@ -147,7 +149,6 @@ window.injetarBlogGrid = function() {
     return `
       <a href="${p.url}" class="ferramenta-card">
         ${imgHtml}
-        <div class="post-card-categoria">${p.categoria}</div>
         <h2 class="card-titulo">${p.titulo}</h2>
         <p class="card-descricao">${p.descricao}</p>
         <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;justify-content:space-between;">
