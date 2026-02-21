@@ -81,6 +81,14 @@
 
 <script src="/js/app.js"></script>
 <script>
+const ASSUNTOS = {
+  duvida: 'Dúvida sobre uma ferramenta',
+  sugestao: 'Sugestão de melhoria',
+  problema: 'Reportar um problema',
+  privacidade: 'Questão de privacidade',
+  outro: 'Outro',
+};
+
 function enviarContato(e) {
   e.preventDefault();
   const nome = document.getElementById('contato-nome').value.trim();
@@ -97,21 +105,20 @@ function enviarContato(e) {
     return;
   }
 
-  // Simulação de envio — integre com seu backend ou Cloudflare Pages Function
-  const form = document.getElementById('form-contato');
-  form.style.opacity = '0.6';
-  form.style.pointerEvents = 'none';
+  const assuntoLabel = ASSUNTOS[assunto] || assunto;
+  const corpo = `Nome: ${nome}\nE-mail: ${email}\nAssunto: ${assuntoLabel}\n\nMensagem:\n${mensagem}`;
+  const mailtoLink = `mailto:contato@protetordigital.com?subject=${encodeURIComponent('[Protetor Digital] ' + assuntoLabel)}&body=${encodeURIComponent(corpo)}`;
 
-  setTimeout(() => {
-    form.style.display = 'none';
-    resultado.innerHTML = `<div class="alerta alerta-seguro">
-      <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      <div class="alerta-conteudo">
-        <div class="alerta-titulo">Mensagem enviada, ${nome.split(' ')[0]}!</div>
-        <div class="alerta-texto">Recebemos sua mensagem e responderemos em até 48 horas úteis no e-mail <strong>${email}</strong>.</div>
-      </div>
-    </div>`;
-  }, 1000);
+  window.location.href = mailtoLink;
+
+  // Feedback imediato — o mailto abrirá o cliente de e-mail do usuário
+  resultado.innerHTML = `<div class="alerta alerta-info" style="margin-top:1rem;">
+    <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div class="alerta-conteudo">
+      <div class="alerta-titulo">Seu aplicativo de e-mail foi aberto</div>
+      <div class="alerta-texto">A mensagem foi preparada com seus dados. Confirme o envio no seu aplicativo de e-mail. Se preferir, envie diretamente para <strong>contato@protetordigital.com</strong>.</div>
+    </div>
+  </div>`;
 }
 </script>
 </body>

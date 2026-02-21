@@ -5,8 +5,10 @@
 const SAFE_BROWSING_LOOKUP = 'https://safebrowsing.googleapis.com/v4/threatMatches:find';
 
 function cors(origin) {
+  const allowed = ['https://protetordigital.com', 'https://www.protetordigital.com'];
+  const safeOrigin = allowed.includes(origin) ? origin : 'https://protetordigital.com';
   return {
-    'Access-Control-Allow-Origin': origin || 'https://protetordigital.com',
+    'Access-Control-Allow-Origin': safeOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };

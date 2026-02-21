@@ -7,8 +7,10 @@ const HIBP_URL = 'https://haveibeenpwned.com/api/v3/breachedaccount/';
 const DEEPL_URL = 'https://api-free.deepl.com/v2/translate';
 
 function cors(origin) {
+  const allowed = ['https://protetordigital.com', 'https://www.protetordigital.com'];
+  const safeOrigin = allowed.includes(origin) ? origin : 'https://protetordigital.com';
   return {
-    'Access-Control-Allow-Origin': origin || 'https://protetordigital.com',
+    'Access-Control-Allow-Origin': safeOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };

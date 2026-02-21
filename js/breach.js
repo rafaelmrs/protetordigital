@@ -174,12 +174,10 @@
       const tags = (b.exposedData || []).map(dc =>
         `<span class="tag">${traduzirDataClass(dc)}</span>`
       ).join('');
+      // Usa iniciais para evitar requisições externas (privacidade)
       const logoTxt = b.domain ? b.domain.substring(0, 2).toUpperCase() : iniciais(b.title);
-      const logoImg = b.domain
-        ? `<img src="https://logo.clearbit.com/${b.domain}" alt="${b.title}" loading="lazy" width="44" height="44" style="border-radius:var(--radius-sm);object-fit:contain;"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
-        : '';
-      const logoFallback = `<span style="${b.domain ? 'display:none' : ''}">${logoTxt}</span>`;
+      const logoImg = '';
+      const logoFallback = `<span>${logoTxt}</span>`;
 
       return `
         <div class="timeline-item" style="animation-delay:${i * 0.05}s">
