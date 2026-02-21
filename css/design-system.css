@@ -583,15 +583,17 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
 
 /* Atribuição de fonte de dados nas ferramentas */
 .fonte-consulta {
-  font-size: 0.78rem;
-  color: var(--texto-secundario, #6b7280);
-  margin-top: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--fundo-secundario, #f8fafc);
-  border-radius: 6px;
-  border-left: 2px solid var(--borda-suave, #e2e8f0);
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--cinza-medio);
+  margin-top: 1rem;
+  line-height: 1.6;
 }
-.fonte-consulta strong {
-  color: var(--texto-primario, #374151);
+.fonte-consulta a {
+  color: var(--cinza-medio);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.fonte-consulta a:hover {
+  color: var(--azul-claro);
 }
