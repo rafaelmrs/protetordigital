@@ -18,7 +18,7 @@
   <main class="content-area" id="main-content">
 
     <header class="ferramenta-header">      <h1 class="ferramenta-titulo">Sua senha já foi exposta na internet?</h1>
-      <p class="ferramenta-subtitulo">Verificamos se sua senha aparece em listas de senhas roubadas. A análise é 100% local — sua senha nunca sai do seu dispositivo.</p>
+      <p class="ferramenta-subtitulo">Verificamos se sua senha aparece em listas de senhas roubadas. Se encontrarmos algo, explicamos exatamente o que aconteceu e o que fazer.</p>
     </header>
 
     <div class="ferramenta-layout">
@@ -27,7 +27,6 @@
           <div class="form-grupo">
             <label class="form-label" for="input-senha-vaz">
               Digite a senha para verificar
-              <span class="form-label-dica">— nunca é enviada para nenhum servidor</span>
             </label>
             <div class="input-wrapper">
               <input type="password" id="input-senha-vaz" class="form-input input-senha"
@@ -47,15 +46,14 @@
           </button>
         </div>
         <div id="resultado-senha-vazada" aria-live="polite"></div>
-        <p class="fonte-consulta">🔍 Consulta realizada via <strong>Have I Been Pwned</strong>, usando método k-anonimato — sua senha nunca é enviada, apenas parte de um código irreversível.</p>
+        <p class="fonte-consulta">🔍 Consulta realizada via <a href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer"><strong>Have I Been Pwned</strong></a>, usando o método <em>k-anonymity</em> — sua senha nunca sai do seu dispositivo.</p>
       </div>
 
       <div>
         <div class="info-card">
           <div class="info-card-header"><span class="info-card-titulo">Como funciona a verificação?</span></div>
           <div style="font-family:var(--font-body);font-size:var(--text-sm);color:var(--cinza-escuro);line-height:1.7;">
-            <p style="margin-bottom:0.75rem;">Usamos uma técnica chamada <strong>k-anonimidade</strong>: enviamos apenas os 5 primeiros caracteres do código da senha (jamais a senha em si) para um banco de dados seguro.</p>
-            <p style="margin-bottom:0.75rem;">Esse banco contém bilhões de senhas que já foram expostas em vazamentos de empresas ao redor do mundo.</p>
+            <p style="margin-bottom:0.75rem;">Sua senha é comparada a um banco com bilhões de senhas que já foram expostas em vazamentos de empresas ao redor do mundo.</p>
             <p>Se a sua aparecer nessa lista, é um sinal de alerta — mesmo que você não saiba de nenhum vazamento.</p>
           </div>
         </div>
@@ -63,7 +61,7 @@
           <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <div class="alerta-conteudo">
             <div class="alerta-titulo">Sua senha é protegida</div>
-            <div class="alerta-texto">A verificação usa criptografia SHA-1. Sua senha nunca é enviada. Apenas um fragmento do código gerado por ela é consultado.</div>
+            <div class="alerta-texto">A verificação é feita com criptografia SHA-1. Sua senha nunca é enviada — apenas um fragmento de código irreversível gerado a partir dela é consultado.</div>
           </div>
         </div>
       </div>

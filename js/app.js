@@ -78,7 +78,12 @@
     // Topbar título
     const tituloEl = document.getElementById('topbar-titulo');
     if (tituloEl) {
-      const titulo = TITULOS[pathname] || TITULOS[pathname.replace(/.*\//, '/')];
+      // Try exact match, then by /ferramentas/file.html, then by /blog/file.html, then by /file.html
+      const slug = '/' + pathname.split('/').pop();
+      const titulo = TITULOS[pathname]
+        || TITULOS['/ferramentas/' + pathname.split('/').pop()]
+        || TITULOS['/blog/' + pathname.split('/').pop()]
+        || TITULOS[slug];
       if (titulo) tituloEl.textContent = titulo;
     }
   }
