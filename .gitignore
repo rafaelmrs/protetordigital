@@ -1,0 +1,22 @@
+# Variáveis de ambiente e segredos — NUNCA versionar
+.env
+.env.*
+.dev.vars
+*.dev.vars
+
+# Dependências
+node_modules/
+
+# Cloudflare
+.wrangler/
+wrangler.toml.local
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
