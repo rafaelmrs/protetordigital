@@ -229,7 +229,7 @@
           <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <div class="alerta-conteudo">
             <div class="alerta-titulo">Senha criada com sucesso!</div>
-            <div class="alerta-texto">Clique em "Copiar" e cole diretamente no campo de criação de conta. Guarde-a em um gerenciador de senhas — nunca a anote em papel ou e-mail.</div>
+            <div class="alerta-texto">Clique em \"Copiar\" e cole diretamente no campo de criação de conta. Guarde-a em um gerenciador de senhas — nunca a anote em papel ou e-mail. Recomendamos o <strong><a href=\"/blog/posts/melhores-gerenciadores-senha\" style=\"color:var(--azul-claro)\">1Password</a></strong><!-- AFILIADO_1PASSWORD: troque o href pelo link de afiliado quando disponível -->.</div>
           </div>
         </div>`;
     }
