@@ -28,20 +28,44 @@ function determineSeverity(dataClasses) {
   return 'low';
 }
 
-// Busca tradução no JSON estático (carregado via fetch interno do CF Pages)
+// Cache do JSON de traduções (carregado uma vez por instância)
+let _ptCache = null;
+
+async function loadTranslationJson(env) {
+  if (_ptCache) return _ptCache;
+  // Tenta via ASSETS (CF Pages binding) primeiro, depois URL pública
+  const urls = [
+    'https://protetordigital.com/data/breaches-pt.json',
+    'https://www.protetordigital.com/data/breaches-pt.json',
+  ];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { cf: { cacheEverything: true, cacheTtl: 3600 } });
+      if (res.ok) {
+        _ptCache = await res.json();
+        return _ptCache;
+      }
+    } catch {}
+  }
+  return null;
+}
+
+// Busca tradução no JSON estático
 async function getTranslationFromJson(name, env) {
   try {
-    // Em Pages Functions, podemos usar fetch para o próprio domínio
-    const url = `https://protetordigital.com/data/breaches-pt.json`;
-    const res = await fetch(url, { cf: { cacheEverything: true, cacheTtl: 86400 } });
-    if (!res.ok) return null;
-    const pt = await res.json();
-    const key = name?.toLowerCase();
-    if (!key) return null;
+    const pt = await loadTranslationJson(env);
+    if (!pt || !name) return null;
+    const key = name.toLowerCase();
+    // 1. Correspondência exata (lowercase)
     if (pt[key]) return pt[key];
+    // 2. Correspondência pelo Name original
+    if (pt[name]) return pt[name];
+    // 3. Correspondência fuzzy — apenas se a chave for longa o suficiente (evita falsos positivos)
     for (const [k, v] of Object.entries(pt)) {
       if (k.startsWith('_')) continue;
-      if (key.includes(k) || k.includes(key)) return v;
+      if (k.length < 4) continue;
+      if (key === k.toLowerCase()) return v;
+      if (key.includes(k.toLowerCase()) || k.toLowerCase().includes(key)) return v;
     }
   } catch {}
   return null;
@@ -127,16 +151,20 @@ export async function onRequestPost({ request, env }) {
 
   // Traduzir descrições: JSON estático primeiro, DeepL como fallback
   breaches = await Promise.all(breaches.map(async (b) => {
-    const fromJson = await getTranslationFromJson(b.name, env);
+    // Tenta pelo Name original e pelo name normalizado
+    const fromJson = await getTranslationFromJson(b.name, env)
+                  || await getTranslationFromJson(b.title, env);
     if (fromJson) return { ...b, description: fromJson };
 
-    // Fallback DeepL — só acionado se não está no JSON
+    // Fallback DeepL — só acionado se não está no JSON e a chave está configurada
     if (b.description && env.DEEPL_API_KEY) {
-      const translated = await translateWithDeepl(b.description, env.DEEPL_API_KEY);
+      const cleanDesc = b.description.replace(/<[^>]+>/g, '').slice(0, 500);
+      const translated = await translateWithDeepl(cleanDesc, env.DEEPL_API_KEY);
       if (translated) return { ...b, description: translated };
     }
 
-    return b; // Mantém em inglês se nenhuma tradução disponível
+    // Último recurso: mantém em inglês (sem HTML)
+    return { ...b, description: (b.description || '').replace(/<[^>]+>/g, '') };
   }));
 
   return json({

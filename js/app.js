@@ -119,6 +119,7 @@
       const isOpen = sidebar.classList.toggle('aberta');
       overlay.classList.toggle('ativo', isOpen);
       toggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.classList.toggle('sidebar-aberta', isOpen);
     });
 
     overlay.addEventListener('click', fecharSidebar);
@@ -142,6 +143,7 @@
     if (sidebar) sidebar.classList.remove('aberta');
     if (overlay) overlay.classList.remove('ativo');
     if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('sidebar-aberta');
   }
 
   /* --------------------------------------------------------

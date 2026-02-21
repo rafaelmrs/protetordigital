@@ -66,7 +66,8 @@ body {
 /* ---- SIDEBAR ---- */
 .sidebar {
   width: var(--sidebar-width);
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   background: var(--sidebar-bg);
   box-shadow: var(--shadow-sidebar);
   display: flex;
@@ -76,6 +77,7 @@ body {
   z-index: 300;
   transition: transform 0.3s ease;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .sidebar-brand { padding: 1.75rem 1.5rem 1.5rem; border-bottom: 1px solid var(--sidebar-borda); }
 .brand-lockup {
@@ -567,7 +569,8 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
   .home-hero { padding: 1.75rem; }
   .ferramenta-barra-superior { padding: 1.25rem; }
   .hero-compromisos { grid-template-columns: 1fr 1fr; }
-  .rodape { flex-direction: column; gap: 0.75rem; text-align: center; }
+  .rodape { flex-direction: column; gap: 0.5rem; text-align: center; align-items: center; }
+  .rodape-links { flex-wrap: wrap; justify-content: center; gap: 0.5rem 1rem; }
   .resultado-url-topo { flex-direction: column; text-align: center; }
   .resultado-checks { grid-template-columns: 1fr; }
   .resultado-vazamento-header { flex-wrap: wrap; }
@@ -599,3 +602,6 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
 .fonte-consulta a:hover {
   color: var(--azul-claro);
 }
+
+/* Body scroll lock when sidebar is open on mobile */
+body.sidebar-aberta { overflow: hidden; }
