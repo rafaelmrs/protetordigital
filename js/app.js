@@ -81,9 +81,8 @@
      DETECÇÃO DO CAMINHO BASE PARA OS COMPONENTES
   -------------------------------------------------------- */
   function getBasePath() {
-    const depth = (window.location.pathname.match(/\//g) || []).length - 1;
-    if (depth <= 0) return '.';
-    return Array(depth).fill('..').join('/');
+    // Caminhos absolutos — funciona independente da profundidade da pasta
+    return '';
   }
 
   /* --------------------------------------------------------

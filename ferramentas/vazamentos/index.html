@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultar Vazamento de Dados — Protetor Digital</title>
+<meta name="description" content="Descubra se seu e-mail aparece em vazamentos de dados de grandes empresas. Gratuito, seguro, sem guardar nada.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+
+<div id="slot-sidebar"></div>
+
+<div class="main-area">
+  <div id="slot-header"></div>
+
+  <main class="content-area" id="main-content">
+
+    <header class="ferramenta-header">
+      <h1 class="ferramenta-titulo">Seu e-mail aparece em algum vazamento?</h1>
+      <p class="ferramenta-subtitulo">Verificamos em bases de dados de vazamentos conhecidos mundialmente. Se encontrarmos algo, explicamos exatamente o que aconteceu e o que fazer.</p>
+    </header>
+
+    <div class="ferramenta-layout">
+      <div>
+        <div class="ferramenta-barra-superior">
+          <div class="form-grupo">
+            <label class="form-label" for="input-email">Seu endereço de e-mail</label>
+            <input type="email" id="input-email" class="form-input"
+                   placeholder="exemplo@gmail.com"
+                   onkeydown="if(event.key==='Enter') buscarVazamentos()"
+                   autocomplete="email"
+                   inputmode="email">
+          </div>
+          <button class="btn btn-primario" onclick="buscarVazamentos()">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Verificar email
+          </button>
+        </div>
+        <div id="resultado-vazamentos" aria-live="polite"></div>
+        <p class="fonte-consulta">🔍 Consulta realizada via <a href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer"><strong>Have I Been Pwned</strong></a>, serviço de referência mundial em detecção de vazamentos de dados.</p>
+      </div>
+
+      <div>
+        <div class="info-card">
+          <div class="info-card-header"><span class="info-card-titulo">O que é um vazamento de dados?</span></div>
+          <div style="font-family:var(--font-body);font-size:var(--text-sm);color:var(--cinza-escuro);line-height:1.7;">
+            <p style="margin-bottom:0.75rem;">Quando uma empresa é hackeada, os criminosos obtêm informações dos clientes — como e-mails, senhas e dados pessoais.</p>
+            <p style="margin-bottom:0.75rem;">Esses dados são depois vendidos ou publicados na internet. Verificamos se o seu e-mail aparece nessas listas.</p>
+            <p>Encontrar seu e-mail <strong>não significa que você foi roubado agora</strong> — mas é um sinal para trocar senhas e ficar mais alerta.</p>
+          </div>
+        </div>
+        <div class="alerta alerta-seguro" style="margin-top:1rem;">
+          <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="alerta-conteudo">
+            <div class="alerta-titulo">Seu e-mail é tratado com sigilo</div>
+            <div class="alerta-texto">Não armazenamos, compartilhamos ou usamos seu endereço de e-mail para qualquer finalidade além desta consulta.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="slot-footer"></div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/breach.js"></script>
+</body>
+</html>

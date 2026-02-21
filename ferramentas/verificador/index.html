@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificar Link — Protetor Digital</title>
+<meta name="description" content="Verifique se um link é seguro antes de clicar. Proteção contra phishing e malware via Google Safe Browsing.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+
+<div id="slot-sidebar"></div>
+
+<div class="main-area">
+  <div id="slot-header"></div>
+
+  <main class="content-area" id="main-content">
+
+    <header class="ferramenta-header">
+      <h1 class="ferramenta-titulo">Esse link é seguro para clicar?</h1>
+      <p class="ferramenta-subtitulo">Recebeu um link suspeito pelo WhatsApp, e-mail ou SMS? Verifique antes de abrir — golpistas usam links falsos para roubar seus dados.</p>
+    </header>
+
+    <div class="ferramenta-layout">
+      <div>
+        <div class="ferramenta-barra-superior">
+          <div class="form-grupo">
+            <label class="form-label" for="input-link">
+              Cole o link aqui
+              <span class="form-label-dica">— pode começar com http:// ou https://</span>
+            </label>
+            <input type="url" id="input-link" class="form-input"
+                   placeholder="https://exemplo.com.br ou bit.ly/xyz123"
+                   onkeydown="if(event.key==='Enter') verificarLink()"
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false">
+          </div>
+          <button class="btn btn-primario" onclick="verificarLink()">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Verificar link agora
+          </button>
+        </div>
+        <div id="resultado-link" aria-live="polite"></div>
+        <p class="fonte-consulta">🔍 Consulta realizada via <a href="https://safebrowsing.google.com" target="_blank" rel="noopener noreferrer"><strong>Google Safe Browsing</strong></a>, serviço do Google que identifica sites de phishing, malware e golpes conhecidos.</p>
+      </div>
+
+      <div>
+        <div class="info-card">
+          <div class="info-card-header"><span class="info-card-titulo">Sinais de link perigoso</span></div>
+          <ul class="dica-lista">
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>URL muito longa e cheia de letras aleatórias</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Nome do banco ou loja escrito errado (bb.com → bbb.com)</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Promessas urgentes: "seu CPF será bloqueado"</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Links encurtados enviados por desconhecidos</li>
+            <li class="dica-item"><svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Começa com um número de IP (ex: 192.168.1.1)</li>
+          </ul>
+        </div>
+        <div class="alerta alerta-info" style="margin-top:1rem;">
+          <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="alerta-conteudo">
+            <div class="alerta-titulo">Como funciona a verificação</div>
+            <div class="alerta-texto">Este verificador usa o <strong>Google Safe Browsing</strong>, o mesmo sistema que protege o Chrome e o Gmail, para identificar sites de phishing, malware e golpes conhecidos. O link é verificado, não armazenado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="slot-footer"></div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/scanner.js"></script>
+</body>
+</html>

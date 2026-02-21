@@ -1,21 +1,19 @@
 # Cloudflare Pages _redirects
-# Pretty URLs — remove .html de todas as rotas
+# A estrutura de pastas já resolve as pretty URLs.
+# Este arquivo cobre apenas compatibilidade com links antigos (.html).
 
-/index                              /                                       301
-/sobre                              /sobre.html                             200
-/contato                            /contato.html                           200
-/politica-privacidade               /politica-privacidade.html              200
-
-/ferramentas/termometro             /ferramentas/termometro.html            200
-/ferramentas/gerador                /ferramentas/gerador.html               200
-/ferramentas/verificador            /ferramentas/verificador.html           200
-/ferramentas/vazamentos             /ferramentas/vazamentos.html            200
-/ferramentas/senhas                 /ferramentas/senhas.html                200
-
-/blog                               /blog/index.html                        200
-/blog/posts/golpes-whatsapp         /blog/posts/golpes-whatsapp.html        200
-/blog/posts/senhas-seguras          /blog/posts/senhas-seguras.html         200
-/blog/posts/dados-vazaram           /blog/posts/dados-vazaram.html          200
-/blog/posts/dois-fatores            /blog/posts/dois-fatores.html           200
-/blog/posts/como-usar-2fa           /blog/posts/como-usar-2fa.html          200
-/blog/posts/maiores-vazamentos-2025 /blog/posts/maiores-vazamentos-2025.html 200
+/sobre.html                              /sobre                              301
+/contato.html                            /contato                            301
+/politica-privacidade.html               /politica-privacidade               301
+/ferramentas/termometro.html             /ferramentas/termometro             301
+/ferramentas/gerador.html                /ferramentas/gerador                301
+/ferramentas/verificador.html            /ferramentas/verificador            301
+/ferramentas/vazamentos.html             /ferramentas/vazamentos             301
+/ferramentas/senhas.html                 /ferramentas/senhas                 301
+/blog/index.html                         /blog                               301
+/blog/posts/golpes-whatsapp.html         /blog/posts/golpes-whatsapp         301
+/blog/posts/senhas-seguras.html          /blog/posts/senhas-seguras          301
+/blog/posts/dados-vazaram.html           /blog/posts/dados-vazaram           301
+/blog/posts/dois-fatores.html            /blog/posts/dois-fatores            301
+/blog/posts/como-usar-2fa.html           /blog/posts/como-usar-2fa           301
+/blog/posts/maiores-vazamentos-2025.html /blog/posts/maiores-vazamentos-2025 301
