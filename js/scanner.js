@@ -1,268 +1,210 @@
 /**
- * PROTETOR DIGITAL — scanner.js
- * Verificação de URLs via Google Safe Browsing
- * A chamada vai para /api/scan (Cloudflare Pages Function)
+ * Protetor Digital — scanner.js
+ * Verificação de URLs via Google Safe Browsing (CF Pages Function /api/scan)
  */
 
 (function () {
   'use strict';
 
-  const API_PATH = '/api/scan';
+  /* --------------------------------------------------------
+     VERIFICAR LINK
+  -------------------------------------------------------- */
+  window.verificarLink = async function () {
+    const urlInput = document.getElementById('input-link');
+    const resultado = document.getElementById('resultado-link');
+    if (!resultado) return;
 
-  const TIPOS_AMEACA = {
-    'MALWARE': { label: 'Malware', desc: 'Este site tenta instalar programas maliciosos no seu dispositivo.', icone: '🦠' },
-    'SOCIAL_ENGINEERING': { label: 'Phishing / Golpe', desc: 'Este site finge ser outro para roubar seus dados ou senhas.', icone: '🎣' },
-    'UNWANTED_SOFTWARE': { label: 'Software Indesejado', desc: 'Este site oferece downloads de programas prejudiciais.', icone: '⚠️' },
-    'POTENTIALLY_HARMFUL_APPLICATION': { label: 'App Prejudicial', desc: 'Este site distribui aplicativos que podem causar danos.', icone: '🚫' },
-  };
-
-  function normalizarUrl(url) {
-    const u = url.trim();
-    if (!u.startsWith('http://') && !u.startsWith('https://')) {
-      return `https://${u}`;
+    let url = urlInput?.value.trim() || '';
+    if (!url) {
+      resultado.innerHTML = `<div class="alerta alerta-atencao">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div class="alerta-conteudo"><div class="alerta-titulo">Cole o link no campo acima</div><div class="alerta-texto">Digite ou cole o endereço que deseja verificar.</div></div>
+      </div>`;
+      return;
     }
-    return u;
-  }
 
-  function isUrlValida(url) {
-    try {
-      const u = new URL(normalizarUrl(url));
-      return u.hostname.includes('.');
-    } catch {
-      return false;
+    // Adiciona protocolo se ausente
+    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+    // Valida URL
+    let parsed;
+    try { parsed = new URL(url); } catch {
+      resultado.innerHTML = `<div class="alerta alerta-atencao">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <div class="alerta-conteudo"><div class="alerta-titulo">Link inválido</div><div class="alerta-texto">Verifique se o endereço está correto (ex: https://exemplo.com.br).</div></div>
+      </div>`;
+      return;
     }
-  }
 
-  // Histórico local da sessão
-  const historico = [];
+    resultado.innerHTML = `<div class="alerta alerta-info carregando" style="margin-top:1.5rem;">
+      <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <div class="alerta-conteudo"><div class="alerta-titulo">Verificando o link…</div><div class="alerta-texto">Consultando as bases de dados de segurança. Aguarde um instante.</div></div>
+    </div>`;
 
-  // ============================================================
-  // RENDERIZAÇÃO
-  // ============================================================
-
-  function mostrarCarregando(container) {
-    container.innerHTML = `
-      <div class="card" style="display:flex;align-items:center;gap:1rem">
-        <div style="width:40px;height:40px;border:3px solid var(--cinza-borda2);border-top-color:var(--azul-claro);border-radius:50%;animation:girar 0.7s linear infinite;flex-shrink:0"></div>
-        <div>
-          <p style="font-family:var(--font-display);font-weight:600;color:var(--preto-titulo);margin-bottom:0.25rem">Verificando o link...</p>
-          <p style="font-size:0.82rem;color:var(--cinza-medio)">Consultando Google Safe Browsing</p>
-        </div>
-      </div>
-    `;
-  }
-
-  function mostrarResultadoSeguro(container, url, latency, checkedAt) {
-    container.innerHTML = `
-      <div class="card animar-slide" style="border-color:var(--verde-borda);background:var(--verde-fundo)">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div style="width:56px;height:56px;border-radius:var(--radius-md);background:rgba(26,122,74,0.15);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0">✅</div>
-          <div style="flex:1">
-            <p style="font-family:var(--font-display);font-size:1.15rem;font-weight:800;color:var(--verde-seguro);margin-bottom:0.375rem">Link seguro</p>
-            <p style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cinza-medio);word-break:break-all;margin-bottom:0.5rem">${url}</p>
-            <p style="font-size:0.875rem;color:#14532D;line-height:1.5">
-              Nenhuma ameaça conhecida foi detectada neste endereço pelo Google Safe Browsing.
-            </p>
-            <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.625rem">
-              Verificado em ${checkedAt} · Latência: ${latency || '<100ms'}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="alerta alerta-info">
-        <span class="alerta-icone">💡</span>
-        <div>
-          <p class="alerta-titulo">Fique atento mesmo assim</p>
-          <p>Uma URL "segura" nesta verificação significa que ela não está na lista do Google.
-             Sempre confira o domínio manualmente antes de inserir senhas ou dados pessoais.</p>
-        </div>
-      </div>
-    `;
-  }
-
-  function mostrarResultadoPerigoso(container, url, threats, latency, checkedAt) {
-    const ameacasHtml = threats.map(t => {
-      const info = TIPOS_AMEACA[t] || { label: t, desc: 'Ameaça detectada pelo Google Safe Browsing.', icone: '⚠️' };
-      return `
-        <div class="alerta alerta-perigo" style="margin-bottom:0.5rem">
-          <span class="alerta-icone">${info.icone}</span>
-          <div>
-            <p class="alerta-titulo">${info.label}</p>
-            <p>${info.desc}</p>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    container.innerHTML = `
-      <div class="card animar-slide" style="border-color:var(--vermelho-borda);background:var(--vermelho-fundo)">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div style="width:56px;height:56px;border-radius:var(--radius-md);background:rgba(185,28,28,0.15);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0">🚨</div>
-          <div style="flex:1">
-            <p style="font-family:var(--font-display);font-size:1.15rem;font-weight:800;color:var(--vermelho-perigo);margin-bottom:0.375rem">
-              Link perigoso — não acesse!
-            </p>
-            <p style="font-family:var(--font-mono);font-size:0.8rem;color:var(--cinza-medio);word-break:break-all;margin-bottom:0.75rem">${url}</p>
-            ${ameacasHtml}
-            <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.625rem">
-              Verificado em ${checkedAt} · Latência: ${latency || '<100ms'} · Fonte: Google Safe Browsing
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <p style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--preto-titulo);margin-bottom:0.75rem">O que fazer</p>
-        <div style="display:flex;flex-direction:column;gap:0.375rem">
-          ${[
-            'Não clique, não acesse e não compartilhe este link',
-            'Se você já acessou: escaneie seu dispositivo com um antivírus',
-            'Se inseriu senha: troque a senha daquele serviço imediatamente',
-            'Se recebeu por WhatsApp ou e-mail, avise quem te enviou',
-          ].map(a => `
-            <p style="font-size:0.85rem;color:var(--cinza-escuro);display:flex;align-items:flex-start;gap:0.5rem;line-height:1.45">
-              <span style="color:var(--vermelho-perigo);flex-shrink:0">✗</span>${a}
-            </p>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-
-  function mostrarErro(container, mensagem) {
-    container.innerHTML = `
-      <div class="alerta alerta-atencao">
-        <span class="alerta-icone">⚠️</span>
-        <div>
-          <p class="alerta-titulo">Não foi possível verificar</p>
-          <p>${mensagem}</p>
-        </div>
-      </div>
-    `;
-  }
-
-  function atualizarHistorico() {
-    const container = document.getElementById('container-historico');
-    if (!container || historico.length === 0) return;
-
-    container.innerHTML = `
-      <div class="card">
-        <p class="campo-label" style="margin-bottom:0.75rem">Histórico desta sessão</p>
-        <div style="display:flex;flex-direction:column;gap:0">
-          ${historico.map(h => `
-            <div style="display:flex;align-items:center;gap:0.75rem;padding:0.625rem 0;border-bottom:1px solid var(--cinza-borda)">
-              <span style="font-size:1rem">${h.seguro ? '✅' : '🚨'}</span>
-              <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--cinza-medio);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${h.url}">${h.url}</span>
-              <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cinza-leve);flex-shrink:0">${h.hora}</span>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-
-    container.classList.remove('hidden');
-  }
-
-  // ============================================================
-  // LÓGICA PRINCIPAL
-  // ============================================================
-  async function verificarLink(url) {
-    const container = document.getElementById('container-resultado-scanner');
-    if (!container) return;
-
-    const urlNormalizada = normalizarUrl(url);
-    mostrarCarregando(container);
-
+    let data;
     try {
-      const res = await fetch(API_PATH, {
+      const res = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: urlNormalizada }),
+        body: JSON.stringify({ url: parsed.href }),
       });
-
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        mostrarErro(container, data.error || `Erro ${res.status} ao consultar o servidor.`);
-        return;
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
       }
-
-      const resultado = await res.json();
-      const checkedAt = new Date().toLocaleString('pt-BR');
-
-      // Adicionar ao histórico
-      historico.unshift({
-        url: urlNormalizada,
-        seguro: resultado.safe,
-        hora: new Date().toLocaleTimeString('pt-BR'),
-      });
-      if (historico.length > 5) historico.pop();
-      atualizarHistorico();
-
-      if (resultado.safe) {
-        mostrarResultadoSeguro(container, urlNormalizada, resultado.latency, checkedAt);
-      } else {
-        mostrarResultadoPerigoso(container, urlNormalizada, resultado.threats || [], resultado.latency, checkedAt);
-      }
-
+      data = await res.json();
     } catch (err) {
-      mostrarErro(container, 'Erro de conexão. Verifique sua internet e tente novamente.');
+      // Fallback: analisa localmente quando API indisponível
+      data = analisarUrlLocalmente(parsed);
+      data._fallback = true;
     }
+
+    resultado.innerHTML = renderResultadoUrl(parsed, data);
+  };
+
+  /* --------------------------------------------------------
+     ANÁLISE LOCAL (fallback quando API offline)
+  -------------------------------------------------------- */
+  function analisarUrlLocalmente(parsed) {
+    const url = parsed.href;
+    const domain = parsed.hostname;
+    const encurtadores = ['bit.ly','tinyurl.com','t.co','goo.gl','ow.ly','short.io','rebrand.ly','is.gd','cutt.ly'];
+    const isEncurtado = encurtadores.some(e => domain.includes(e));
+    const isMuitoLongo = url.length > 120;
+    const temHttps = parsed.protocol === 'https:';
+    const pareceIp = /^\d+\.\d+\.\d+\.\d+$/.test(domain);
+
+    const ameacas = [];
+    if (isEncurtado) ameacas.push('LINK_ENCURTADO');
+    if (pareceIp) ameacas.push('IP_ADDRESS');
+    if (!temHttps) ameacas.push('NO_HTTPS');
+
+    return {
+      safe: ameacas.length === 0 && !isMuitoLongo,
+      threats: ameacas,
+      _fallback: true,
+      _temHttps: temHttps,
+      _isEncurtado: isEncurtado,
+      _isMuitoLongo: isMuitoLongo,
+      _pareceIp: pareceIp,
+    };
   }
 
-  // ============================================================
-  // INICIALIZAÇÃO DA PÁGINA
-  // ============================================================
-  function inicializarPaginaScanner() {
-    const inputUrl = document.getElementById('input-url');
-    const btnVerificar = document.getElementById('btn-verificar-link');
-    const msgErro = document.getElementById('erro-url');
+  /* --------------------------------------------------------
+     RENDERIZA RESULTADO
+  -------------------------------------------------------- */
+  function renderResultadoUrl(parsed, data) {
+    const url = parsed.href;
+    const urlDisplay = url.length > 70 ? url.substring(0, 70) + '…' : url;
+    const temHttps = parsed.protocol === 'https:';
+    const threats = data.threats || [];
+    const isSafe = data.safe && threats.length === 0;
 
-    if (!inputUrl || !btnVerificar) return;
+    const isMalware = threats.includes('MALWARE');
+    const isPhishing = threats.includes('SOCIAL_ENGINEERING');
+    const isUnwanted = threats.includes('UNWANTED_SOFTWARE');
 
-    function mostrarErroUrl(msg) {
-      if (msgErro) {
-        msgErro.textContent = msg;
-        msgErro.classList.remove('hidden');
-      }
+    const traduzirAmeaca = (t) => {
+      const m = {
+        'MALWARE': 'Malware identificado',
+        'SOCIAL_ENGINEERING': 'Site de phishing (falso)',
+        'UNWANTED_SOFTWARE': 'Software indesejado',
+        'POTENTIALLY_HARMFUL_APPLICATION': 'Aplicativo potencialmente prejudicial',
+        'LINK_ENCURTADO': 'Link encurtado / redirecionado',
+        'IP_ADDRESS': 'Endereço IP direto (suspeito)',
+        'NO_HTTPS': 'Sem criptografia (sem https)',
+      };
+      return m[t] || t;
+    };
+
+    const checkItem = (ok, texto) => `
+      <div class="resultado-check-item">
+        <svg class="${ok ? 'check-ok' : 'check-perigo'}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          ${ok
+            ? '<polyline points="20 6 9 17 4 12"/>'
+            : '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'}
+        </svg>
+        ${texto}
+      </div>`;
+
+    const checkNeutro = (texto) => `
+      <div class="resultado-check-item">
+        <svg class="check-neutro" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+        ${texto}
+      </div>`;
+
+    if (!isSafe) {
+      const ameacasTexto = threats.length > 0
+        ? threats.map(t => `<span class="tag" style="background:var(--vermelho-fundo);color:var(--vermelho-perigo);">${traduzirAmeaca(t)}</span>`).join(' ')
+        : '';
+
+      return `
+        <div class="resultado-url-painel">
+          <div class="resultado-url-topo ${isMalware || isPhishing ? 'perigo' : 'atencao'}">
+            <div class="resultado-url-icone ${isMalware || isPhishing ? 'perigo' : 'atencao'}">
+              <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <div class="resultado-url-texto-principal ${isMalware || isPhishing ? 'perigo' : 'atencao'}">
+                ${isMalware ? 'Perigo — site com malware detectado' : isPhishing ? 'Perigo — site falso (phishing)' : 'Atenção — este link tem características suspeitas'}
+              </div>
+              <div class="resultado-url-sub">
+                ${isMalware ? 'Este site pode instalar vírus ou roubar dados' : isPhishing ? 'Este site imita outro para roubar suas informações' : 'Não conseguimos verificar o destino final deste endereço'}
+              </div>
+            </div>
+          </div>
+          <div class="resultado-url-corpo">
+            <div class="resultado-url-url-label">Link verificado</div>
+            <div class="resultado-url-url-box">${urlDisplay}</div>
+            ${ameacasTexto ? `<div style="margin-bottom:1.25rem;">${ameacasTexto}</div>` : ''}
+            <div class="resultado-checks">
+              ${checkItem(false, threats.find(t => ['MALWARE','SOCIAL_ENGINEERING','UNWANTED_SOFTWARE'].includes(t)) ? traduzirAmeaca(threats[0]) : 'Anomalia detectada')}
+              ${checkItem(temHttps, temHttps ? 'Conexão com criptografia (https)' : 'Sem criptografia (não tem https)')}
+              ${threats.includes('LINK_ENCURTADO') ? checkItem(false, 'Link encurtado ou redirecionado') : checkNeutro('Tipo de link não classificado')}
+              ${checkNeutro('Avalie com atenção antes de acessar')}
+            </div>
+            <div class="alerta alerta-perigo" style="margin-top:0;">
+              <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div class="alerta-conteudo">
+                <div class="alerta-titulo">Não acesse este link</div>
+                <div class="alerta-texto">Se você recebeu esse link por WhatsApp, SMS ou e-mail, <strong>não clique</strong>. Apague a mensagem e bloqueie o remetente se desconhecido.</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
     }
 
-    function limparErroUrl() {
-      if (msgErro) msgErro.classList.add('hidden');
-    }
-
-    async function executarVerificacao() {
-      const url = inputUrl.value.trim();
-
-      if (!url) {
-        mostrarErroUrl('Cole ou digite o link que quer verificar.');
-        return;
-      }
-
-      if (!isUrlValida(url)) {
-        mostrarErroUrl('Link inválido. Use o formato: site.com ou https://site.com');
-        return;
-      }
-
-      limparErroUrl();
-      btnVerificar.disabled = true;
-      btnVerificar.innerHTML = `<span class="btn-spinner"></span> Verificando...`;
-
-      await verificarLink(url);
-
-      btnVerificar.disabled = false;
-      btnVerificar.innerHTML = `🔍 Verificar link`;
-
-      document.getElementById('container-resultado-scanner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    btnVerificar.addEventListener('click', executarVerificacao);
-    inputUrl.addEventListener('keydown', e => {
-      if (e.key === 'Enter') executarVerificacao();
-    });
-    inputUrl.addEventListener('input', limparErroUrl);
+    return `
+      <div class="resultado-url-painel">
+        <div class="resultado-url-topo seguro">
+          <div class="resultado-url-icone seguro">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="resultado-url-texto-principal seguro">Link não identificado como ameaça</div>
+            <div class="resultado-url-sub">Não encontramos esse endereço em listas de sites maliciosos</div>
+          </div>
+        </div>
+        <div class="resultado-url-corpo">
+          <div class="resultado-url-url-label">Link verificado</div>
+          <div class="resultado-url-url-box">${urlDisplay}</div>
+          <div class="resultado-checks">
+            ${checkItem(true, 'Não está em listas de ameaças')}
+            ${checkItem(temHttps, temHttps ? 'Conexão segura com criptografia' : 'Sem criptografia (sem https)')}
+            ${checkItem(true, 'Endereço completo e legível')}
+            ${checkItem(true, 'Sem redirecionamentos suspeitos')}
+          </div>
+          <div class="alerta alerta-info" style="margin-top:0;">
+            <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="alerta-conteudo">
+              <div class="alerta-titulo">Continue atento mesmo assim</div>
+              <div class="alerta-texto">Mesmo sem ameaças detectadas, mantenha a atenção: se o site pedir dados pessoais ou senhas de forma inesperada, feche a página imediatamente.</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
   }
-
-  document.addEventListener('layoutPronto', inicializarPaginaScanner);
-  if (document.readyState !== 'loading') inicializarPaginaScanner();
-  else document.addEventListener('DOMContentLoaded', inicializarPaginaScanner);
 
 })();

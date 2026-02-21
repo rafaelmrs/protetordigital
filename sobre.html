@@ -1,126 +1,70 @@
 <!DOCTYPE html>
-<html lang="pt-BR"
-  data-pagina="sobre"
-  data-titulo="Sobre o Projeto"
-  data-descricao="Conheça o Protetor Digital — uma iniciativa gratuita de educação e segurança digital para brasileiros."
-  data-breadcrumb='[{"label":"Início","href":"/index.html"},{"label":"Sobre o Projeto"}]'>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre — Protetor Digital</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/design-system.css">
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre o Projeto — Protetor Digital</title>
+<meta name="description" content="Conheça o Protetor Digital: uma iniciativa independente para levar educação e ferramentas de segurança digital a todos os brasileiros.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
 </head>
 <body>
-<div class="app-layout">
 
-  <div id="container-sidebar"></div>
+<div id="slot-sidebar"></div>
 
-  <main class="main-area">
-    <div id="container-topbar"></div>
+<div class="main-area">
+  <div id="slot-header"></div>
 
-    <div class="page-content">
+  <main class="content-area" id="main-content">
 
-      <div class="page-header">
-        <h1 class="page-titulo">Sobre o Protetor Digital</h1>
-        <p class="page-subtitulo">Uma iniciativa gratuita de educação e segurança digital para brasileiros.</p>
+    <header class="ferramenta-header">
+      <span class="ferramenta-badge" style="background:#F1F3F6;color:var(--cinza-escuro);">Sobre o Projeto</span>
+      <h1 class="ferramenta-titulo">Protetor Digital</h1>
+      <p class="ferramenta-subtitulo">Uma iniciativa independente para levar educação e ferramentas de segurança digital a todos os brasileiros, sem custo e sem complicação.</p>
+    </header>
+
+    <div class="info-card" style="max-width:680px;">
+      <div style="font-family:var(--font-body);font-size:1.05rem;line-height:1.8;color:var(--cinza-escuro);">
+        <p style="margin-bottom:1.25rem;">O <strong>Protetor Digital</strong> nasceu da percepção de que a maioria das ferramentas de segurança digital é feita para especialistas — não para o cidadão comum.</p>
+        <p style="margin-bottom:1.25rem;">Acreditamos que <em>qualquer pessoa</em>, independente de conhecimento técnico, tem direito de saber se seus dados foram expostos, se sua senha é vulnerável e se o link que recebeu é confiável.</p>
+        <p style="margin-bottom:1.25rem;">Todas as nossas ferramentas são gratuitas, não exigem cadastro e não armazenam nenhum dado do usuário. A privacidade não é apenas uma promessa — é parte do nosso código.</p>
+        <p>Usamos fontes de dados reconhecidas mundialmente, como o <a href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">Have I Been Pwned</a> e o <a href="https://safebrowsing.google.com" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">Google Safe Browsing</a>, para garantir que os resultados sejam confiáveis.</p>
       </div>
 
-      <!-- Missão -->
-      <div class="card" style="background:linear-gradient(135deg,var(--azul-soberano),#1A4B8C);color:white;border:none;margin-bottom:1.5rem">
-        <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:white;margin-bottom:0.75rem">Nossa missão</h2>
-        <p style="font-size:1rem;color:rgba(255,255,255,0.85);line-height:1.7;max-width:600px">
-          Democratizar o acesso a ferramentas de segurança digital no Brasil. Acreditamos que toda pessoa,
-          independente de conhecimento técnico, tem o direito de se proteger online. Por isso,
-          construímos ferramentas simples, gratuitas e em português.
-        </p>
-      </div>
+      <div class="divisor"></div>
 
-      <!-- Valores -->
-      <div style="margin-bottom:1.5rem">
-        <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin-bottom:1.25rem">Nossos valores</h2>
-        <div class="selos-grid">
-          <div class="selo">
-            <div class="selo-icone">🔒</div>
-            <div>
-              <p class="selo-titulo">Privacidade real</p>
-              <p class="selo-desc">Não coletamos dados desnecessários. Suas senhas ficam no seu dispositivo. O que você verifica aqui fica aqui.</p>
-            </div>
-          </div>
-          <div class="selo">
-            <div class="selo-icone">🎓</div>
-            <div>
-              <p class="selo-titulo">Educação primeiro</p>
-              <p class="selo-desc">Mais que ferramentas, queremos que você entenda o que está acontecendo e saiba se defender.</p>
-            </div>
-          </div>
-          <div class="selo">
-            <div class="selo-icone">🤝</div>
-            <div>
-              <p class="selo-titulo">Transparência total</p>
-              <p class="selo-desc">Explicamos como cada ferramenta funciona, quais APIs usamos e por quê. Nada é escondido.</p>
-            </div>
-          </div>
-          <div class="selo">
-            <div class="selo-icone">🇧🇷</div>
-            <div>
-              <p class="selo-titulo">Feito para o Brasil</p>
-              <p class="selo-desc">Pensado para o contexto, os golpes e os desafios específicos do usuário brasileiro.</p>
-            </div>
-          </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:center;" role="list" aria-label="Estatísticas do projeto">
+        <div role="listitem">
+          <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--azul-claro);">951+</div>
+          <div style="font-family:var(--font-display);font-size:0.8rem;color:var(--cinza-medio);">Vazamentos monitorados</div>
+        </div>
+        <div role="listitem">
+          <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--verde-seguro);">100%</div>
+          <div style="font-family:var(--font-display);font-size:0.8rem;color:var(--cinza-medio);">Gratuito e sem cadastro</div>
+        </div>
+        <div role="listitem">
+          <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--ambar-atencao);">0</div>
+          <div style="font-family:var(--font-display);font-size:0.8rem;color:var(--cinza-medio);">Dados armazenados</div>
         </div>
       </div>
 
-      <!-- Tecnologias -->
-      <div class="card" style="margin-bottom:1.5rem">
-        <h2 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin-bottom:1.25rem">Como é construído</h2>
-        <div style="display:flex;flex-direction:column;gap:0.875rem">
+      <div class="divisor"></div>
 
-          <div style="display:flex;align-items:flex-start;gap:0.875rem;padding-bottom:0.875rem;border-bottom:1px solid var(--cinza-borda)">
-            <span style="font-family:var(--font-mono);font-size:0.72rem;padding:0.2rem 0.5rem;border-radius:3px;background:var(--azul-suave);color:var(--azul-claro);flex-shrink:0;margin-top:2px">SENHA</span>
-            <p style="font-size:0.9rem;color:var(--cinza-escuro);line-height:1.55">
-              Análise de força feita 100% no navegador (JavaScript Vanilla). Verificação de vazamentos via
-              <strong>Have I Been Pwned Pwned Passwords</strong> usando k-anonymity — apenas os primeiros 5 caracteres do hash SHA-1 são enviados.
-            </p>
-          </div>
-
-          <div style="display:flex;align-items:flex-start;gap:0.875rem;padding-bottom:0.875rem;border-bottom:1px solid var(--cinza-borda)">
-            <span style="font-family:var(--font-mono);font-size:0.72rem;padding:0.2rem 0.5rem;border-radius:3px;background:var(--ambar-fundo);color:var(--ambar-atencao);flex-shrink:0;margin-top:2px">VAZAMENTO</span>
-            <p style="font-size:0.9rem;color:var(--cinza-escuro);line-height:1.55">
-              Verificação de e-mails via <strong>Have I Been Pwned v3</strong> (API paga). A chamada é feita pelo servidor (Cloudflare Pages Functions) para proteger a chave de API. Traduções usam JSON local + <strong>DeepL</strong> como fallback.
-            </p>
-          </div>
-
-          <div style="display:flex;align-items:flex-start;gap:0.875rem">
-            <span style="font-family:var(--font-mono);font-size:0.72rem;padding:0.2rem 0.5rem;border-radius:3px;background:var(--verde-fundo);color:var(--verde-seguro);flex-shrink:0;margin-top:2px">LINK</span>
-            <p style="font-size:0.9rem;color:var(--cinza-escuro);line-height:1.55">
-              Verificação de URLs via <strong>Google Safe Browsing API</strong>. A chamada é feita pelo servidor para proteger a chave de API. O resultado inclui classificação de ameaça e latência.
-            </p>
-          </div>
-
-        </div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--preto-titulo);margin-bottom:1rem;">Nossas fontes de dados</div>
+        <ul class="dica-lista">
+          <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Have I Been Pwned</strong> — base de dados de vazamentos de e-mails e senhas, mantida pelo especialista em segurança Troy Hunt</span></li>
+          <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Google Safe Browsing</strong> — sistema do Google para identificação de sites de phishing, malware e golpes</span></li>
+          <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Critérios OWASP</strong> — padrões internacionais para análise de força de senhas</span></li>
+        </ul>
       </div>
-
-      <!-- Conformidade LGPD -->
-      <div class="alerta alerta-info">
-        <span class="alerta-icone">⚖️</span>
-        <div>
-          <p class="alerta-titulo">Conformidade com a LGPD</p>
-          <p>
-            O Protetor Digital coleta apenas os dados estritamente necessários para o funcionamento das ferramentas.
-            Não criamos perfis de usuário, não vendemos dados e não exibimos anúncios.
-            Consulte nossa <a href="/politica-privacidade.html" style="color:var(--azul-claro)">Política de Privacidade</a> completa.
-          </p>
-        </div>
-      </div>
-
     </div>
-    <div id="container-footer"></div>
+
   </main>
+
+  <div id="slot-footer"></div>
 </div>
 
-<script src="/js/app.js" defer></script>
+<script src="/js/app.js"></script>
 </body>
 </html>

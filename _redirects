@@ -1,0 +1,4 @@
+# Cloudflare Pages _redirects
+# Garante que rotas funcionem corretamente
+
+/sitemap.xml /sitemap.xml 200

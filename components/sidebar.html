@@ -1,105 +1,94 @@
-<!-- ============================================================
-     SIDEBAR — Componente compartilhado
-     Edite aqui para atualizar toda a navegação do app
-     ============================================================ -->
-<nav class="sidebar" id="sidebar" aria-label="Navegação principal">
+<!-- components/sidebar.html -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <a class="brand-lockup" href="/" aria-label="Protetor Digital — Início">
+      <div class="brand-escudo">
+        <svg viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 2L3 9V22C3 31.4 10 40.1 19 42C28 40.1 35 31.4 35 22V9L19 2Z" fill="#1A4B8C" stroke="#2563B8" stroke-width="1.5"/>
+          <path d="M19 2L3 9V22C3 31.4 10 40.1 19 42C28 40.1 35 31.4 35 22V9L19 2Z" fill="url(#shieldGradSidebar)" opacity="0.6"/>
+          <path d="M13 22L17.5 26.5L26 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="shieldGradSidebar" x1="19" y1="2" x2="19" y2="42" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2563B8"/>
+              <stop offset="100%" stop-color="#091F42"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-nome">Protetor Digital</span>
+        <span class="brand-subtitulo">Segurança Online</span>
+      </div>
+    </a>
+  </div>
 
-  <!-- Marca -->
-  <a href="/index.html" class="sidebar-brand" id="sidebar-brand">
-    <svg class="brand-escudo" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19 1L3 7V20C3 29.8 10.1 38.8 19 41C27.9 38.8 35 29.8 35 20V7L19 1Z" fill="#1A4B8C" stroke="#2563B8" stroke-width="1.5"/>
-      <path d="M19 5L6 10.2V20C6 28.1 11.8 35.6 19 37.8C26.2 35.6 32 28.1 32 20V10.2L19 5Z" fill="#0B2D5E"/>
-      <path d="M13 21L17.5 25.5L26 17" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <div class="brand-text">
-      <span class="brand-nome">Protetor Digital</span>
-      <span class="brand-tagline">Segurança para todos</span>
-    </div>
-  </a>
-
-  <!-- Navegação -->
-  <div class="sidebar-nav">
-
-    <span class="nav-grupo-label">Principal</span>
-
-    <a href="/index.html" class="nav-item" data-pagina="inicio">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
-        <path d="M8 18V12h4v6"/>
+  <nav class="sidebar-nav" aria-label="Navegação principal">
+    <span class="nav-secao-label">Início</span>
+    <a class="nav-item" href="/" data-page="home">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
       </svg>
-      Início
+      Página Inicial
     </a>
 
-    <span class="nav-grupo-label">Ferramentas</span>
-
-    <a href="/ferramentas/senha.html" class="nav-item" data-pagina="senha">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="11" r="4"/>
-        <path d="M12 11h6M16 9v4"/>
+    <span class="nav-secao-label">Ferramentas</span>
+    <a class="nav-item" href="/ferramentas/verificador.html" data-page="verificador">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
       </svg>
       Verificar Senha
     </a>
-
-    <a href="/ferramentas/vazamento.html" class="nav-item" data-pagina="vazamento">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="4" width="16" height="12" rx="2"/>
-        <path d="M6 8h8M6 12h5"/>
+    <a class="nav-item" href="/ferramentas/gerador.html" data-page="gerador">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
       </svg>
-      Verificar Vazamento
-      <span class="nav-badge">API</span>
+      Criar Senha Segura
+    </a>
+    <a class="nav-item" href="/ferramentas/url.html" data-page="url">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+      Checar Link
+    </a>
+    <a class="nav-item" href="/ferramentas/email.html" data-page="email">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      Buscar Vazamentos
+      <span class="nav-badge nav-badge-email">Email</span>
+    </a>
+    <a class="nav-item" href="/ferramentas/senha.html" data-page="senha-vazada">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+      </svg>
+      Verificar Senha Vazada
+      <span class="nav-badge nav-badge-senha">Senha</span>
     </a>
 
-    <a href="/ferramentas/link.html" class="nav-item" data-pagina="link">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 13l-2 2a3.5 3.5 0 01-5-5l4-4a3.5 3.5 0 015 5"/>
-        <path d="M10 7l2-2a3.5 3.5 0 015 5l-4 4a3.5 3.5 0 01-5-5"/>
+    <span class="nav-secao-label">Informações</span>
+    <a class="nav-item" href="/blog/index.html" data-page="blog">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
       </svg>
-      Verificar Link
+      Educação Digital
     </a>
-
-    <span class="nav-grupo-label">Conteúdo</span>
-
-    <a href="/blog/index.html" class="nav-item" data-pagina="blog">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h12v12H4V4z"/>
-        <path d="M7 8h6M7 12h4"/>
-      </svg>
-      Blog Educacional
-    </a>
-
-    <span class="nav-grupo-label">Sobre</span>
-
-    <a href="/sobre.html" class="nav-item" data-pagina="sobre">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="10" cy="10" r="8"/>
-        <path d="M10 9v5M10 7v.5"/>
+    <a class="nav-item" href="/sobre.html" data-page="sobre">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
       Sobre o Projeto
     </a>
+  </nav>
 
-    <a href="/contato.html" class="nav-item" data-pagina="contato">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 4l9 6 9-6"/>
-        <rect x="2" y="4" width="16" height="12" rx="2"/>
-      </svg>
-      Contato
-    </a>
-
-    <a href="/politica-privacidade.html" class="nav-item" data-pagina="privacidade">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 2l7 3v5c0 4.4-3.1 8.5-7 9.5C6.1 18.5 3 14.4 3 10V5l7-3z"/>
-      </svg>
-      Privacidade
-    </a>
-
-  </div>
-
-  <!-- Rodapé sidebar -->
   <div class="sidebar-footer">
-    <p class="sidebar-footer-texto">
-      Versão 2.0 &nbsp;·&nbsp; 100% gratuito<br>
-      <a href="/politica-privacidade.html" class="sidebar-footer-link">Política de Privacidade</a>
-    </p>
+    <div class="sidebar-aviso">
+      <svg class="sidebar-aviso-icon" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <div class="sidebar-aviso-texto">
+        <strong>100% Gratuito e Seguro</strong>
+        Nenhum dado é armazenado ou compartilhado
+      </div>
+    </div>
   </div>
-
-</nav>
+</aside>

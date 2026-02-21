@@ -32,7 +32,7 @@ function determineSeverity(dataClasses) {
 async function getTranslationFromJson(name, env) {
   try {
     // Em Pages Functions, podemos usar fetch para o próprio domínio
-    const url = `https://protetordigital.com/breaches-pt.json`;
+    const url = `https://protetordigital.com/data/breaches-pt.json`;
     const res = await fetch(url, { cf: { cacheEverything: true, cacheTtl: 86400 } });
     if (!res.ok) return null;
     const pt = await res.json();

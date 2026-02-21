@@ -1,101 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt-BR"
-  data-pagina="privacidade"
-  data-titulo="Política de Privacidade"
-  data-descricao="Política de privacidade do Protetor Digital. Como tratamos seus dados em conformidade com a LGPD."
-  data-breadcrumb='[{"label":"Início","href":"/index.html"},{"label":"Política de Privacidade"}]'>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Política de Privacidade — Protetor Digital</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/design-system.css">
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
-  <style>
-    .politica h2 { font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;color:var(--preto-titulo);margin:2rem 0 0.75rem;letter-spacing:-0.02em; }
-    .politica h3 { font-family:var(--font-display);font-size:var(--text-lg);font-weight:600;color:var(--preto-titulo);margin:1.25rem 0 0.5rem; }
-    .politica p { font-size:1rem;color:var(--cinza-escuro);line-height:1.7;margin-bottom:0.875rem; }
-    .politica ul { margin:0.5rem 0 1rem 1.5rem;display:flex;flex-direction:column;gap:0.4rem; }
-    .politica li { font-size:0.95rem;color:var(--cinza-escuro);line-height:1.65; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidade — Protetor Digital</title>
+<meta name="description" content="Política de privacidade do Protetor Digital. Entenda como tratamos (ou não tratamos) seus dados.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
 </head>
 <body>
-<div class="app-layout">
+<div id="slot-sidebar"></div>
+<div class="main-area">
+  <div id="slot-header"></div>
+  <main class="content-area" id="main-content">
+    <header class="ferramenta-header">
+      <span class="ferramenta-badge" style="background:#F1F3F6;color:var(--cinza-escuro);">Privacidade</span>
+      <h1 class="ferramenta-titulo">Política de Privacidade</h1>
+      <p class="ferramenta-subtitulo">Transparência total sobre como o Protetor Digital trata seus dados — que é, basicamente, não tratar nenhum.</p>
+    </header>
 
-  <div id="container-sidebar"></div>
-
-  <main class="main-area">
-    <div id="container-topbar"></div>
-
-    <div class="page-content">
-
-      <div class="page-header">
-        <h1 class="page-titulo">🔒 Política de Privacidade</h1>
-        <p class="page-subtitulo">
-          Última atualização: janeiro de 2025 · Em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018)
-        </p>
-      </div>
-
-      <div class="alerta alerta-seguro" style="margin-bottom:1.5rem">
-        <span class="alerta-icone">✅</span>
-        <div>
-          <p class="alerta-titulo">Resumo simples</p>
-          <p>Coletamos o mínimo indispensável. Não vendemos seus dados. Não exibimos anúncios. Suas senhas ficam no seu dispositivo. O que você verifica aqui, fica aqui.</p>
+    <div class="info-card" style="max-width:680px;">
+      <div class="alerta alerta-seguro" style="margin-top:0;margin-bottom:1.5rem;">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="alerta-conteudo">
+          <div class="alerta-titulo">Resumo: não armazenamos nada sobre você</div>
+          <div class="alerta-texto">Nenhum dado pessoal, senha, e-mail ou link verificado é salvo em nossos servidores. A política completa está abaixo.</div>
         </div>
       </div>
 
-      <div class="card politica" style="max-width:720px">
+      <div style="font-family:var(--font-body);font-size:1rem;line-height:1.8;color:var(--cinza-escuro);">
+        <p style="font-family:var(--font-display);font-size:0.75rem;color:var(--cinza-medio);margin-bottom:1.5rem;">Última atualização: janeiro de 2025</p>
 
-        <h2>1. Quem somos</h2>
-        <p>O Protetor Digital é uma plataforma gratuita de ferramentas e educação em segurança digital voltada ao público brasileiro. Não somos uma empresa; somos um projeto independente.</p>
-
-        <h2>2. Quais dados coletamos</h2>
-        <h3>O que NÃO coletamos</h3>
-        <ul>
-          <li>Suas senhas — a análise de força acontece 100% no seu navegador</li>
-          <li>Histórico de buscas ou navegação</li>
-          <li>Dados de localização</li>
-          <li>Qualquer dado para fins publicitários</li>
+        <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--preto-titulo);margin:1.5rem 0 0.75rem;">1. Dados que NÃO coletamos</h2>
+        <p>O Protetor Digital não coleta, armazena ou compartilha nenhuma informação pessoal. Especificamente:</p>
+        <ul style="margin:0.75rem 0 1rem 1.5rem;">
+          <li>Senhas digitadas nas ferramentas são analisadas localmente no seu navegador e nunca enviadas aos nossos servidores</li>
+          <li>Endereços de e-mail são enviados apenas às APIs de terceiros (HIBP) para verificação e não são armazenados por nós</li>
+          <li>Links verificados são enviados ao Google Safe Browsing e não são registrados por nós</li>
+          <li>Não utilizamos cookies de rastreamento ou ferramentas de analytics que identifiquem usuários</li>
         </ul>
 
-        <h3>O que pode ser processado temporariamente</h3>
-        <ul>
-          <li><strong>E-mails verificados:</strong> enviados ao serviço Have I Been Pwned para consulta. Não armazenamos o resultado.</li>
-          <li><strong>URLs verificadas:</strong> enviadas ao Google Safe Browsing para análise. Não armazenamos.</li>
-          <li><strong>Logs de servidor:</strong> a Cloudflare pode armazenar IPs temporariamente por até 24h para fins de segurança e performance.</li>
+        <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--preto-titulo);margin:1.5rem 0 0.75rem;">2. Dados técnicos</h2>
+        <p>Como qualquer servidor web, logs técnicos básicos podem ser gerados pela infraestrutura (Cloudflare Pages) por razões operacionais e de segurança. Esses logs contêm endereços IP e timestamps de requisições, são mantidos por períodos mínimos e não são usados para identificar usuários individualmente.</p>
+
+        <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--preto-titulo);margin:1.5rem 0 0.75rem;">3. Serviços de terceiros</h2>
+        <p>Utilizamos as seguintes APIs externas para fornecer nossas funcionalidades. Consulte as políticas de privacidade desses serviços para mais detalhes sobre como eles tratam os dados:</p>
+        <ul style="margin:0.75rem 0 1rem 1.5rem;">
+          <li><strong>Have I Been Pwned (HIBP):</strong> verificação de e-mails e senhas em vazamentos conhecidos</li>
+          <li><strong>Google Safe Browsing:</strong> verificação de URLs potencialmente maliciosas</li>
+          <li><strong>DeepL:</strong> tradução de descrições de vazamentos (apenas quando não há tradução disponível no nosso banco local)</li>
+          <li><strong>Cloudflare Pages:</strong> infraestrutura de hospedagem e execução de funções</li>
         </ul>
 
-        <h2>3. Como usamos os dados</h2>
-        <p>Os dados processados são usados exclusivamente para fornecer o resultado da consulta solicitada. Não há armazenamento, análise ou compartilhamento para outros fins.</p>
+        <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--preto-titulo);margin:1.5rem 0 0.75rem;">4. Seus direitos (LGPD)</h2>
+        <p>Como não coletamos dados pessoais identificáveis, não há dados seus para acessar, corrigir ou excluir. Se tiver dúvidas sobre esta política, entre em <a href="/contato.html" style="color:var(--azul-claro);">contato conosco</a>.</p>
 
-        <h2>4. Terceiros</h2>
-        <ul>
-          <li><strong>Have I Been Pwned:</strong> serviço independente de Troy Hunt. Consulte a <a href="https://haveibeenpwned.com/Privacy" style="color:var(--azul-claro)" target="_blank">política de privacidade deles</a>.</li>
-          <li><strong>Google Safe Browsing:</strong> serviço do Google. Consulte a <a href="https://policies.google.com/privacy" style="color:var(--azul-claro)" target="_blank">política do Google</a>.</li>
-          <li><strong>Cloudflare:</strong> infraestrutura de hospedagem e segurança. Consulte a <a href="https://www.cloudflare.com/privacypolicy/" style="color:var(--azul-claro)" target="_blank">política da Cloudflare</a>.</li>
-        </ul>
-
-        <h2>5. Seus direitos (LGPD)</h2>
-        <p>Como não coletamos dados pessoais persistentes, a maioria dos direitos da LGPD não se aplica. Mas garantimos:</p>
-        <ul>
-          <li>Direito de saber o que é coletado (esta política)</li>
-          <li>Direito de contestar — entre em contato pelo e-mail de contato</li>
-        </ul>
-
-        <h2>6. Cookies</h2>
-        <p>Não utilizamos cookies para rastreamento. A Cloudflare pode usar cookies técnicos para segurança (proteção contra bots).</p>
-
-        <h2>7. Contato</h2>
-        <p>Dúvidas sobre privacidade: <a href="/contato.html" style="color:var(--azul-claro)">acesse nosso formulário de contato</a>.</p>
-
+        <h2 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--preto-titulo);margin:1.5rem 0 0.75rem;">5. Alterações nesta política</h2>
+        <p>Qualquer alteração relevante nesta política será comunicada nesta página com a data de atualização. Recomendamos visitar periodicamente esta página.</p>
       </div>
-
     </div>
-    <div id="container-footer"></div>
   </main>
+  <div id="slot-footer"></div>
 </div>
-
-<script src="/js/app.js" defer></script>
+<script src="/js/app.js"></script>
 </body>
 </html>

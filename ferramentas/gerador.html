@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar Senha Segura — Protetor Digital</title>
+<meta name="description" content="Gere senhas fortes e impossíveis de adivinhar automaticamente. Use uma senha diferente para cada site.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+
+<div id="slot-sidebar"></div>
+
+<div class="main-area">
+  <div id="slot-header"></div>
+
+  <main class="content-area" id="main-content">
+
+    <header class="ferramenta-header">
+      <span class="ferramenta-badge" style="background:var(--verde-fundo);color:var(--verde-seguro);">
+        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+        Gerador de Senhas
+      </span>
+      <h1 class="ferramenta-titulo">Criar uma senha forte e única</h1>
+      <p class="ferramenta-subtitulo">Gere senhas impossíveis de adivinhar. Use uma senha diferente para cada site ou aplicativo importante.</p>
+    </header>
+
+    <div class="ferramenta-layout">
+      <div>
+        <div class="ferramenta-barra-superior">
+          <div class="form-grupo">
+            <label class="form-label">Sua nova senha</label>
+            <div class="senha-gerada-display" id="senha-display" aria-live="polite">
+              <span id="senha-texto" style="word-break:break-all;flex:1;color:var(--cinza-medio);font-size:1rem;font-family:var(--font-display);">Clique em "Gerar" para criar</span>
+              <button class="copiar-btn" onclick="copiarSenha()" id="btn-copiar" style="display:none" aria-label="Copiar senha gerada">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+          </div>
+
+          <div class="slider-wrapper">
+            <div class="slider-label">
+              <span>Comprimento da senha</span>
+              <span class="slider-valor" id="slider-valor">16 caracteres</span>
+            </div>
+            <input type="range" id="slider-comprimento" min="8" max="64" value="16"
+                   oninput="document.getElementById('slider-valor').textContent = this.value + ' caracteres'"
+                   aria-label="Comprimento da senha">
+          </div>
+
+          <div class="opcoes-grid">
+            <label class="opcao-check"><input type="checkbox" id="opt-maiusculas" checked> Maiúsculas (A–Z)</label>
+            <label class="opcao-check"><input type="checkbox" id="opt-minusculas" checked> Minúsculas (a–z)</label>
+            <label class="opcao-check"><input type="checkbox" id="opt-numeros" checked> Números (0–9)</label>
+            <label class="opcao-check"><input type="checkbox" id="opt-simbolos" checked> Símbolos (!@#…)</label>
+          </div>
+
+          <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button class="btn btn-primario" onclick="gerarSenha()" style="flex:1">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Gerar nova senha
+            </button>
+          </div>
+        </div>
+        <div id="resultado-gerador" aria-live="polite"></div>
+      </div>
+
+      <div>
+        <div class="info-card">
+          <div class="info-card-header"><span class="info-card-titulo">Por que usar senhas únicas?</span></div>
+          <ul class="dica-lista">
+            <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Se um site vazar, os outros ficam protegidos</li>
+            <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Senhas longas são muito mais difíceis de quebrar</li>
+            <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Use um gerenciador de senhas para guardá-las</li>
+            <li class="dica-item"><svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Nunca compartilhe senhas por mensagem ou e-mail</li>
+          </ul>
+        </div>
+        <div class="alerta alerta-atencao" style="margin-top:1rem;">
+          <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <div class="alerta-conteudo">
+            <div class="alerta-titulo">Recomendação importante</div>
+            <div class="alerta-texto">Guarde suas senhas em um gerenciador confiável como <strong>Bitwarden</strong> (gratuito) ou 1Password. Nunca anote em bloco de notas ou e-mail.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="slot-footer"></div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/password.js"></script>
+</body>
+</html>

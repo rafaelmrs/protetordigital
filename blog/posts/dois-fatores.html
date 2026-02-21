@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autenticação em Dois Fatores — Protetor Digital</title>
+<meta name="description" content="Saiba o que é a autenticação em dois fatores e como ativá-la no seu banco, Gmail, Instagram e outros serviços.">
+<link rel="canonical" href="https://protetordigital.com/blog/posts/dois-fatores.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
+</head>
+<body>
+<div id="slot-sidebar"></div>
+<div class="main-area">
+  <div id="slot-header"></div>
+  <main class="content-area" id="main-content">
+    <div style="max-width:760px;">
+      <nav aria-label="Breadcrumb" style="font-family:var(--font-display);font-size:0.8rem;color:var(--cinza-medio);margin-bottom:1.5rem;display:flex;gap:0.5rem;align-items:center;">
+        <a href="/" style="color:var(--azul-claro);text-decoration:none;">Início</a>
+        <span aria-hidden="true">›</span>
+        <a href="/blog/index.html" style="color:var(--azul-claro);text-decoration:none;">Educação Digital</a>
+        <span aria-hidden="true">›</span>
+        <span>Autenticação em dois fatores</span>
+      </nav>
+      <header class="artigo-header">
+        <span class="ferramenta-badge" style="background:var(--ambar-fundo);color:var(--ambar-atencao);">Proteção</span>
+        <h1 class="artigo-titulo">Autenticação em dois fatores: o que é e por que você precisa ativar agora</h1>
+        <div class="artigo-meta">
+          <span>📅 Janeiro de 2025</span>
+          <span>⏱ 4 minutos de leitura</span>
+        </div>
+      </header>
+      <article class="artigo-corpo">
+        <p>Imagine que alguém descobriu a sua senha do banco. Com a autenticação em dois fatores ativada, isso ainda não seria suficiente para acessar sua conta. Eles precisariam também do seu celular — e aí fica muito mais difícil.</p>
+        <p>Esse é o princípio da autenticação em dois fatores (também chamada de 2FA ou verificação em duas etapas): além da senha, você precisa de um segundo fator para confirmar que é realmente você.</p>
+        <h2>Como funciona na prática?</h2>
+        <p>Quando você ativa o 2FA, ao fazer login você precisará de dois elementos:</p>
+        <ul>
+          <li><strong>Algo que você sabe:</strong> sua senha</li>
+          <li><strong>Algo que você tem:</strong> um código enviado por SMS, gerado por um aplicativo, ou uma chave de segurança física</li>
+        </ul>
+        <p>O código muda a cada 30 segundos e é gerado especificamente para a sua conta. Mesmo que alguém roube sua senha, não conseguirá entrar sem esse código.</p>
+        <h2>Onde ativar o 2FA hoje mesmo</h2>
+        <p><strong>Gmail e Google:</strong> Acesse "Gerenciar sua Conta Google" → Segurança → Verificação em duas etapas. Recomendamos usar o Google Authenticator ao invés de SMS.</p>
+        <p><strong>Instagram:</strong> Perfil → Menu → Configurações → Segurança → Autenticação de dois fatores. Escolha "Aplicativo de autenticação".</p>
+        <p><strong>WhatsApp:</strong> Configurações → Conta → Verificação em duas etapas. Crie um PIN de 6 dígitos e adicione um e-mail de recuperação.</p>
+        <p><strong>Bancos:</strong> A maioria dos bancos brasileiros já usa verificação em dois fatores obrigatoriamente. Certifique-se de que o seu celular cadastrado está atualizado.</p>
+        <h2>SMS ou aplicativo: qual é melhor?</h2>
+        <p>O SMS é prático, mas pode ser interceptado em casos raros por uma fraude chamada "SIM swap" (troca de chip). Para contas muito importantes, prefira um aplicativo autenticador como Google Authenticator, Authy ou Microsoft Authenticator.</p>
+        <blockquote>Ativar o 2FA é a medida de segurança com a melhor relação custo-benefício que existe. Leva 2 minutos e pode evitar um prejuízo enorme.</blockquote>
+        <h2>E se eu perder meu celular?</h2>
+        <p>Ao ativar o 2FA, os serviços geralmente fornecem "códigos de recuperação" — anote esses códigos em um lugar seguro (como um gerenciador de senhas). Eles servem de backup caso você perca o acesso ao seu dispositivo.</p>
+      </article>
+      <div class="compartilhar">
+        <span class="compartilhar-label">Compartilhar:</span>
+        <button class="compartilhar-btn whatsapp" onclick="compartilhar('whatsapp')">WhatsApp</button>
+        <button class="compartilhar-btn twitter" onclick="compartilhar('twitter')">X / Twitter</button>
+        <button class="compartilhar-btn copiar" onclick="compartilhar('copiar')">Copiar link</button>
+      </div>
+      <div class="leia-tambem">
+        <h2 class="leia-tambem-titulo">Leia também</h2>
+        <div class="leia-tambem-grid">
+          <a href="/blog/posts/senhas-seguras.html" class="ferramenta-card">
+            <div class="card-icone-wrapper azul"><svg class="card-icone-svg azul" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="card-titulo" style="font-size:0.9rem;">Guia definitivo de senhas seguras</div>
+            <span class="badge badge-neutro" style="margin-top:0.5rem;">7 min</span>
+          </a>
+          <a href="/blog/posts/dados-vazaram.html" class="ferramenta-card">
+            <div class="card-icone-wrapper verde"><svg class="card-icone-svg verde" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="card-titulo" style="font-size:0.9rem;">O que fazer se seus dados vazaram</div>
+            <span class="badge badge-neutro" style="margin-top:0.5rem;">6 min</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="slot-footer"></div>
+</div>
+<script src="/js/app.js"></script>
+</body>
+</html>

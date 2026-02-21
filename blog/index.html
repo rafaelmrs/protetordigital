@@ -1,122 +1,92 @@
 <!DOCTYPE html>
-<html lang="pt-BR"
-  data-pagina="blog"
-  data-titulo="Blog Educacional"
-  data-descricao="Aprenda sobre segurança digital em linguagem simples. Dicas práticas para brasileiros se protegerem de golpes, vazamentos e ameaças online."
-  data-breadcrumb='[{"label":"Início","href":"/index.html"},{"label":"Blog"}]'>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog — Protetor Digital</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/design-system.css">
-  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educação Digital — Protetor Digital</title>
+<meta name="description" content="Conteúdo simples e prático sobre segurança digital para o dia a dia do brasileiro.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/design-system.css">
 </head>
 <body>
-<div class="app-layout">
 
-  <div id="container-sidebar"></div>
+<div id="slot-sidebar"></div>
 
-  <main class="main-area">
-    <div id="container-topbar"></div>
+<div class="main-area">
+  <div id="slot-header"></div>
 
-    <div class="page-content">
+  <main class="content-area" id="main-content">
 
-      <div class="page-header">
-        <h1 class="page-titulo">📰 Blog Educacional</h1>
-        <p class="page-subtitulo">
-          Aprenda a se proteger online com artigos em linguagem simples, sem jargão técnico.
-          Atualizados regularmente pela equipe do Protetor Digital.
-        </p>
-      </div>
+    <header class="ferramenta-header">
+      <span class="ferramenta-badge" style="background:#F1F3F6;color:var(--cinza-escuro);">
+        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Educação Digital
+      </span>
+      <h1 class="ferramenta-titulo">Aprenda a se proteger online</h1>
+      <p class="ferramenta-subtitulo">Conteúdo simples e prático sobre segurança digital para o dia a dia do brasileiro.</p>
+    </header>
 
-      <!-- Filtros por categoria -->
-      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem">
-        <button class="btn btn-primario btn-sm">Todos</button>
-        <button class="btn btn-ghost btn-sm">Senhas</button>
-        <button class="btn btn-ghost btn-sm">Golpes</button>
-        <button class="btn btn-ghost btn-sm">Privacidade</button>
-        <button class="btn btn-ghost btn-sm">Celular</button>
-      </div>
+    <div class="ferramentas-grid">
 
-      <!-- Lista de posts -->
-      <div>
-
-        <a href="/blog/posts/autenticacao-dois-fatores.html" class="post-card">
-          <div class="post-meta">
-            <span class="badge badge-azul">Segurança</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">15 jan 2025</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">· 6 min de leitura</span>
-          </div>
-          <h2 class="post-titulo">O que é verificação em duas etapas e por que você precisa disso agora</h2>
-          <p class="post-resumo">
-            A verificação em duas etapas (2FA) é uma das ferramentas mais eficazes contra hackers.
-            Mesmo que sua senha seja descoberta, ela sozinha não é suficiente para acessar sua conta.
-            Entenda como ativar em cada serviço.
-          </p>
-          <span class="ferramenta-cta">Ler artigo →</span>
-        </a>
-
-        <a href="/blog/posts/maiores-vazamentos.html" class="post-card">
-          <div class="post-meta">
-            <span class="badge badge-ambar">Alerta</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">8 jan 2025</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">· 8 min de leitura</span>
-          </div>
-          <h2 class="post-titulo">Os maiores vazamentos de dados de 2024 e o que você deve fazer</h2>
-          <p class="post-resumo">
-            Bilhões de e-mails e senhas foram expostos em 2024. LinkedIn, Ticketmaster, AT&T e outros.
-            Veja quais empresas foram afetadas e um passo a passo para se proteger agora.
-          </p>
-          <span class="ferramenta-cta">Ler artigo →</span>
-        </a>
-
-        <a href="/blog/posts/golpes-whatsapp.html" class="post-card">
-          <div class="post-meta">
-            <span class="badge badge-vermelho">Golpes</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">2 jan 2025</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">· 5 min de leitura</span>
-          </div>
-          <h2 class="post-titulo">Os 7 golpes mais comuns no WhatsApp e como não cair em nenhum</h2>
-          <p class="post-resumo">
-            Golpe do falso parente, clonagem de chip, falsa central de atendimento...
-            Os criminosos estão cada vez mais sofisticados. Aprenda a identificar e se proteger.
-          </p>
-          <span class="ferramenta-cta">Ler artigo →</span>
-        </a>
-
-        <a href="/blog/posts/gerenciador-senhas.html" class="post-card">
-          <div class="post-meta">
-            <span class="badge badge-azul">Senhas</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">20 dez 2024</span>
-            <span style="font-family:var(--font-display);font-size:var(--text-xs);color:var(--cinza-medio)">· 7 min de leitura</span>
-          </div>
-          <h2 class="post-titulo">Gerenciador de senhas: o que é e por que todo mundo deveria usar</h2>
-          <p class="post-resumo">
-            Criar e lembrar de uma senha diferente para cada site é quase impossível.
-            Os gerenciadores de senhas resolvem isso de forma segura.
-            Veja os melhores e como começar.
-          </p>
-          <span class="ferramenta-cta">Ler artigo →</span>
-        </a>
-
-      </div>
-
-      <!-- CTA blog -->
-      <div class="alerta alerta-info" style="margin-top:0.5rem">
-        <span class="alerta-icone">💡</span>
-        <div>
-          <p class="alerta-titulo">Quer receber novos artigos?</p>
-          <p>Siga-nos nas redes sociais ou acesse o <a href="/sobre.html" style="color:var(--azul-claro)">blog regularmente</a> para ficar atualizado sobre ameaças e dicas de segurança.</p>
+      <a href="/blog/posts/golpes-whatsapp.html" class="ferramenta-card">
+        <div class="card-icone-wrapper vermelho">
+          <svg class="card-icone-svg vermelho" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
         </div>
-      </div>
+        <div class="post-card-categoria">Golpes</div>
+        <h2 class="card-titulo">Como reconhecer um golpe pelo WhatsApp</h2>
+        <p class="card-descricao">Aprenda os sinais mais comuns de golpes que circulam por mensagem e saiba o que fazer se receber um.</p>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;justify-content:space-between;">
+          <span class="badge badge-neutro">5 min de leitura</span>
+          <span class="card-link">Ler artigo <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="/blog/posts/senhas-seguras.html" class="ferramenta-card">
+        <div class="card-icone-wrapper azul">
+          <svg class="card-icone-svg azul" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="post-card-categoria">Senhas</div>
+        <h2 class="card-titulo">Guia definitivo de senhas seguras</h2>
+        <p class="card-descricao">Entenda por que "senha123" coloca você em risco e como criar senhas que realmente protegem suas contas.</p>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;justify-content:space-between;">
+          <span class="badge badge-neutro">7 min de leitura</span>
+          <span class="card-link">Ler artigo <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="/blog/posts/dados-vazaram.html" class="ferramenta-card">
+        <div class="card-icone-wrapper verde">
+          <svg class="card-icone-svg verde" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="post-card-categoria">Vazamentos</div>
+        <h2 class="card-titulo">O que fazer se seus dados vazaram</h2>
+        <p class="card-descricao">Passo a passo prático para agir rapidamente e minimizar riscos quando seu e-mail aparece em um vazamento.</p>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;justify-content:space-between;">
+          <span class="badge badge-neutro">6 min de leitura</span>
+          <span class="card-link">Ler artigo <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="/blog/posts/dois-fatores.html" class="ferramenta-card">
+        <div class="card-icone-wrapper ambar">
+          <svg class="card-icone-svg ambar" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="post-card-categoria">Proteção</div>
+        <h2 class="card-titulo">Autenticação em dois fatores: o que é e por que usar</h2>
+        <p class="card-descricao">Saiba como ativar essa camada extra de proteção no seu banco, Instagram, Gmail e outros serviços.</p>
+        <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center;justify-content:space-between;">
+          <span class="badge badge-neutro">4 min de leitura</span>
+          <span class="card-link">Ler artigo <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
 
     </div>
-    <div id="container-footer"></div>
+
   </main>
+
+  <div id="slot-footer"></div>
 </div>
 
-<script src="/js/app.js" defer></script>
+<script src="/js/app.js"></script>
 </body>
 </html>

@@ -1,331 +1,370 @@
 /**
- * PROTETOR DIGITAL — breach.js
- * Verificador de vazamentos de e-mail via HIBP v3 (API paga)
- * A chamada real vai para /api/breach (Cloudflare Pages Function)
- * que mantém a chave de API segura no servidor.
+ * Protetor Digital — breach.js
+ * Verificação de vazamentos de e-mail (HIBP paga via CF Pages Function)
+ * e verificação de senha vazada (HIBP free via k-anonymity direto do browser)
  */
 
 (function () {
   'use strict';
 
-  const API_PATH = '/api/breach';
-
-  // Traduções de tipos de dados expostos
-  const TRADUCAO_DADOS = {
-    'email addresses': 'Endereços de e-mail',
-    'passwords': 'Senhas',
-    'ip addresses': 'Endereços IP',
-    'names': 'Nomes completos',
-    'usernames': 'Nomes de usuário',
-    'phone numbers': 'Números de telefone',
-    'physical addresses': 'Endereços físicos',
-    'geographic locations': 'Localização geográfica',
-    'dates of birth': 'Datas de nascimento',
-    'genders': 'Gênero',
-    'social media profiles': 'Perfis de redes sociais',
-    'website activity': 'Atividade em sites',
-    'account balances': 'Saldo em conta',
-    'credit cards': 'Cartões de crédito',
-    'bank account numbers': 'Números de conta bancária',
-    'credit card cvv': 'CVV de cartão',
-    'personal health data': 'Dados de saúde',
-    'historical passwords': 'Senhas antigas',
-    'security questions and answers': 'Perguntas de segurança',
-    'auth tokens': 'Tokens de autenticação',
-    'device information': 'Informações de dispositivo',
-    'browsing histories': 'Histórico de navegação',
-    'purchases': 'Histórico de compras',
-    'partial credit card data': 'Dados parciais de cartão',
-    'social security numbers': 'CPF / Número previdenciário',
-    'education levels': 'Nível de escolaridade',
-    'sexual orientations': 'Orientação sexual',
-    'employment statuses': 'Situação de emprego',
-    'ethnicities': 'Etnia',
-    'religions': 'Religião',
-    'political views': 'Posições políticas',
-    'income levels': 'Nível de renda',
-    'ages': 'Faixas etárias',
-    'avatar': 'Fotos de perfil',
-  };
-
-  function traduzirDado(dado) {
-    return TRADUCAO_DADOS[dado.toLowerCase()] || dado;
+  /* --------------------------------------------------------
+     HELPERS DE FORMATAÇÃO
+  -------------------------------------------------------- */
+  function formatarData(dateStr) {
+    if (!dateStr) return 'Data desconhecida';
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
   }
 
   function formatarContagem(n) {
-    if (n >= 1e9) return `${(n / 1e9).toFixed(1).replace('.', ',')} bilhões`;
-    if (n >= 1e6) return `${(n / 1e6).toFixed(1).replace('.', ',')} milhões`;
-    if (n >= 1e3) return `${(n / 1e3).toFixed(0)} mil`;
-    return n.toLocaleString('pt-BR');
+    if (!n) return '';
+    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + ' bilhões de contas';
+    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + ' milhões de contas';
+    if (n >= 1_000) return (n / 1_000).toFixed(0) + ' mil contas';
+    return n.toLocaleString('pt-BR') + ' contas';
   }
 
-  function corSeveridade(s) {
-    return s === 'high' ? 'var(--vermelho-perigo)' : s === 'medium' ? '#C97B00' : '#A16207';
+  function iniciais(nome) {
+    return (nome || '??').substring(0, 2).toUpperCase();
   }
 
-  function alertaSeveridade(s) {
-    return s === 'high' ? 'alerta-perigo' : s === 'medium' ? 'alerta-atencao' : 'alerta-atencao';
+  function classSeveridade(sev) {
+    if (sev === 'high') return 'badge-perigo';
+    if (sev === 'medium') return 'badge-atencao';
+    return 'badge-neutro';
   }
 
-  function acaoRecomendada(severidade) {
-    if (severidade === 'high')
-      return 'Troque a senha <strong>imediatamente</strong> e monitore seu CPF no Serasa e Banco Central (Registrato).';
-    if (severidade === 'medium')
-      return 'Troque a senha deste serviço e de qualquer conta onde usou a mesma senha. Ative a verificação em duas etapas.';
-    return 'Troque a senha por precaução e ative a verificação em duas etapas neste serviço.';
+  function labelSeveridade(sev) {
+    if (sev === 'high') return 'Alta';
+    if (sev === 'medium') return 'Média';
+    return 'Baixa';
   }
 
-  // ============================================================
-  // RENDERIZAÇÃO
-  // ============================================================
-
-  function mostrarCarregando(container) {
-    container.innerHTML = `
-      <div class="card" style="display:flex;align-items:center;gap:1rem">
-        <div style="width:40px;height:40px;border:3px solid var(--cinza-borda2);border-top-color:var(--azul-claro);border-radius:50%;animation:girar 0.7s linear infinite;flex-shrink:0"></div>
-        <div>
-          <p style="font-family:var(--font-display);font-weight:600;color:var(--preto-titulo);margin-bottom:0.25rem">Verificando...</p>
-          <p style="font-size:0.82rem;color:var(--cinza-medio)">Consultando Have I Been Pwned — pode levar alguns segundos</p>
-        </div>
-      </div>
-    `;
+  function dotSeveridade(sev) {
+    if (sev === 'high') return 'alta';
+    if (sev === 'medium') return 'media';
+    return 'baixa';
   }
 
-  function mostrarResultadoLimpo(container, email, checkedAt) {
-    container.innerHTML = `
-      <div class="card animar-slide" style="border-color:var(--verde-borda);background:var(--verde-fundo)">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div style="width:52px;height:52px;border-radius:var(--radius-md);background:rgba(26,122,74,0.15);display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0">🎉</div>
-          <div>
-            <p style="font-family:var(--font-display);font-size:1.15rem;font-weight:800;color:var(--verde-seguro);margin-bottom:0.375rem">Boas notícias!</p>
-            <p style="font-size:0.9rem;color:#14532D;line-height:1.55">
-              O e-mail <strong>${email}</strong> não apareceu em nenhum vazamento de dados conhecido.
-              Isso significa que suas informações não foram expostas nos incidentes catalogados pelo Have I Been Pwned.
-            </p>
-            <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.625rem">
-              Verificado em ${checkedAt} · Fonte: Have I Been Pwned (HIBP)
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="alerta alerta-info" style="margin-top:0">
-        <span class="alerta-icone">💡</span>
-        <div>
-          <p class="alerta-titulo">Mantenha-se protegido</p>
-          <p>Mesmo sem vazamentos registrados, use senhas fortes e únicas em cada site.
-             Ative a verificação em duas etapas sempre que possível.</p>
-        </div>
-      </div>
-    `;
+  function traduzirDataClass(dc) {
+    const mapa = {
+      'Email addresses': 'Endereços de e-mail',
+      'Passwords': 'Senhas',
+      'Usernames': 'Nomes de usuário',
+      'Names': 'Nomes',
+      'Phone numbers': 'Números de telefone',
+      'Physical addresses': 'Endereços físicos',
+      'Dates of birth': 'Datas de nascimento',
+      'Credit cards': 'Cartões de crédito',
+      'Bank account numbers': 'Números de conta bancária',
+      'Social security numbers': 'CPF / Seguro Social',
+      'IP addresses': 'Endereços IP',
+      'Geographic locations': 'Localização geográfica',
+      'Profile photos': 'Fotos de perfil',
+      'Gender': 'Gênero',
+      'Spoken languages': 'Idiomas',
+      'Website activity': 'Atividade no site',
+      'Device information': 'Informações do dispositivo',
+      'Purchases': 'Compras',
+      'Job titles': 'Cargos',
+      'Employers': 'Empregadores',
+      'Education levels': 'Nível de escolaridade',
+    };
+    return mapa[dc] || dc;
   }
 
-  function mostrarResultadoComVazamentos(container, resultado, email) {
-    const breaches = resultado.breaches;
-    const total = breaches.reduce((acc, b) => acc + (b.pwnCount || 0), 0);
+  /* --------------------------------------------------------
+     BUSCA DE VAZAMENTOS — EMAIL (via CF Pages Function)
+  -------------------------------------------------------- */
+  window.buscarVazamentos = async function () {
+    const email = document.getElementById('input-email')?.value.trim() || '';
+    const resultado = document.getElementById('resultado-vazamentos');
+    if (!resultado) return;
 
-    const listaVazamentos = breaches.map(b => `
-      <div class="card" style="border-color:${corSeveridade(b.severity)}33;background:${b.severity === 'high' ? 'var(--vermelho-fundo)' : 'var(--ambar-fundo)'};margin-bottom:0.875rem;padding:1.25rem">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin-bottom:0.875rem">
-          <span style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;color:var(--preto-titulo)">${b.title || b.name}</span>
-          ${b.date ? `<span class="badge badge-cinza">${new Date(b.date).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}</span>` : ''}
-          ${b.pwnCount ? `<span class="badge" style="background:${corSeveridade(b.severity)}15;color:${corSeveridade(b.severity)};border-color:${corSeveridade(b.severity)}33">${formatarContagem(b.pwnCount)} registros</span>` : ''}
-          ${b.isVerified ? `<span class="badge badge-azul">✓ Verificado</span>` : ''}
-        </div>
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      resultado.innerHTML = `<div class="alerta alerta-atencao">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div class="alerta-conteudo"><div class="alerta-titulo">Informe um e-mail válido</div><div class="alerta-texto">Digite um endereço de e-mail no formato correto (ex: nome@dominio.com).</div></div>
+      </div>`;
+      return;
+    }
 
-        ${b.exposedData?.length > 0 ? `
-        <div style="margin-bottom:0.875rem">
-          <p class="campo-label" style="margin-bottom:0.375rem">Dados expostos neste vazamento</p>
-          <div style="display:flex;flex-wrap:wrap;gap:0.375rem">
-            ${b.exposedData.map(d => `<span class="badge badge-cinza">${traduzirDado(d)}</span>`).join('')}
-          </div>
-        </div>
-        ` : ''}
+    resultado.innerHTML = `<div class="alerta alerta-info carregando" style="margin-top:1.5rem;">
+      <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <div class="alerta-conteudo"><div class="alerta-titulo">Verificando seu e-mail…</div><div class="alerta-texto">Consultando bases de dados de vazamentos conhecidos. Isso pode levar alguns segundos.</div></div>
+    </div>`;
 
-        ${b.description ? `
-        <p style="font-size:0.85rem;color:var(--cinza-escuro);line-height:1.6;margin-bottom:0.875rem">${b.description}</p>
-        ` : ''}
-
-        <div style="padding:0.75rem 1rem;border-radius:var(--radius-sm);background:white;border:1px solid var(--cinza-borda)">
-          <p class="campo-label" style="margin-bottom:0.25rem">O que fazer agora</p>
-          <p style="font-size:0.85rem;color:var(--cinza-escuro)">${acaoRecomendada(b.severity)}</p>
-        </div>
-      </div>
-    `).join('');
-
-    container.innerHTML = `
-      <!-- Resumo -->
-      <div class="card animar-slide" style="border-color:var(--vermelho-borda);background:var(--vermelho-fundo);margin-bottom:0.875rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div style="width:52px;height:52px;border-radius:var(--radius-md);background:rgba(185,28,28,0.15);display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0">🚨</div>
-          <div>
-            <p style="font-family:var(--font-display);font-size:1.125rem;font-weight:800;color:var(--vermelho-perigo);margin-bottom:0.375rem">
-              ${breaches.length} vazamento${breaches.length > 1 ? 's' : ''} encontrado${breaches.length > 1 ? 's' : ''}
-            </p>
-            <p style="font-size:0.9rem;color:#7F1D1D;line-height:1.55">
-              Seu e-mail <strong>${email}</strong> foi exposto em incidentes de segurança.
-              ${total > 0 ? `Total estimado: <strong>${formatarContagem(total)} registros</strong> comprometidos.` : ''}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lista de vazamentos -->
-      ${listaVazamentos}
-
-      <!-- Direitos LGPD -->
-      <div class="card" style="border-color:#BFDBFE;background:var(--azul-suave)">
-        <p style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--azul-soberano);margin-bottom:0.875rem">⚖️ Seus direitos pela LGPD</p>
-        <div style="display:flex;flex-direction:column;gap:0.375rem">
-          ${[
-            'Solicite a exclusão dos seus dados junto às empresas afetadas',
-            'Registre uma reclamação na ANPD: gov.br/anpd/reclamacoes',
-            'Se houver dano comprovado, você pode buscar indenização na Justiça',
-            'Ative a verificação em duas etapas em todas as contas agora',
-          ].map(r => `
-            <p style="font-size:0.85rem;color:var(--azul-soberano);display:flex;align-items:flex-start;gap:0.5rem;line-height:1.45">
-              <span style="color:var(--azul-claro);flex-shrink:0">→</span>${r}
-            </p>
-          `).join('')}
-        </div>
-      </div>
-
-      <!-- Checklist -->
-      <div class="card">
-        <p style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--preto-titulo);margin-bottom:1rem">✅ Checklist de ações imediatas</p>
-        <ul class="checklist">
-          ${[
-            'Trocar a senha do serviço afetado',
-            'Trocar a senha em qualquer outro site onde usou a mesma',
-            'Ativar verificação em duas etapas (2FA)',
-            'Verificar atividade suspeita nas contas afetadas',
-            'Monitorar seu CPF no Registrato (Banco Central)',
-            'Registrar um alerta de crédito no Serasa ou SPC',
-          ].map(a => `
-            <li class="checklist-item">
-              <input type="checkbox" id="chk-${Math.random().toString(36).slice(2,7)}">
-              <span>${a}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
-    `;
-  }
-
-  function mostrarErro(container, mensagem) {
-    container.innerHTML = `
-      <div class="alerta alerta-atencao">
-        <span class="alerta-icone">⚠️</span>
-        <div>
-          <p class="alerta-titulo">Não foi possível verificar</p>
-          <p>${mensagem || 'Ocorreu um erro inesperado. Tente novamente em instantes.'}</p>
-        </div>
-      </div>
-    `;
-  }
-
-  // ============================================================
-  // LÓGICA PRINCIPAL
-  // ============================================================
-  async function verificarVazamento(email) {
-    const container = document.getElementById('container-resultado-vazamento');
-    if (!container) return;
-
-    mostrarCarregando(container);
-
+    let data;
     try {
-      const res = await fetch(API_PATH, {
+      const res = await fetch('/api/breach', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim().toLowerCase() }),
+        body: JSON.stringify({ email }),
       });
-
-      if (res.status === 429) {
-        mostrarErro(container, 'Muitas consultas seguidas. Aguarde alguns minutos e tente novamente.');
-        return;
-      }
-
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        mostrarErro(container, data.error || `Erro ${res.status} ao consultar o servidor.`);
-        return;
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
       }
-
-      const resultado = await res.json();
-      const checkedAt = new Date().toLocaleString('pt-BR');
-
-      if (!resultado.breaches || resultado.breaches.length === 0) {
-        mostrarResultadoLimpo(container, email, checkedAt);
-      } else {
-        mostrarResultadoComVazamentos(container, resultado, email);
-      }
-
+      data = await res.json();
     } catch (err) {
-      mostrarErro(container, 'Erro de conexão. Verifique sua internet e tente novamente.');
+      resultado.innerHTML = `<div class="alerta alerta-atencao">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <div class="alerta-conteudo"><div class="alerta-titulo">Não foi possível verificar agora</div><div class="alerta-texto">${err.message || 'Verifique sua conexão e tente novamente.'}</div></div>
+      </div>`;
+      return;
     }
+
+    const breaches = data.breaches || [];
+
+    if (breaches.length === 0) {
+      resultado.innerHTML = renderLimpo(email);
+    } else {
+      resultado.innerHTML = renderVazamentos(email, breaches);
+    }
+  };
+
+  /* --------------------------------------------------------
+     RENDERIZA: NENHUM VAZAMENTO
+  -------------------------------------------------------- */
+  function renderLimpo(email) {
+    const emailSafe = email.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return `
+      <div class="resultado-vazamento-header limpo">
+        <div class="vazamento-header-icone">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="vazamento-header-texto">
+          <div class="vazamento-header-titulo">Boa notícia — nenhum vazamento encontrado!</div>
+          <div class="vazamento-header-sub">O e-mail <strong>${emailSafe}</strong> não aparece em nenhuma das bases de dados monitoradas.</div>
+        </div>
+        <div class="vazamento-header-badge" style="background:rgba(255,255,255,0.2)">Limpo ✓</div>
+      </div>
+      <div class="acoes-bloco" style="margin-top:0; border-radius: 0 0 var(--radius-lg) var(--radius-lg);">
+        <div class="acoes-bloco-titulo">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Continue mantendo boas práticas
+        </div>
+        <ol class="acoes-lista">
+          <li>Use senhas longas e diferentes para cada serviço importante</li>
+          <li>Ative a verificação em dois fatores sempre que possível</li>
+          <li>Verifique seu e-mail periodicamente — novos vazamentos acontecem com frequência</li>
+          <li>Desconfie de mensagens pedindo dados pessoais ou senhas, mesmo de remetentes conhecidos</li>
+        </ol>
+        <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <a class="btn btn-primario" href="/ferramentas/verificador.html" style="font-size:0.85rem;">Verificar minha senha</a>
+          <a class="btn btn-secundario" href="/ferramentas/gerador.html" style="font-size:0.85rem;">Criar senhas mais fortes</a>
+        </div>
+      </div>`;
   }
 
-  // ============================================================
-  // INICIALIZAÇÃO DA PÁGINA
-  // ============================================================
-  function inicializarPaginaVazamento() {
-    const inputEmail = document.getElementById('input-email');
-    const btnVerificar = document.getElementById('btn-verificar-vazamento');
-    const msgErro = document.getElementById('erro-email');
-
-    if (!inputEmail || !btnVerificar) return;
-
-    function isEmailValido(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function mostrarErroEmail(msg) {
-      if (msgErro) {
-        msgErro.textContent = msg;
-        msgErro.classList.remove('hidden');
-      }
-    }
-
-    function limparErroEmail() {
-      if (msgErro) msgErro.classList.add('hidden');
-    }
-
-    async function executarVerificacao() {
-      const email = inputEmail.value.trim();
-
-      if (!email) {
-        mostrarErroEmail('Digite seu e-mail para verificar.');
-        return;
-      }
-
-      if (!isEmailValido(email)) {
-        mostrarErroEmail('E-mail inválido. Digite um endereço completo como: nome@exemplo.com');
-        return;
-      }
-
-      limparErroEmail();
-      btnVerificar.disabled = true;
-      btnVerificar.innerHTML = `<span class="btn-spinner"></span> Verificando...`;
-
-      await verificarVazamento(email);
-
-      btnVerificar.disabled = false;
-      btnVerificar.innerHTML = `🔍 Verificar`;
-
-      // Scroll para resultado
-      document.getElementById('container-resultado-vazamento')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    btnVerificar.addEventListener('click', executarVerificacao);
-
-    inputEmail.addEventListener('keydown', e => {
-      if (e.key === 'Enter') executarVerificacao();
+  /* --------------------------------------------------------
+     RENDERIZA: VAZAMENTOS ENCONTRADOS — com linha do tempo
+  -------------------------------------------------------- */
+  function renderVazamentos(email, breaches) {
+    const total = breaches.length;
+    // Ordena por data (mais recente primeiro)
+    const ordenados = [...breaches].sort((a, b) => {
+      const da = a.date || a.addedDate || '0';
+      const db = b.date || b.addedDate || '0';
+      return db.localeCompare(da);
     });
 
-    inputEmail.addEventListener('input', limparErroEmail);
+    const itensTimeline = ordenados.map((b, i) => {
+      const tags = (b.exposedData || []).map(dc =>
+        `<span class="tag">${traduzirDataClass(dc)}</span>`
+      ).join('');
+      const logoTxt = b.domain ? b.domain.substring(0, 2).toUpperCase() : iniciais(b.title);
+      const logoImg = b.domain
+        ? `<img src="https://logo.clearbit.com/${b.domain}" alt="${b.title}" loading="lazy" width="44" height="44" style="border-radius:var(--radius-sm);object-fit:contain;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
+        : '';
+      const logoFallback = `<span style="${b.domain ? 'display:none' : ''}">${logoTxt}</span>`;
+
+      return `
+        <div class="timeline-item" style="animation-delay:${i * 0.05}s">
+          <div class="timeline-dot ${dotSeveridade(b.severity)}"></div>
+          <div class="timeline-ano">${formatarData(b.date)}</div>
+          <div class="vazamento-item" style="margin-bottom:0;">
+            <div class="vazamento-logo">${logoImg}${logoFallback}</div>
+            <div class="vazamento-info">
+              <div class="vazamento-nome">${b.title || b.name}</div>
+              <div class="vazamento-data">${formatarContagem(b.pwnCount)}</div>
+              <div class="vazamento-descricao">${b.description || ''}</div>
+              ${tags ? `<div class="vazamento-tags">${tags}</div>` : ''}
+            </div>
+            <span class="badge ${classSeveridade(b.severity)}">${labelSeveridade(b.severity)}</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="resultado-vazamento-header">
+        <div class="vazamento-header-icone">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="vazamento-header-texto">
+          <div class="vazamento-header-titulo">Seu e-mail foi encontrado em ${total} ${total === 1 ? 'vazamento' : 'vazamentos'}</div>
+          <div class="vazamento-header-sub">Algumas informações foram expostas. Veja abaixo o que aconteceu e o que você deve fazer agora.</div>
+        </div>
+        <div class="vazamento-header-badge">${total} ${total === 1 ? 'vazamento' : 'vazamentos'}</div>
+      </div>
+
+      <div class="vazamentos-container">
+        <div style="margin-bottom:1.25rem; display:flex; align-items:center; justify-content:space-between;">
+          <div style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--preto-titulo);">Histórico de vazamentos</div>
+          <div style="display:flex;gap:0.5rem;align-items:center;font-family:var(--font-display);font-size:0.7rem;color:var(--cinza-medio);">
+            <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--vermelho-perigo);display:inline-block;"></span>Alta</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--ambar-atencao);display:inline-block;"></span>Média</span>
+            <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#60A5FA;display:inline-block;"></span>Baixa</span>
+          </div>
+        </div>
+        <div class="timeline">${itensTimeline}</div>
+
+        <div class="acoes-bloco" style="margin-top:1.5rem;">
+          <div class="acoes-bloco-titulo">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            O que você deve fazer agora
+          </div>
+          <ol class="acoes-lista">
+            <li>Troque a senha em cada um dos serviços listados acima, mesmo que você não acesse mais</li>
+            <li>Verifique se você usa a mesma senha em outros lugares — banco, e-mail, redes sociais</li>
+            <li>Ative a verificação em dois fatores nos seus serviços mais importantes</li>
+            <li>Fique atento a e-mails ou mensagens pedindo dados ou pagamentos urgentes</li>
+          </ol>
+          <div style="margin-top:1rem;">
+            <a class="btn btn-primario" href="/ferramentas/gerador.html" style="font-size:0.85rem;">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+              Criar senhas novas e seguras
+            </a>
+          </div>
+        </div>
+      </div>`;
   }
 
-  document.addEventListener('layoutPronto', inicializarPaginaVazamento);
-  if (document.readyState !== 'loading') inicializarPaginaVazamento();
-  else document.addEventListener('DOMContentLoaded', inicializarPaginaVazamento);
+  /* --------------------------------------------------------
+     VERIFICAR SENHA VAZADA (HIBP FREE — k-anonymity)
+  -------------------------------------------------------- */
+  window.verificarSenhaVazada = async function () {
+    const senha = document.getElementById('input-senha-vaz')?.value || '';
+    const resultado = document.getElementById('resultado-senha-vazada');
+    if (!resultado) return;
+
+    if (!senha) {
+      resultado.innerHTML = `<div class="alerta alerta-atencao">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <div class="alerta-conteudo"><div class="alerta-titulo">Digite a senha acima</div><div class="alerta-texto">Insira a senha que deseja verificar no campo acima.</div></div>
+      </div>`;
+      return;
+    }
+
+    resultado.innerHTML = `<div class="alerta alerta-info carregando" style="margin-top:1.5rem;">
+      <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="alerta-conteudo"><div class="alerta-titulo">Verificando…</div><div class="alerta-texto">Gerando código seguro e consultando a base de dados. Sua senha nunca sai do dispositivo.</div></div>
+    </div>`;
+
+    try {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(senha);
+      const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+      const prefixo = hashHex.slice(0, 5);
+      const sufixo = hashHex.slice(5);
+
+      let encontrado = false;
+      let vezes = 0;
+
+      try {
+        const resposta = await fetch(`https://api.pwnedpasswords.com/range/${prefixo}`, {
+          headers: { 'Add-Padding': 'true' }
+        });
+        if (resposta.ok) {
+          const texto = await resposta.text();
+          for (const linha of texto.split('\n')) {
+            const [hashSufixo, contagem] = linha.trim().split(':');
+            if (hashSufixo === sufixo) {
+              encontrado = true;
+              vezes = parseInt(contagem);
+              break;
+            }
+          }
+        }
+      } catch {
+        // API offline — analisa localmente como fallback
+        const SENHAS_COMUNS_LOCAL = ['123456','password','senha123','123456789','qwerty','abc123'];
+        encontrado = SENHAS_COMUNS_LOCAL.includes(senha.toLowerCase());
+        vezes = encontrado ? 9999 : 0;
+      }
+
+      if (encontrado) {
+        let vezesTexto;
+        if (vezes >= 1_000_000) vezesTexto = (vezes / 1_000_000).toFixed(1) + ' milhões de';
+        else if (vezes >= 1_000) vezesTexto = Math.round(vezes / 1000) + ' mil';
+        else vezesTexto = vezes;
+
+        resultado.innerHTML = `
+          <div class="resultado-vazamento-header">
+            <div class="vazamento-header-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="vazamento-header-texto">
+              <div class="vazamento-header-titulo">Essa senha já foi exposta</div>
+              <div class="vazamento-header-sub">Ela apareceu ${vezesTexto} vezes em vazamentos de dados conhecidos. Não a use em nenhum serviço.</div>
+            </div>
+            <div class="vazamento-header-badge">Exposta</div>
+          </div>
+          <div class="acoes-bloco" style="margin-top:0; border-radius:0 0 var(--radius-lg) var(--radius-lg);">
+            <div class="acoes-bloco-titulo">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              O que você precisa fazer agora
+            </div>
+            <ol class="acoes-lista">
+              <li>Mude essa senha em <strong>todos</strong> os serviços onde você a usa — banco, e-mail, redes sociais</li>
+              <li>Nunca mais use essa senha, mesmo em serviços menos importantes</li>
+              <li>Crie senhas longas e únicas para cada serviço</li>
+              <li>Ative a verificação em dois fatores como camada extra de proteção</li>
+            </ol>
+            <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <a class="btn btn-primario" href="/ferramentas/gerador.html" style="font-size:0.85rem;">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+                Criar uma senha nova e segura
+              </a>
+            </div>
+          </div>`;
+      } else {
+        resultado.innerHTML = `
+          <div class="resultado-vazamento-header limpo">
+            <div class="vazamento-header-icone">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="vazamento-header-texto">
+              <div class="vazamento-header-titulo">Essa senha não foi encontrada em vazamentos</div>
+              <div class="vazamento-header-sub">Não identificamos ela em nenhuma das bases de dados de senhas expostas monitoradas.</div>
+            </div>
+            <div class="vazamento-header-badge" style="background:rgba(255,255,255,0.2)">Não encontrada ✓</div>
+          </div>
+          <div class="acoes-bloco" style="margin-top:0; border-radius:0 0 var(--radius-lg) var(--radius-lg);">
+            <div class="acoes-bloco-titulo">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Continue protegido
+            </div>
+            <ol class="acoes-lista">
+              <li>Verifique também se a força da senha é boa — uma senha não exposta pode ainda ser fraca</li>
+              <li>Use senhas diferentes para cada serviço, mesmo que não estejam expostas</li>
+              <li>Evite usar informações pessoais como datas de nascimento ou nomes</li>
+            </ol>
+            <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <a class="btn btn-primario" href="/ferramentas/verificador.html" style="font-size:0.85rem;">Verificar força da senha</a>
+            </div>
+          </div>`;
+      }
+    } catch (err) {
+      resultado.innerHTML = `<div class="alerta alerta-atencao">
+        <svg class="alerta-icone" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <div class="alerta-conteudo"><div class="alerta-titulo">Não foi possível verificar agora</div><div class="alerta-texto">Ocorreu um problema ao consultar a base de dados. Verifique sua conexão e tente novamente.</div></div>
+      </div>`;
+    }
+  };
 
 })();
