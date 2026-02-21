@@ -1,5 +1,25 @@
 <!-- components/header.html -->
-<!-- Mobile toggle button (rendered outside header in app.js) -->
+
+<!-- =====================================================
+     GOOGLE ANALYTICS 4
+     Quando tiver o ID, substitua G-XXXXXXXXXX abaixo.
+     Por estar no header.html, carrega automaticamente
+     em TODAS as páginas sem tocar em nenhum outro arquivo.
+     ===================================================== -->
+<!-- GA_PLACEHOLDER_START -->
+<!-- Google Analytics será ativado aqui. Substitua G-XXXXXXXXXX pelo seu Measurement ID:
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
+<!-- GA_PLACEHOLDER_END -->
+
+<!-- Mobile toggle button -->
 <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
   <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
     <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>

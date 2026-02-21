@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Protetor Digital — Educação Digital</title>
+    <link>https://protetordigital.com/blog</link>
+    <description>Conteúdo simples e prático sobre segurança digital para o dia a dia do brasileiro.</description>
+    <language>pt-BR</language>
+    <lastBuildDate>Sun, 16 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://protetordigital.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://protetordigital.com/favicon.svg</url>
+      <title>Protetor Digital</title>
+      <link>https://protetordigital.com</link>
+    </image>
+
+    <item>
+      <title>Os Maiores Vazamentos de Dados de 2025 e Como se Proteger</title>
+      <link>https://protetordigital.com/blog/posts/maiores-vazamentos-2025</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/maiores-vazamentos-2025</guid>
+      <pubDate>Sun, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <description>2025 ficou marcado como o ano em que o Brasil enfrentou uma sequência sem precedentes de vazamentos de dados. Saiba o que aconteceu e como se proteger.</description>
+      <enclosure url="https://protetordigital.com/images/blog/cadeado-vazamento-dados.webp" type="image/webp"/>
+    </item>
+
+    <item>
+      <title>Verificação em Duas Etapas: O Que É e Como Ativar em 5 Minutos</title>
+      <link>https://protetordigital.com/blog/posts/como-usar-2fa</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/como-usar-2fa</guid>
+      <pubDate>Sun, 09 Feb 2026 00:00:00 +0000</pubDate>
+      <description>Mesmo que alguém descubra sua senha, a verificação em duas etapas impede o acesso à sua conta. Aprenda como ativar em 5 minutos.</description>
+      <enclosure url="https://protetordigital.com/images/blog/autenticacao-dois-fatores.webp" type="image/webp"/>
+    </item>
+
+    <item>
+      <title>O que fazer se seus dados vazaram</title>
+      <link>https://protetordigital.com/blog/posts/dados-vazaram</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/dados-vazaram</guid>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <description>Passo a passo prático para agir rapidamente e minimizar riscos quando seu e-mail aparece em um vazamento de dados.</description>
+    </item>
+
+    <item>
+      <title>Autenticação em dois fatores: o que é e por que usar</title>
+      <link>https://protetordigital.com/blog/posts/dois-fatores</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/dois-fatores</guid>
+      <pubDate>Mon, 01 Dec 2025 00:00:00 +0000</pubDate>
+      <description>Saiba como ativar essa camada extra de proteção no seu banco, Instagram, Gmail e outros serviços.</description>
+    </item>
+
+    <item>
+      <title>Guia definitivo de senhas seguras</title>
+      <link>https://protetordigital.com/blog/posts/senhas-seguras</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/senhas-seguras</guid>
+      <pubDate>Sat, 01 Nov 2025 00:00:00 +0000</pubDate>
+      <description>Entenda por que "senha123" coloca você em risco e como criar senhas que realmente protegem suas contas.</description>
+    </item>
+
+    <item>
+      <title>Como reconhecer um golpe pelo WhatsApp</title>
+      <link>https://protetordigital.com/blog/posts/golpes-whatsapp</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/golpes-whatsapp</guid>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <description>Aprenda os sinais mais comuns de golpes que circulam por mensagem e saiba o que fazer se receber um.</description>
+    </item>
+
+  </channel>
+</rss>
