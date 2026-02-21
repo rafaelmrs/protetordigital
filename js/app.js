@@ -153,6 +153,7 @@
     let link = '';
     if (rede === 'whatsapp') link = `https://wa.me/?text=${titulo}%20${url}`;
     if (rede === 'twitter') link = `https://twitter.com/intent/tweet?text=${titulo}&url=${url}`;
+    if (rede === 'facebook') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     if (rede === 'copiar') {
       navigator.clipboard.writeText(window.location.href).then(() => {
         const btn = document.querySelector('.compartilhar-btn.copiar');

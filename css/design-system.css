@@ -73,7 +73,7 @@ body {
   flex-direction: column;
   position: fixed;
   top: 0; left: 0;
-  z-index: 100;
+  z-index: 300;
   transition: transform 0.3s ease;
   overflow-y: auto;
 }
@@ -118,20 +118,20 @@ body {
 
 /* ---- MOBILE TOGGLE ---- */
 .sidebar-toggle {
-  display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200;
+  display: none; position: fixed; top: 0.85rem; left: 0.85rem; z-index: 200;
   background: var(--azul-soberano); color: white; border: none; border-radius: var(--radius-md);
   width: 40px; height: 40px; cursor: pointer; align-items: center; justify-content: center;
   box-shadow: var(--shadow-elevado);
 }
 .sidebar-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90;
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 250;
 }
 
 /* ---- TOPBAR ---- */
 .topbar {
   background: var(--branco); border-bottom: 1px solid var(--cinza-borda);
   padding: 0 var(--content-padding); height: 60px; display: flex;
-  align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50;
+  align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 150;
 }
 .topbar-titulo { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; color: var(--preto-titulo); }
 .topbar-direita { display: flex; align-items: center; gap: 1rem; }
@@ -532,8 +532,10 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
 .compartilhar-btn { display: flex; align-items: center; gap: 0.4rem; padding: 6px 12px; border-radius: var(--radius-sm); font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: all 0.15s; border: none; cursor: pointer; }
 .compartilhar-btn.whatsapp { background: #E7F9EF; color: #1A7A4A; }
 .compartilhar-btn.whatsapp:hover { background: #D1F0E0; }
-.compartilhar-btn.twitter { background: #E7F0FF; color: #1A4B8C; }
-.compartilhar-btn.twitter:hover { background: #D8E6FF; }
+.compartilhar-btn.twitter { background: #000; color: #fff; padding: 6px 10px; }
+.compartilhar-btn.twitter:hover { background: #222; }
+.compartilhar-btn.facebook { background: #E7EFFE; color: #1A439C; }
+.compartilhar-btn.facebook:hover { background: #D4E2FC; }
 .compartilhar-btn.copiar { background: var(--cinza-papel); color: var(--cinza-escuro); border: 1px solid var(--cinza-borda); }
 .compartilhar-btn.copiar:hover { background: var(--cinza-borda); }
 .compartilhar-btn svg { width: 14px; height: 14px; }
