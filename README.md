@@ -24,8 +24,8 @@ Artigos práticos sobre senhas, autenticação em dois fatores, golpes, vazament
 
 ## Privacidade por design
 
-- Senhas são analisadas **100% no navegador** — nunca saem do seu dispositivo
-- E-mails são verificados via k-Anonymity — apenas um prefixo parcial é enviado à API
+- Senhas são verificadas via **k-Anonymity** — apenas um prefixo parcial do hash é enviado à API, a senha nunca sai do seu dispositivo
+- E-mails são verificados via **HIBP** (Have I Been Pwned) — base de dados reconhecida mundialmente com bilhões de credenciais vazadas
 - Nenhum dado pessoal é armazenado em nossos servidores
 - Sem cookies de rastreamento próprios
 
