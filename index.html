@@ -10,22 +10,79 @@
 <meta property="og:description" content="Verifique senhas, e-mails vazados e links perigosos. Gratuito, sem cadastro.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://protetordigital.com/favicon.svg">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="Protetor Digital — RSS" href="/rss.xml">
 <link rel="stylesheet" href="/css/design-system.css">
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Protetor Digital",
-  "url": "https://protetordigital.com",
-  "description": "Verifique senhas, confira se seus dados vazaram e identifique links perigosos. Gratuito, sem cadastro, em linguagem simples.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://protetordigital.com/ferramentas/vazamentos?q={search_term_string}",
-    "query-input": "required name=search_term_string"
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Protetor Digital",
+    "url": "https://protetordigital.com",
+    "description": "Verifique senhas, confira se seus dados vazaram e identifique links perigosos. Gratuito, sem cadastro, em linguagem simples.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://protetordigital.com/ferramentas/vazamentos?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Protetor Digital",
+    "url": "https://protetordigital.com",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "BRL"
+    },
+    "description": "Ferramentas gratuitas de segurança digital: verificador de senhas, detector de vazamentos, gerador de senhas e verificador de links maliciosos."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Como saber se minha senha foi vazada?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use o Verificador de Senhas do Protetor Digital. Ele analisa sua senha localmente no navegador usando o método k-Anonymity — sua senha nunca é enviada para nossos servidores."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Como verificar se meu e-mail apareceu em um vazamento?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use a ferramenta Verificador de Vazamentos do Protetor Digital. Ela consulta a base do Have I Been Pwned (HIBP), que reúne bilhões de credenciais expostas em vazamentos conhecidos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Como saber se um link é seguro?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use o Verificador de Links do Protetor Digital. Ele consulta o Google Safe Browsing para identificar links maliciosos, de phishing ou com malware antes de você clicar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "O Protetor Digital armazena meus dados?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Não. Nenhuma senha, e-mail ou link verificado é armazenado em nossos servidores. A análise de senhas ocorre inteiramente no seu navegador."
+        }
+      }
+    ]
   }
-}
+]
 </script>
 </head>
 <body>
