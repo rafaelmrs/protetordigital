@@ -90,13 +90,13 @@
   -------------------------------------------------------- */
   function ativarNavItem() {
     const pathname = window.location.pathname;
+    const pathNorm = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
       item.classList.remove('ativo');
+      item.removeAttribute('aria-current');
       const href = item.getAttribute('href');
       if (!href) return;
-      // Compara pathname com href de forma exata
-      const pathNorm = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
       const hrefNorm = href.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
       if (pathNorm === hrefNorm) {
         item.classList.add('ativo');
