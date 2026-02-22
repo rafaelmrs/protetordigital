@@ -80,6 +80,7 @@
                 Verificar se meu e-mail foi afetado
               </a>
             </div>
+            <div class="fonte-consulta" style="margin-top:0.75rem;">Fonte: <a href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a> — serviço de referência mundial em detecção de vazamentos.</div>
           </div>
         </div>`;
 
