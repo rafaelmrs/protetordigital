@@ -153,10 +153,10 @@
           <div class="pegada-bloco">
             <div class="pegada-bloco-titulo">${svgShield} Proteção de IP</div>
             <div class="pegada-status-grid">
-              ${linhaStatus('VPN', vpnAtiva && !d.tor ? 'VPN ativa' : 'Sem VPN', d.vpn, 'Oculta seu IP e localização real')}
+              ${linhaStatus('VPN', d.vpn ? 'VPN ativa' : 'Sem VPN', d.vpn, 'Oculta seu IP e localização real')}
               ${linhaStatus('Tor', d.tor ? 'Tor ativo' : 'Sem Tor', d.tor, 'Anonimato avançado via rede Tor')}
-              ${linhaStatus('Proxy', d.proxy ? 'Proxy detectado' : 'Sem proxy', d.proxy, 'Intermediário entre você e os sites')}
-              ${linhaStatus('Hosting', d.hosting ? 'IP de datacenter' : 'IP residencial', !d.hosting, 'IPs de datacenter são bloqueados por alguns serviços')}
+              ${linhaStatus('Ameaça', d.threat === 'low' ? 'Baixa' : d.threat === 'medium' ? 'Média' : 'Alta', d.threat === 'low', 'Nível de ameaça associado a este IP')}
+              ${linhaStatus('Proteção', vpnAtiva ? 'IP protegido' : 'IP exposto', vpnAtiva, 'Seu IP real está visível para os sites que acessa')}
             </div>
           </div>
 
