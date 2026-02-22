@@ -58,30 +58,30 @@
         .map(dc => `<span class="tag">${dc}</span>`)
         .join('');
 
+      const descricaoHtml = b.descricao ? `<div class="vaz-desc-wrap">
+              <div class="vaz-desc-texto">${b.descricao}</div>
+              <button class="vaz-desc-toggle" onclick="this.previousElementSibling.classList.toggle('expandido');this.textContent=this.previousElementSibling.classList.contains('expandido')?'Ver menos ▲':'Ver mais ▼'">Ver mais ▼</button>
+            </div>` : '';
+
       card.innerHTML = `
-        <div class="vazamento-item" style="background:var(--branco);border:1px solid var(--cinza-borda);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:1rem;">
-          <div class="vazamento-logo" style="flex-shrink:0;">
-            <span>${logoTxt}</span>
-          </div>
-          <div class="vazamento-info" style="flex:1;min-width:0;">
-            <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.35rem;">
+        <div class="vazamento-item vaz-card">
+          <div class="vaz-topo">
+            <div class="vazamento-logo"><span>${logoTxt}</span></div>
+            <div class="vaz-topo-info">
               <div class="vazamento-nome">${b.title || b.name}</div>
-              <span class="badge ${classSeveridade(b.severity)}">${labelSeveridade(b.severity)}</span>
+              <div class="vazamento-data">${formatarContagem(b.pwn_count)}${b.added_date ? ' · Adicionado em ' + formatarDataExata(b.added_date) : ''}</div>
             </div>
-            <div class="vazamento-data" style="margin-bottom:0.5rem;">
-              ${formatarContagem(b.pwn_count)}
-              ${b.added_date ? ' · Adicionado em ' + formatarDataExata(b.added_date) : ''}
-            </div>
-            <div class="vazamento-descricao" style="margin-bottom:0.75rem;">${b.descricao || ''}</div>
-            ${tags ? `<div class="vazamento-tags">${tags}</div>` : ''}
-            <div style="margin-top:1rem;">
-              <a class="btn btn-primario" href="/ferramentas/vazamentos" style="font-size:0.85rem;">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                Verificar se meu e-mail foi afetado
-              </a>
-            </div>
-            <div class="fonte-consulta" style="margin-top:0.75rem;">Fonte: <a href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a> — serviço de referência mundial em detecção de vazamentos.</div>
+            <span class="badge ${classSeveridade(b.severity)}">${labelSeveridade(b.severity)}</span>
           </div>
+          ${descricaoHtml}
+          ${tags ? `<div class="vazamento-tags" style="margin-top:0.6rem;">${tags}</div>` : ''}
+          <div style="margin-top:1rem;">
+            <a class="btn btn-primario vaz-btn" href="/ferramentas/vazamentos">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              Verificar se meu e-mail foi afetado
+            </a>
+          </div>
+          <div class="fonte-consulta" style="margin-top:0.75rem;">Fonte: <a href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a></div>
         </div>`;
 
       secao.style.display = 'block';
