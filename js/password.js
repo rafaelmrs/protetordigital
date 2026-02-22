@@ -247,7 +247,7 @@
       'Adicione letras maiúsculas, minúsculas, números e símbolos. Evite sequências óbvias como "12345" ou "abcd".',
       'Aumente o comprimento para pelo menos 12 caracteres e adicione uma mistura de tipos de caracteres.',
       'Adicione símbolos como !, @, # ou % para fortalecer ainda mais. Tente chegar a 14 caracteres ou mais.',
-      'Boa senha — veja o que falta para o nível máximo.',
+      '',
       'Comprimento e variedade ideais. Lembre-se: use senhas diferentes para cada serviço.'
     ];
     const cores = ['var(--vermelho-perigo)','var(--vermelho-perigo)','var(--ambar-atencao)','#2E9E65','var(--verde-seguro)'];
@@ -256,7 +256,7 @@
       'Pode ser descoberta em menos de um segundo',
       'Pode ser quebrada rapidamente com ferramentas simples',
       'Tem alguma proteção, mas dá para melhorar',
-      'Boa senha — veja abaixo o que falta para o nível máximo',
+      'Boa proteção — um ajuste e você chega ao máximo',
       'Comprimento e variedade ideais — difícil de quebrar'
     ];
 
@@ -280,7 +280,7 @@
           </div>
         </div>
         <div class="senha-score-corpo">
-          <div class="senha-score-dica-box">${dicas_por_nivel[nivel]}</div>
+          ${dicas_por_nivel[nivel] ? `<div class="senha-score-dica-box">${dicas_por_nivel[nivel]}</div>` : ''}
           ${acaoBotao}
         </div>
       </div>`;
