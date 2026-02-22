@@ -53,6 +53,26 @@
     return 'Protetor Digital';
   }
 
+  
+/* --------------------------------------------------------
+   VER MAIS / VER MENOS — só aparece se texto foi truncado
+-------------------------------------------------------- */
+window.initVazDescToggles = function() {
+  document.querySelectorAll('.vaz-desc-wrap').forEach(wrap => {
+    const texto = wrap.querySelector('.vaz-desc-texto');
+    const btn   = wrap.querySelector('.vaz-desc-toggle');
+    if (!texto || !btn) return;
+    // Se o texto cabe sem truncar, esconde o botão
+    if (texto.scrollHeight <= texto.clientHeight + 2) {
+      btn.style.display = 'none';
+    }
+    btn.addEventListener('click', () => {
+      const expandido = texto.classList.toggle('expandido');
+      btn.textContent = expandido ? 'Ver menos ▲' : 'Ver mais ▼';
+    });
+  });
+};
+
   /* --------------------------------------------------------
      UTILITÁRIO: FETCH DE FRAGMENTO HTML
   -------------------------------------------------------- */

@@ -22,9 +22,9 @@
 
   function formatarContagem(n) {
     if (!n) return '';
-    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + ' bilhões de contas';
-    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + ' milhões de contas';
-    if (n >= 1_000) return (n / 1_000).toFixed(0) + ' mil contas';
+    if (n >= 1_000_000_000) return (n / 1_000_000_000).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' bilhões de contas';
+    if (n >= 1_000_000) return (n / 1_000_000).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' milhões de contas';
+    if (n >= 1_000) return Math.round(n / 1_000).toLocaleString('pt-BR') + ' mil contas';
     return n.toLocaleString('pt-BR') + ' contas';
   }
 
@@ -60,7 +60,7 @@
 
       const descricaoHtml = b.descricao ? `<div class="vaz-desc-wrap">
               <div class="vaz-desc-texto">${b.descricao}</div>
-              <button class="vaz-desc-toggle" onclick="this.previousElementSibling.classList.toggle('expandido');this.textContent=this.previousElementSibling.classList.contains('expandido')?'Ver menos ▲':'Ver mais ▼'">Ver mais ▼</button>
+              <button class="vaz-desc-toggle">Ver mais ▼</button>
             </div>` : '';
 
       card.innerHTML = `
@@ -85,6 +85,7 @@
         </div>`;
 
       secao.style.display = 'block';
+      if (typeof window.initVazDescToggles === 'function') window.initVazDescToggles();
     } catch (e) {
       // Falha silenciosa — a seção simplesmente não aparece
     }

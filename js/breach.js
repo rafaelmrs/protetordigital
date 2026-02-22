@@ -19,9 +19,9 @@
 
   function formatarContagem(n) {
     if (!n) return '';
-    if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + ' bilhões de contas';
-    if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + ' milhões de contas';
-    if (n >= 1_000) return (n / 1_000).toFixed(0) + ' mil contas';
+    if (n >= 1_000_000_000) return (n / 1_000_000_000).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' bilhões de contas';
+    if (n >= 1_000_000) return (n / 1_000_000).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' milhões de contas';
+    if (n >= 1_000) return Math.round(n / 1_000).toLocaleString('pt-BR') + ' mil contas';
     return n.toLocaleString('pt-BR') + ' contas';
   }
 
@@ -121,6 +121,7 @@
       resultado.innerHTML = renderLimpo(email);
     } else {
       resultado.innerHTML = renderVazamentos(email, breaches);
+      setTimeout(() => { if (typeof window.initVazDescToggles === 'function') window.initVazDescToggles(); }, 50);
     }
   };
 
@@ -181,7 +182,7 @@
 
       const descHtml = b.description ? `<div class="vaz-desc-wrap">
               <div class="vaz-desc-texto">${b.description}</div>
-              <button class="vaz-desc-toggle" onclick="this.previousElementSibling.classList.toggle('expandido');this.textContent=this.previousElementSibling.classList.contains('expandido')?'Ver menos ▲':'Ver mais ▼'">Ver mais ▼</button>
+              <button class="vaz-desc-toggle">Ver mais ▼</button>
             </div>` : '';
 
       return `
@@ -304,7 +305,7 @@
 
       if (encontrado) {
         let vezesTexto;
-        if (vezes >= 1_000_000) vezesTexto = (vezes / 1_000_000).toFixed(1) + ' milhões de';
+        if (vezes >= 1_000_000) vezesTexto = (vezes / 1_000_000).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + ' milhões de';
         else if (vezes >= 1_000) vezesTexto = Math.round(vezes / 1000) + ' mil';
         else vezesTexto = vezes;
 

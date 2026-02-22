@@ -421,7 +421,13 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
 /* ---- REWORK CARDS DE VAZAMENTO ---- */
 .vaz-card {
   display: block !important;
+  grid-template-columns: unset !important;
+  grid-template-rows: unset !important;
   padding: 1rem 1.25rem !important;
+  overflow: hidden;
+  word-break: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .vaz-topo {
   display: flex;
@@ -435,9 +441,8 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
 }
 .vaz-topo-info .vazamento-nome {
   margin-bottom: 0.1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .vaz-topo-info .vazamento-data {
   margin-bottom: 0;
