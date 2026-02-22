@@ -1,0 +1,17 @@
+{
+  "name": "CarGurus",
+  "title": "CarGurus",
+  "domain": "cargurus.com",
+  "breach_date": "2026-02-14",
+  "added_date": "2026-02-22",
+  "pwn_count": 12461887,
+  "data_classes_pt": [
+    "Endereços de e-mail",
+    "Endereços IP",
+    "Nomes",
+    "Números de telefone",
+    "Endereços físicos"
+  ],
+  "descricao": "Em fevereiro de 2026, o marketplace automotivo CarGurus foi alvo de um vazamento de dados atribuído ao grupo ShinyHunters. Após uma tentativa de extorsão fracassada, os dados foram publicados e continham mais de 12 milhões de endereços de e-mail em múltiplos arquivos, incluindo mapeamentos de contas de usuário, dados de aplicações de financiamento e informações de contas de revendedores. Os dados afetados também incluíam nomes, números de telefone, endereços físicos e IP, e resultados de solicitações de financiamento automotivo.",
+  "severity": "high"
+}

@@ -58,16 +58,23 @@ async function getTranslationFromJson(name, env) {
     const pt = await loadTranslationJson(env);
     if (!pt || !name) return null;
     const key = name.toLowerCase();
+    // Helper: extrai descrição independente da estrutura (string legada ou objeto novo)
+    const extrairDesc = (v) => {
+      if (!v) return null;
+      if (typeof v === 'string') return v;
+      if (typeof v === 'object') return v.descricao || null;
+      return null;
+    };
     // 1. Correspondência exata (lowercase)
-    if (pt[key]) return pt[key];
+    if (pt[key]) return extrairDesc(pt[key]);
     // 2. Correspondência pelo Name original
-    if (pt[name]) return pt[name];
+    if (pt[name]) return extrairDesc(pt[name]);
     // 3. Correspondência fuzzy — apenas se a chave for longa o suficiente (evita falsos positivos)
     for (const [k, v] of Object.entries(pt)) {
       if (k.startsWith('_')) continue;
       if (k.length < 4) continue;
-      if (key === k.toLowerCase()) return v;
-      if (key.includes(k.toLowerCase()) || k.toLowerCase().includes(key)) return v;
+      if (key === k.toLowerCase()) return extrairDesc(v);
+      if (key.includes(k.toLowerCase()) || k.toLowerCase().includes(key)) return extrairDesc(v);
     }
   } catch {}
   return null;
