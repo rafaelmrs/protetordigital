@@ -179,19 +179,26 @@
       const logoImg = '';
       const logoFallback = `<span>${logoTxt}</span>`;
 
+      const descHtml = b.description ? `<div class="vaz-desc-wrap">
+              <div class="vaz-desc-texto">${b.description}</div>
+              <button class="vaz-desc-toggle" onclick="this.previousElementSibling.classList.toggle('expandido');this.textContent=this.previousElementSibling.classList.contains('expandido')?'Ver menos ▲':'Ver mais ▼'">Ver mais ▼</button>
+            </div>` : '';
+
       return `
         <div class="timeline-item" style="animation-delay:${i * 0.05}s">
           <div class="timeline-dot ${dotSeveridade(b.severity)}"></div>
           <div class="timeline-ano">${formatarData(b.date)}</div>
-          <div class="vazamento-item" style="margin-bottom:0;">
-            <div class="vazamento-logo">${logoImg}${logoFallback}</div>
-            <div class="vazamento-info">
-              <div class="vazamento-nome">${b.title || b.name}</div>
-              <div class="vazamento-data">${formatarContagem(b.pwnCount)}</div>
-              <div class="vazamento-descricao">${b.description || ''}</div>
-              ${tags ? `<div class="vazamento-tags">${tags}</div>` : ''}
+          <div class="vazamento-item vaz-card" style="margin-bottom:0;">
+            <div class="vaz-topo">
+              <div class="vazamento-logo">${logoImg}${logoFallback}</div>
+              <div class="vaz-topo-info">
+                <div class="vazamento-nome">${b.title || b.name}</div>
+                <div class="vazamento-data">${formatarContagem(b.pwnCount)}</div>
+              </div>
+              <span class="badge ${classSeveridade(b.severity)}">${labelSeveridade(b.severity)}</span>
             </div>
-            <span class="badge ${classSeveridade(b.severity)}">${labelSeveridade(b.severity)}</span>
+            ${descHtml}
+            ${tags ? `<div class="vazamento-tags" style="margin-top:0.6rem;">${tags}</div>` : ''}
           </div>
         </div>`;
     }).join('');
