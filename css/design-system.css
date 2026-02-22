@@ -592,6 +592,37 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
   .artigo-titulo { font-size: 1.5rem; }
   .content-area { padding: 1rem; }
   .home-hero { padding: 1.25rem; }
+
+  /* 1. Botões hero — largura total em telas pequenas */
+  .hero-acoes { flex-direction: column; }
+  .hero-acoes .btn { width: 100%; text-align: center; justify-content: center; }
+
+  /* 2 & 3. Cards de vazamento — descrição ocupa largura toda */
+  .vazamento-item {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+  }
+  .vazamento-item .badge {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+  }
+  .vazamento-item .vazamento-info {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  /* Último vazamento na home — botão responsivo */
+  .ultimo-vazamento .vazamento-item {
+    flex-wrap: wrap;
+  }
+  #ultimo-vazamento-card .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+  }
 }
 
 /* Atribuição de fonte de dados nas ferramentas */
