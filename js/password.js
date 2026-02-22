@@ -282,6 +282,19 @@
         <div class="senha-score-corpo">
           <div class="senha-score-dica-box">${nivel === 3 ? r.dica : dicas_por_nivel[nivel]}</div>
           ${acaoBotao}
+          ${nivel >= 3 ? `
+      <div style="margin-top:1.25rem;background:var(--azul-suave);border:1px solid rgba(37,99,184,0.15);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;">
+        <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--azul-soberano);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Onde guardar suas senhas com segurança
+        </div>
+        <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Um gerenciador de senhas cria e memoriza senhas únicas e fortes para cada site — sem você precisar lembrar de nenhuma delas.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+          <a href="https://nordpass.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+          <a href="https://1password.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">1Password</a>
+          <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
+        </div>
+      </div>` : ''}
         </div>
       </div>`;
   };
