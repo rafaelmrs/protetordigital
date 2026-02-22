@@ -5,13 +5,22 @@
     <link>https://protetordigital.com/blog</link>
     <description>Conteúdo simples e prático sobre segurança digital para o dia a dia do brasileiro.</description>
     <language>pt-BR</language>
-    <lastBuildDate>Thu, 19 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://protetordigital.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://protetordigital.com/favicon.svg</url>
       <title>Protetor Digital</title>
       <link>https://protetordigital.com</link>
     </image>
+
+        <item>
+      <title>IA do Mal: Como os Criminosos Estão Usando Robôs para "Adivinhar" Sua Senha em Segundos</title>
+      <link>https://protetordigital.com/blog/posts/ia-ataque-senhas</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/ia-ataque-senhas</guid>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      <description>Em 2026, quem tenta invadir suas contas não é um hacker humano — é uma IA treinada com bilhões de senhas vazadas. Entenda como funciona e como se proteger.</description>
+      <enclosure url="https://protetordigital.com/images/blog/ia-ataque-senhas.webp" type="image/webp"/>
+    </item>
 
     <item>
       <title>Melhor Antivírus em 2026: qual protege de verdade?</title>
