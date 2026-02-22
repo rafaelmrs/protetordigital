@@ -172,6 +172,17 @@
                 <div class="alerta-texto">Se você recebeu esse link por WhatsApp, SMS ou e-mail, <strong>não clique</strong>. Apague a mensagem e bloqueie o remetente se desconhecido.</div>
               </div>
             </div>
+            <div style="margin-top:1rem;background:#FFF8F8;border:1px solid rgba(185,28,28,0.15);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;">
+              <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--vermelho-perigo);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Proteja seu dispositivo contra ameaças como essa
+              </div>
+              <p style="font-family:var(--font-body);font-size:0.82rem;color:#7F1D1D;line-height:1.55;margin-bottom:0.75rem;">Um antivírus bloqueia automaticamente sites e arquivos maliciosos antes que causem dano — mesmo quando você clica sem querer.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                <a href="https://www.bitdefender.com.br" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:#7F1D1D;background:white;border:1px solid rgba(185,28,28,0.25);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitdefender</a>
+                <a href="https://www.malwarebytes.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:#7F1D1D;background:white;border:1px solid rgba(185,28,28,0.25);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Malwarebytes</a>
+              </div>
+            </div>
           </div>
         </div>`;
     }
