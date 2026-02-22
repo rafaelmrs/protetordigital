@@ -11,11 +11,11 @@ Plataforma brasileira de educação e ferramentas de segurança digital. Gratuit
 O Protetor Digital oferece ferramentas práticas para o usuário comum verificar e melhorar sua segurança digital, sem precisar de conhecimento técnico.
 
 **Ferramentas disponíveis:**
-- **Verificador de Senhas** — analisa a força da senha localmente no navegador (nenhum dado enviado ao servidor)
-- **Verificador de Vazamentos** — consulta se seu e-mail apareceu em bases de dados vazadas (via HIBP)
+- **Termômetro de Senhas** — analisa a força da senha localmente no navegador (nenhum dado enviado ao servidor)
+- **Radar de Vazamentos** — consulta se seu e-mail apareceu em bases de dados vazadas (via HIBP)
 - **Gerador de Senhas** — cria senhas fortes com `crypto.getRandomValues`
 - **Verificador de Links** — identifica URLs maliciosas via Google Safe Browsing
-- **Termômetro Digital** — avaliação geral do nível de segurança digital do usuário
+- **Senhas Vazadas** — verifica se sua senha foi exposta em vazamentos conhecidos (via HIBP, k-Anonymity)
 
 **Blog:**
 Artigos práticos sobre senhas, autenticação em dois fatores, golpes, vazamentos e proteção online.
