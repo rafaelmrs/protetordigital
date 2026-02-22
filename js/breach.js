@@ -156,6 +156,18 @@
           <a class="btn btn-primario" href="/ferramentas/termometro.html" style="font-size:0.85rem;">Verificar minha senha</a>
           <a class="btn btn-secundario" href="/ferramentas/gerador.html" style="font-size:0.85rem;">Criar senhas mais fortes</a>
         </div>
+        <div style="margin-top:1rem;background:var(--azul-suave);border:1px solid rgba(37,99,184,0.15);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;">
+          <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--azul-soberano);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Mantenha assim — use senhas únicas em cada site
+          </div>
+          <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Seus dados estão limpos agora. Para manter assim, o ideal é ter uma senha diferente para cada serviço. Um gerenciador faz isso por você automaticamente.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <a href="https://nordpass.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+            <a href="https://1password.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">1Password</a>
+            <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
+          </div>
+        </div>
       </div>`;
   }
 
@@ -243,6 +255,18 @@
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
               Criar senhas novas e seguras
             </a>
+          </div>
+          <div style="margin-top:1rem;background:var(--azul-suave);border:1px solid rgba(37,99,184,0.15);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;">
+            <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--azul-soberano);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Troque suas senhas com mais segurança
+            </div>
+            <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Um gerenciador cria e memoriza senhas únicas para cada site — você nunca mais precisa reutilizar a mesma senha.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+              <a href="https://nordpass.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+              <a href="https://1password.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">1Password</a>
+              <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
+            </div>
           </div>
         </div>
       </div>`;
