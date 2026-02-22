@@ -13,6 +13,13 @@
     return d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
   }
 
+  function formatarDataExata(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T12:00:00'); // evita problema de fuso
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+
   function formatarContagem(n) {
     if (!n) return '';
     if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(1) + ' bilhões de contas';
@@ -63,8 +70,7 @@
             </div>
             <div class="vazamento-data" style="margin-bottom:0.5rem;">
               ${formatarContagem(b.pwn_count)}
-              ${b.breach_date ? ' · ' + formatarData(b.breach_date) : ''}
-              ${b.added_date ? ' · Adicionado em ' + formatarData(b.added_date) : ''}
+              ${b.added_date ? ' · Adicionado em ' + formatarDataExata(b.added_date) : ''}
             </div>
             <div class="vazamento-descricao" style="margin-bottom:0.75rem;">${b.descricao || ''}</div>
             ${tags ? `<div class="vazamento-tags">${tags}</div>` : ''}
