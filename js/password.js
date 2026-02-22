@@ -34,17 +34,18 @@
     }
 
     // Pontuação: máximo 4 pontos
-    // Regra: 12+ caracteres é OBRIGATÓRIO para chegar ao nível 4.
-    // Com menos de 12 chars, o teto é 3 — independentemente da variedade de caracteres.
+    // Para atingir 4/4 (Excelente): obrigatório ter 12+ chars E todos os 4 tipos de caracteres.
+    // Com qualquer critério faltando, o teto é 3.
     let score = 0;
-    if (tamanhoMin)  score++;                           // >= 8 chars
-    if (tamanhoOk)   score++;                           // >= 12 chars (substitui o +1 de tamanhoMin)
-    if (temMaiuscula && temMinuscula) score++;
-    if (temNumero)   score++;
-    if (temEspecial) score++;
+    if (tamanhoMin)                       score++;  // >= 8 chars
+    if (tamanhoOk)                        score++;  // >= 12 chars
+    if (temMaiuscula && temMinuscula)     score++;  // letras mistas
+    if (temNumero)                        score++;  // números
+    if (temEspecial)                      score++;  // símbolos
 
-    // Teto: sem 12+ chars, máximo é 3/4
-    const teto = tamanhoOk ? 4 : 3;
+    // Nível máximo (4/4) exige 12+ chars E os 4 tipos de caracteres
+    const variedadeCompleta = temMaiuscula && temMinuscula && temNumero && temEspecial;
+    const teto = (tamanhoOk && variedadeCompleta) ? 4 : 3;
     const idx  = Math.min(score, teto);
 
     const labels = ['Muito fraca', 'Fraca', 'Razoável', 'Boa', 'Excelente'];
@@ -56,7 +57,7 @@
       'Parabéns! Essa senha é muito difícil de quebrar'
     ];
     return { score: idx, label: labels[idx], dica: dicas[idx],
-             temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, eComum: false };
+             temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, variedadeCompleta, eComum: false };
   };
 
 
@@ -146,6 +147,20 @@
     }
 
     const r = calcularForca(senha);
+
+    // For score=3: build a specific message about what's missing for level 4
+    if (r.score === 3 && !r.eComum) {
+      const faltando = [];
+      if (!r.tamanhoOk)        faltando.push('12+ caracteres');
+      if (!r.temMaiuscula)     faltando.push('letra maiúscula');
+      if (!r.temMinuscula)     faltando.push('letra minúscula');
+      if (!r.temNumero)        faltando.push('um número');
+      if (!r.temEspecial)      faltando.push('um símbolo (!@#…)');
+      if (faltando.length > 0) {
+        r.dica = 'Para chegar ao nível máximo, adicione: ' + faltando.join(', ') + '.';
+      }
+    }
+
     container.style.display = 'block';
     barra.className = 'forca-barra-wrapper forca-' + r.score;
     labelEl.textContent = r.label;
@@ -185,7 +200,7 @@
             <div style="display:flex;align-items:center;gap:0.75rem;">
               <span style="font-size:1.5rem;" aria-hidden="true">${emojis[t.nivel]}</span>
               <div style="flex:1;">
-                <div style="font-family:var(--font-display);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--cinza-medio);margin-bottom:0.2rem;">Resistência a ataque de força bruta</div>
+                <div style="font-family:var(--font-display);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--cinza-medio);margin-bottom:0.2rem;">Quanto tempo um robô levaria para descobrir?</div>
                 <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:${cores[t.nivel]};">${t.texto}</div>
               </div>
               ${t.bits ? `<div style="text-align:right;"><div style="font-family:var(--font-display);font-size:0.65rem;color:var(--cinza-medio);text-transform:uppercase;letter-spacing:0.04em;">Entropia</div><div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--cinza-escuro);">${t.bits} bits</div></div>` : ''}
@@ -232,7 +247,7 @@
       'Adicione letras maiúsculas, minúsculas, números e símbolos. Evite sequências óbvias como "12345" ou "abcd".',
       'Aumente o comprimento para pelo menos 12 caracteres e adicione uma mistura de tipos de caracteres.',
       'Adicione símbolos como !, @, # ou % para fortalecer ainda mais. Tente chegar a 14 caracteres ou mais.',
-      'Quase lá! Aumente para 12 ou mais caracteres para atingir o nível máximo (recomendação OWASP).',
+      'Boa senha — veja o que falta para o nível máximo.',
       'Comprimento e variedade ideais. Lembre-se: use senhas diferentes para cada serviço.'
     ];
     const cores = ['var(--vermelho-perigo)','var(--vermelho-perigo)','var(--ambar-atencao)','#2E9E65','var(--verde-seguro)'];
@@ -241,7 +256,7 @@
       'Pode ser descoberta em menos de um segundo',
       'Pode ser quebrada rapidamente com ferramentas simples',
       'Tem alguma proteção, mas dá para melhorar',
-      'Boa senha — aumente para 12+ caracteres para chegar ao nível máximo',
+      'Boa senha — veja abaixo o que falta para o nível máximo',
       'Comprimento e variedade ideais — difícil de quebrar'
     ];
 
