@@ -599,29 +599,34 @@ input[type="range"] { width: 100%; accent-color: var(--azul-claro); cursor: poin
 
   /* 2 & 3. Cards de vazamento — descrição ocupa largura toda */
   .vazamento-item {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
     grid-template-rows: auto auto;
   }
-  .vazamento-item .badge {
-    grid-column: 2;
+  /* Logo: linha 1, coluna 1 */
+  .vazamento-item .vazamento-logo {
+    grid-column: 1;
     grid-row: 1;
-    justify-self: end;
+  }
+  /* Badge: linha 1, coluna 3 */
+  .vazamento-item .badge {
+    grid-column: 3;
+    grid-row: 1;
     align-self: start;
   }
+  /* Info: linha 2, ocupa todas as colunas */
   .vazamento-item .vazamento-info {
     grid-column: 1 / -1;
     grid-row: 2;
   }
 
   /* Último vazamento na home — botão responsivo */
-  .ultimo-vazamento .vazamento-item {
-    flex-wrap: wrap;
-  }
   #ultimo-vazamento-card .btn {
     width: 100%;
     justify-content: center;
     text-align: center;
     box-sizing: border-box;
+    white-space: normal;
+    min-width: 0;
   }
 }
 
