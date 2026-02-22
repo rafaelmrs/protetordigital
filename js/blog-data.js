@@ -10,6 +10,20 @@ window.BLOG_CONFIG = {
 
   // ── Lista de todos os posts ──
     posts: [
+        {
+      slug: 'ia-ataque-senhas',
+      url: '/blog/posts/ia-ataque-senhas',
+      titulo: 'IA do Mal: Como os Criminosos Estão Usando Robôs para "Adivinhar" Sua Senha em Segundos',
+      descricao: 'Em 2026, quem tenta invadir suas contas não é um hacker humano — é uma IA treinada com bilhões de senhas vazadas. Entenda como funciona e como se proteger.',
+      data: '2026-02-22',
+      dataFormatada: '22 de fevereiro de 2026',
+      leitura: '5 min',
+      imagem: '/images/blog/ia-ataque-senhas.webp',
+      imagemAlt: 'Robô saindo da tela de um laptop com código malicioso ao fundo, representando ataques de IA contra senhas',
+      categoria: 'Segurança',
+      corCategoria: 'vermelho',
+      icone: 'alert',
+    },
     {
       slug: 'melhor-antivirus',
       url: '/blog/posts/melhor-antivirus',

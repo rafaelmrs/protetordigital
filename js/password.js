@@ -22,32 +22,91 @@
     if (!senha) return { score: -1 };
     const temMaiuscula = /[A-Z]/.test(senha);
     const temMinuscula = /[a-z]/.test(senha);
-    const temNumero = /[0-9]/.test(senha);
-    const temEspecial = /[^A-Za-z0-9]/.test(senha);
-    const tamanhoOk = senha.length >= 12;
-    const eComum = SENHAS_COMUNS.includes(senha.toLowerCase());
+    const temNumero    = /[0-9]/.test(senha);
+    const temEspecial  = /[^A-Za-z0-9]/.test(senha);
+    const tamanhoMin   = senha.length >= 8;
+    const tamanhoOk    = senha.length >= 12;  // 12+ = critério OWASP para nível máximo
+    const eComum       = SENHAS_COMUNS.includes(senha.toLowerCase());
 
     if (eComum) {
-      return { score: 0, label: 'Senha muito conhecida', dica: 'Essa senha está em listas de hackers', temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, eComum: true };
+      return { score: 0, label: 'Senha muito conhecida', dica: 'Essa senha está em listas de hackers',
+               temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, eComum: true };
     }
 
+    // Pontuação: máximo 4 pontos
+    // Para atingir 4/4 (Excelente): obrigatório ter 12+ chars E todos os 4 tipos de caracteres.
+    // Com qualquer critério faltando, o teto é 3.
     let score = 0;
-    if (senha.length >= 8) score++;
-    if (senha.length >= 12) score++;
-    if (temMaiuscula && temMinuscula) score++;
-    if (temNumero) score++;
-    if (temEspecial) score++;
+    if (tamanhoMin)                       score++;  // >= 8 chars
+    if (tamanhoOk)                        score++;  // >= 12 chars
+    if (temMaiuscula && temMinuscula)     score++;  // letras mistas
+    if (temNumero)                        score++;  // números
+    if (temEspecial)                      score++;  // símbolos
+
+    // Nível máximo (4/4) exige 12+ chars E os 4 tipos de caracteres
+    const variedadeCompleta = temMaiuscula && temMinuscula && temNumero && temEspecial;
+    const teto = (tamanhoOk && variedadeCompleta) ? 4 : 3;
+    const idx  = Math.min(score, teto);
 
     const labels = ['Muito fraca', 'Fraca', 'Razoável', 'Boa', 'Excelente'];
-    const dicas = [
+    const dicas  = [
       'Adicione letras, números e símbolos',
-      'Tente aumentar o comprimento',
+      'Tente aumentar o comprimento para pelo menos 12 caracteres',
       'Adicione símbolos ou mais caracteres',
-      'Quase lá — adicione símbolos para chegar ao máximo',
+      'Quase lá — adicione um símbolo especial ou aumente para 12+ caracteres',
       'Parabéns! Essa senha é muito difícil de quebrar'
     ];
-    const idx = Math.min(score, 4);
-    return { score: idx, label: labels[idx], dica: dicas[idx], temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, eComum: false };
+    return { score: idx, label: labels[idx], dica: dicas[idx],
+             temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, variedadeCompleta, eComum: false };
+  };
+
+
+  /* --------------------------------------------------------
+     CALCULAR TEMPO PARA QUEBRAR SENHA (linguagem simples)
+  -------------------------------------------------------- */
+  window.calcularTempo = function(senha) {
+    if (!senha) return null;
+
+    const len = senha.length;
+    const temMaiuscula = /[A-Z]/.test(senha);
+    const temMinuscula = /[a-z]/.test(senha);
+    const temNumero    = /[0-9]/.test(senha);
+    const temEspecial  = /[^A-Za-z0-9]/.test(senha);
+
+    // Tamanho do alfabeto usado
+    let alfabeto = 0;
+    if (temMinuscula) alfabeto += 26;
+    if (temMaiuscula) alfabeto += 26;
+    if (temNumero)    alfabeto += 10;
+    if (temEspecial)  alfabeto += 32;
+    if (alfabeto === 0) alfabeto = 10;
+
+    // Entropia em bits: log2(alfabeto^comprimento)
+    const bits = len * Math.log2(alfabeto);
+
+    // Velocidade de ataque: usamos bcrypt cost=10 como referência
+    // pois é o algoritmo mais comum em serviços bem configurados.
+    // MD5 (pior caso real): ~164 bilhões/s — bcrypt cost=10: ~10.000/s
+    // Usamos 1 bilhão/s: conservador mas representativo de hashes rápidos (SHA-256)
+    // e mostramos o contexto ao usuário.
+    const tentativas = Math.pow(alfabeto, len);
+    const porSegundo = 1e9; // 1 bilhão/s — SHA-256 típico
+    const segundos   = tentativas / porSegundo;
+
+    function formatar(s) {
+      if (s < 1)          return { texto: 'menos de 1 segundo',  nivel: 'critico' };
+      if (s < 60)         return { texto: Math.round(s) + ' segundos', nivel: 'critico' };
+      if (s < 3600)       return { texto: Math.round(s/60) + ' minutos', nivel: 'ruim' };
+      if (s < 86400)      return { texto: Math.round(s/3600) + ' horas', nivel: 'ruim' };
+      if (s < 2592000)    return { texto: Math.round(s/86400) + ' dias', nivel: 'medio' };
+      if (s < 31536000)   return { texto: Math.round(s/2592000) + ' meses', nivel: 'medio' };
+      if (s < 3.15e9)     return { texto: Math.round(s/31536000).toLocaleString('pt-BR') + ' anos', nivel: 'bom' };
+      return { texto: 'mais de ' + Math.round(s/31536000).toLocaleString('pt-BR') + ' anos', nivel: 'otimo' };
+    }
+
+    const r = formatar(segundos);
+    r.bits = Math.round(bits);
+    return r;
   };
 
   /* --------------------------------------------------------
@@ -81,11 +140,27 @@
     if (!senha) {
       container.style.display = 'none';
       if (resultado) resultado.innerHTML = '';
+      const tempoVazio = document.getElementById('tempo-quebrar');
+      if (tempoVazio) tempoVazio.style.display = 'none';
       ['dica-tamanho','dica-maiuscula','dica-minuscula','dica-numero','dica-especial','dica-comum'].forEach(id => atualizarDicaItem(id, false));
       return;
     }
 
     const r = calcularForca(senha);
+
+    // For score=3: build a specific message about what's missing for level 4
+    if (r.score === 3 && !r.eComum) {
+      const faltando = [];
+      if (!r.tamanhoOk)        faltando.push('12+ caracteres');
+      if (!r.temMaiuscula)     faltando.push('letra maiúscula');
+      if (!r.temMinuscula)     faltando.push('letra minúscula');
+      if (!r.temNumero)        faltando.push('um número');
+      if (!r.temEspecial)      faltando.push('um símbolo (!@#…)');
+      if (faltando.length > 0) {
+        r.dica = 'Para chegar ao nível máximo, adicione: ' + faltando.join(', ') + '.';
+      }
+    }
+
     container.style.display = 'block';
     barra.className = 'forca-barra-wrapper forca-' + r.score;
     labelEl.textContent = r.label;
@@ -98,6 +173,43 @@
     atualizarDicaItem('dica-numero', r.temNumero);
     atualizarDicaItem('dica-especial', r.temEspecial);
     atualizarDicaItem('dica-comum', !r.eComum);
+
+    // Calculadora de tempo
+    const tempoEl = document.getElementById('tempo-quebrar');
+    if (tempoEl) {
+      const t = calcularTempo(senha);
+      if (t) {
+        const cores = {
+          critico: 'var(--vermelho-perigo)',
+          ruim:    'var(--ambar-atencao)',
+          medio:   '#2E9E65',
+          bom:     'var(--verde-seguro)',
+          otimo:   'var(--verde-seguro)'
+        };
+        const emojis = { critico: '⚡', ruim: '⏱', medio: '🕐', bom: '🛡️', otimo: '🔒' };
+        const nivelTexto = {
+          critico: 'Vulnerável',
+          ruim:    'Fraca',
+          medio:   'Razoável',
+          bom:     'Resistente',
+          otimo:   'Muito segura'
+        };
+        tempoEl.style.display = 'block';
+        tempoEl.innerHTML = `
+          <div style="background:var(--superficie);border:1px solid var(--borda);border-radius:var(--radius-lg);padding:1rem 1.25rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <span style="font-size:1.5rem;" aria-hidden="true">${emojis[t.nivel]}</span>
+              <div style="flex:1;">
+                <div style="font-family:var(--font-display);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--cinza-medio);margin-bottom:0.2rem;">Quanto tempo um robô levaria para descobrir?</div>
+                <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:${cores[t.nivel]};">${t.texto}</div>
+              </div>
+              ${t.bits ? `<div style="text-align:right;"><div style="font-family:var(--font-display);font-size:0.65rem;color:var(--cinza-medio);text-transform:uppercase;letter-spacing:0.04em;">Entropia</div><div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--cinza-escuro);">${t.bits} bits</div></div>` : ''}
+            </div>
+          </div>`;
+      } else {
+        tempoEl.style.display = 'none';
+      }
+    }
 
     if (!resultado) return;
 
@@ -135,8 +247,8 @@
       'Adicione letras maiúsculas, minúsculas, números e símbolos. Evite sequências óbvias como "12345" ou "abcd".',
       'Aumente o comprimento para pelo menos 12 caracteres e adicione uma mistura de tipos de caracteres.',
       'Adicione símbolos como !, @, # ou % para fortalecer ainda mais. Tente chegar a 14 caracteres ou mais.',
-      'Para chegar ao nível máximo, adicione um símbolo especial e mais alguns caracteres. Está quase lá!',
-      'Excelente combinação de comprimento e variedade. Lembre-se: use senhas diferentes para cada serviço.'
+      '__DICA_NIVEL3__',
+      'Comprimento e variedade ideais. Lembre-se: use senhas diferentes para cada serviço.'
     ];
     const cores = ['var(--vermelho-perigo)','var(--vermelho-perigo)','var(--ambar-atencao)','#2E9E65','var(--verde-seguro)'];
     const titulos_nivel = ['Senha muito fraca','Senha fraca','Senha razoável','Boa senha','Senha excelente!'];
@@ -144,8 +256,8 @@
       'Pode ser descoberta em menos de um segundo',
       'Pode ser quebrada rapidamente com ferramentas simples',
       'Tem alguma proteção, mas dá para melhorar',
-      'Oferece boa proteção — pequenos ajustes chegam ao máximo',
-      'Atende todos os critérios de segurança'
+      'Boa proteção — um ajuste e você chega ao máximo',
+      'Comprimento e variedade ideais — difícil de quebrar'
     ];
 
     const acaoBotao = nivel <= 2 ? `
@@ -168,7 +280,7 @@
           </div>
         </div>
         <div class="senha-score-corpo">
-          <div class="senha-score-dica-box">${dicas_por_nivel[nivel]}</div>
+          <div class="senha-score-dica-box">${nivel === 3 ? r.dica : dicas_por_nivel[nivel]}</div>
           ${acaoBotao}
         </div>
       </div>`;
