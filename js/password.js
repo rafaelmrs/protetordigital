@@ -50,6 +50,43 @@
     return { score: idx, label: labels[idx], dica: dicas[idx], temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, eComum: false };
   };
 
+
+  /* --------------------------------------------------------
+     CALCULAR TEMPO PARA QUEBRAR SENHA (linguagem simples)
+  -------------------------------------------------------- */
+  window.calcularTempo = function(senha) {
+    if (!senha) return null;
+
+    const len = senha.length;
+    const temMaiuscula = /[A-Z]/.test(senha);
+    const temMinuscula = /[a-z]/.test(senha);
+    const temNumero    = /[0-9]/.test(senha);
+    const temEspecial  = /[^A-Za-z0-9]/.test(senha);
+
+    // Tamanho do alfabeto usado
+    let alfabeto = 0;
+    if (temMinuscula) alfabeto += 26;
+    if (temMaiuscula) alfabeto += 26;
+    if (temNumero)    alfabeto += 10;
+    if (temEspecial)  alfabeto += 32;
+    if (alfabeto === 0) alfabeto = 10;
+
+    // Tentativas: alfabeto^comprimento
+    // Uma IA moderna testa ~100 bilhões de combinações por segundo
+    const tentativas = Math.pow(alfabeto, len);
+    const porSegundo = 1e11; // 100 bilhões/s
+    const segundos   = tentativas / porSegundo;
+
+    if (segundos < 1)           return { texto: 'menos de 1 segundo',  nivel: 'critico'  };
+    if (segundos < 60)          return { texto: 'alguns segundos',      nivel: 'critico'  };
+    if (segundos < 3600)        return { texto: Math.round(segundos/60) + ' minutos', nivel: 'ruim' };
+    if (segundos < 86400)       return { texto: Math.round(segundos/3600) + ' horas', nivel: 'ruim' };
+    if (segundos < 2592000)     return { texto: Math.round(segundos/86400) + ' dias',  nivel: 'medio' };
+    if (segundos < 31536000)    return { texto: Math.round(segundos/2592000) + ' meses', nivel: 'medio' };
+    if (segundos < 3153600000)  return { texto: Math.round(segundos/31536000) + ' anos',   nivel: 'bom'  };
+    return { texto: 'mais de ' + Math.round(segundos/31536000).toLocaleString('pt-BR') + ' anos', nivel: 'otimo' };
+  };
+
   /* --------------------------------------------------------
      ATUALIZA ÍCONE DE DICA
   -------------------------------------------------------- */
@@ -81,6 +118,8 @@
     if (!senha) {
       container.style.display = 'none';
       if (resultado) resultado.innerHTML = '';
+      const tempoVazio = document.getElementById('tempo-quebrar');
+      if (tempoVazio) tempoVazio.style.display = 'none';
       ['dica-tamanho','dica-maiuscula','dica-minuscula','dica-numero','dica-especial','dica-comum'].forEach(id => atualizarDicaItem(id, false));
       return;
     }
@@ -98,6 +137,33 @@
     atualizarDicaItem('dica-numero', r.temNumero);
     atualizarDicaItem('dica-especial', r.temEspecial);
     atualizarDicaItem('dica-comum', !r.eComum);
+
+    // Calculadora de tempo
+    const tempoEl = document.getElementById('tempo-quebrar');
+    if (tempoEl) {
+      const t = calcularTempo(senha);
+      if (t) {
+        const cores = {
+          critico: 'var(--vermelho-perigo)',
+          ruim:    'var(--ambar-atencao)',
+          medio:   '#2E9E65',
+          bom:     'var(--verde-seguro)',
+          otimo:   'var(--verde-seguro)'
+        };
+        const emojis = { critico: '⚡', ruim: '⏱', medio: '🕐', bom: '🛡️', otimo: '🔒' };
+        tempoEl.style.display = 'block';
+        tempoEl.innerHTML = `
+          <div style="background:var(--superficie);border:1px solid var(--borda);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;">
+            <span style="font-size:1.5rem;" aria-hidden="true">${emojis[t.nivel]}</span>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--cinza-medio);margin-bottom:0.2rem;">Quanto tempo um robô levaria para descobrir?</div>
+              <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:${cores[t.nivel]};">${t.texto}</div>
+            </div>
+          </div>`;
+      } else {
+        tempoEl.style.display = 'none';
+      }
+    }
 
     if (!resultado) return;
 
