@@ -69,7 +69,7 @@
             <div class="vazamento-logo"><span>${logoTxt}</span></div>
             <div class="vaz-topo-info">
               <div class="vazamento-nome">${b.title || b.name}</div>
-              <div class="vazamento-data">${formatarContagem(b.pwn_count)}${b.added_date ? ' · ' + formatarDataExata(b.added_date) : ''}</div>
+              <div class="vazamento-data">${formatarContagem(b.pwn_count)}${b.added_date ? ' · Adicionado em ' + formatarDataExata(b.added_date) : ''}</div>
             </div>
             <span class="badge ${classSeveridade(b.severity)}">${labelSeveridade(b.severity)}</span>
           </div>
