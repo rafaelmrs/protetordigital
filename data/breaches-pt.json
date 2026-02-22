@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "generated": "2025-08-01",
+    "generated": "2026-02-22",
     "source": "haveibeenpwned.com",
     "translator": "Claude AI",
     "version": "1.0",
-    "note": "Atualizar mensalmente. Chave = Name (lowercase) do HIBP."
+    "note": "Atualizar mensalmente. Chave = Name (lowercase) do HIBP. Última entrada: CarMax (2026-02-20)."
   },
   "000webhost": "Em março de 2015, o provedor de hospedagem gratuita 000webhost sofreu um grande vazamento que expôs cerca de 15 milhões de registros. Os dados incluíam nomes, endereços de e-mail e senhas armazenadas em texto puro, sem qualquer proteção criptográfica.",
   "17media": "Em 2017, a plataforma de transmissão ao vivo 17 Media sofreu um vazamento que expôs dados de usuários, incluindo endereços de e-mail, nomes de usuário e outras informações de perfil.",
@@ -973,5 +973,6 @@
   "tehetsegkapu": "Em março de 2025, quase 55 mil registros foram violados do site do escritório de educação húngaro TehetségKapu. Os dados incluíam e-mails, nomes, datas de nascimento e dados educacionais.",
   "thishabboforum": "Em 2014, o fórum ThisHabbo (site de fãs do Habbo.com) apareceu em uma lista de serviços comprometidos. Os dados incluíam 612 mil e-mails únicos com nomes de usuário e senhas armazenadas com MD5.",
   "troyhuntmailchimplist": "Em março de 2025, um ataque de phishing obteve acesso com sucesso à conta Mailchimp de Troy Hunt e exportou automaticamente a lista de assinantes. Os dados incluíam 17 mil e-mails únicos de assinantes do newsletter de segurança.",
-  "sprashivairu": "Em maio de 2015, o site russo de avaliações anônimas Спрашивай.ру teve 6,7 milhões de detalhes de usuários expostos por um hacker, incluindo 3,5 milhões de endereços de e-mail únicos com senhas e outros dados de conta."
+  "sprashivairu": "Em maio de 2015, o site russo de avaliações anônimas Спрашивай.ру teve 6,7 milhões de detalhes de usuários expostos por um hacker, incluindo 3,5 milhões de endereços de e-mail únicos com senhas e outros dados de conta.",
+  "carmax": "Em janeiro de 2026, dados supostamente obtidos da rede americana de revendas de automóveis CarMax foram publicados na internet após uma tentativa de extorsão fracassada. O vazamento expôs 431 mil endereços de e-mail únicos, além de nomes, números de telefone e endereços físicos dos clientes."
 }
