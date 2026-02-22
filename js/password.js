@@ -247,7 +247,7 @@
       'Adicione letras maiúsculas, minúsculas, números e símbolos. Evite sequências óbvias como "12345" ou "abcd".',
       'Aumente o comprimento para pelo menos 12 caracteres e adicione uma mistura de tipos de caracteres.',
       'Adicione símbolos como !, @, # ou % para fortalecer ainda mais. Tente chegar a 14 caracteres ou mais.',
-      '',
+      '__DICA_NIVEL3__',
       'Comprimento e variedade ideais. Lembre-se: use senhas diferentes para cada serviço.'
     ];
     const cores = ['var(--vermelho-perigo)','var(--vermelho-perigo)','var(--ambar-atencao)','#2E9E65','var(--verde-seguro)'];
@@ -280,7 +280,7 @@
           </div>
         </div>
         <div class="senha-score-corpo">
-          ${dicas_por_nivel[nivel] ? `<div class="senha-score-dica-box">${dicas_por_nivel[nivel]}</div>` : ''}
+          <div class="senha-score-dica-box">${nivel === 3 ? r.dica : dicas_por_nivel[nivel]}</div>
           ${acaoBotao}
         </div>
       </div>`;
