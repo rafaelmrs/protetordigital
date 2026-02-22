@@ -26,129 +26,82 @@
       <p class="ferramenta-subtitulo">Sem instalar nada, qualquer site consegue ver seu IP, localização, operadora e até o modelo do seu celular. Veja o que está exposto — e o que uma VPN realmente protege.</p>
     </header>
 
-    <!-- Loading state -->
-    <div id="pegada-loading" class="pegada-loading" aria-live="polite">
-      <div class="pegada-loading-inner">
-        <svg class="pegada-loading-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" stroke-opacity="0.2"/>
-          <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
-        </svg>
-        <div>
-          <div class="pegada-loading-titulo">Analisando sua conexão...</div>
-          <div class="pegada-loading-sub">Consultando localização, segurança e informações do dispositivo</div>
-        </div>
-      </div>
-    </div>
+    <div class="ferramenta-layout">
 
-    <!-- Resultado preenchido pelo JS -->
-    <div id="pegada-resultado" aria-live="polite"></div>
+      <!-- COLUNA PRINCIPAL -->
+      <div>
 
-    <!-- Cards de recomendação -->
-    <div class="pegada-recomendacoes">
-      <h2 class="secao-titulo" style="margin-bottom:0.35rem;">Proteja sua privacidade online</h2>
-      <p class="secao-descricao">Ferramentas recomendadas pelo Protetor Digital</p>
-
-      <div class="pegada-cards-grid">
-
-        <!-- NordVPN -->
-        <a href="https://nordvpn.com" target="_blank" rel="noopener noreferrer" class="pegada-rec-card">
-          <div class="pegada-rec-topo">
-            <div class="pegada-rec-logo nordvpn">NV</div>
-            <div>
-              <div class="pegada-rec-nome">NordVPN</div>
-              <div class="pegada-rec-tipo">VPN — Oculta IP e localização</div>
-            </div>
-          </div>
-          <ul class="pegada-rec-lista">
-            <li>Oculta seu IP real de todos os sites</li>
-            <li>Criptografa sua conexão em redes públicas</li>
-            <li>Servidores em 60+ países</li>
-            <li>Detectado como VPN por ferramentas como esta</li>
-          </ul>
-          <div class="pegada-rec-cta">Ver planos <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </a>
-
-        <!-- ExpressVPN -->
-        <a href="https://www.expressvpn.com" target="_blank" rel="noopener noreferrer" class="pegada-rec-card">
-          <div class="pegada-rec-topo">
-            <div class="pegada-rec-logo expressvpn">EV</div>
-            <div>
-              <div class="pegada-rec-nome">ExpressVPN</div>
-              <div class="pegada-rec-tipo">VPN — Alta velocidade</div>
-            </div>
-          </div>
-          <ul class="pegada-rec-lista">
-            <li>Uma das VPNs mais rápidas do mercado</li>
-            <li>Sem registros de atividade (no-logs)</li>
-            <li>Funciona em celular, computador e TV</li>
-            <li>Suporte 24h em português</li>
-          </ul>
-          <div class="pegada-rec-cta">Ver planos <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </a>
-
-        <!-- Brave Browser -->
-        <a href="https://brave.com/download/" target="_blank" rel="noopener noreferrer" class="pegada-rec-card">
-          <div class="pegada-rec-topo">
-            <div class="pegada-rec-logo brave">BR</div>
-            <div>
-              <div class="pegada-rec-nome">Brave Browser</div>
-              <div class="pegada-rec-tipo">Navegador — Gratuito</div>
-            </div>
-            <span class="badge badge-seguro" style="margin-left:auto;">Grátis</span>
-          </div>
-          <ul class="pegada-rec-lista">
-            <li>Bloqueia rastreadores e anúncios por padrão</li>
-            <li>Reduz exposição de navegador e OS</li>
-            <li>Proteção contra fingerprinting</li>
-            <li>VPN não oculta — Brave sim</li>
-          </ul>
-          <div class="pegada-rec-cta">Baixar grátis <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </a>
-
-      </div>
-
-      <!-- Tabela: o que cada ferramenta protege -->
-      <div class="pegada-tabela-wrapper">
-        <div class="pegada-tabela-titulo">O que cada ferramenta protege?</div>
-        <div class="pegada-tabela">
-          <div class="pegada-tabela-header">
-            <span>Dado exposto</span>
-            <span>VPN</span>
-            <span>Brave</span>
-          </div>
-          <div class="pegada-tabela-linha">
-            <span>IP e localização</span>
-            <span class="pt-sim">✓ Sim</span>
-            <span class="pt-nao">✗ Não</span>
-          </div>
-          <div class="pegada-tabela-linha">
-            <span>Operadora (ISP)</span>
-            <span class="pt-sim">✓ Sim</span>
-            <span class="pt-nao">✗ Não</span>
-          </div>
-          <div class="pegada-tabela-linha">
-            <span>Navegador e sistema</span>
-            <span class="pt-nao">✗ Não</span>
-            <span class="pt-sim">✓ Parcial</span>
-          </div>
-          <div class="pegada-tabela-linha">
-            <span>Fuso horário</span>
-            <span class="pt-nao">✗ Não</span>
-            <span class="pt-sim">✓ Com Tor</span>
-          </div>
-          <div class="pegada-tabela-linha">
-            <span>Rastreadores e anúncios</span>
-            <span class="pt-nao">✗ Não</span>
-            <span class="pt-sim">✓ Sim</span>
-          </div>
-          <div class="pegada-tabela-linha">
-            <span>Fingerprint do navegador</span>
-            <span class="pt-nao">✗ Não</span>
-            <span class="pt-sim">✓ Sim</span>
+        <!-- Loading -->
+        <div id="pegada-loading" class="ferramenta-barra-superior" style="align-items:center;gap:1rem;">
+          <svg style="width:24px;height:24px;flex-shrink:0;color:var(--azul-claro);animation:spin 1s linear infinite;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.2"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div style="font-family:var(--font-display);font-weight:600;color:var(--preto-titulo);margin-bottom:0.15rem;">Analisando sua conexão...</div>
+            <div style="font-family:var(--font-body);font-size:var(--text-sm);color:var(--cinza-medio);">Consultando localização, segurança e informações do dispositivo</div>
           </div>
         </div>
+
+        <!-- Resultado preenchido pelo JS -->
+        <div id="pegada-resultado" aria-live="polite"></div>
+
+        <p class="fonte-consulta">🔍 Dados obtidos via <a href="https://ipwho.org" target="_blank" rel="noopener noreferrer"><strong>IPWho.org</strong></a> — serviço de geolocalização e análise de segurança de IP.</p>
+
       </div>
 
+      <!-- COLUNA LATERAL -->
+      <div>
+
+        <div class="info-card">
+          <div class="info-card-header"><span class="info-card-titulo">O que é a pegada digital?</span></div>
+          <div style="font-family:var(--font-body);font-size:var(--text-sm);color:var(--cinza-escuro);line-height:1.7;">
+            <p style="margin-bottom:0.75rem;">Toda vez que você acessa um site, seu dispositivo envia automaticamente informações sobre si mesmo — sem que você perceba ou precise autorizar.</p>
+            <p style="margin-bottom:0.75rem;">Isso inclui seu endereço IP, que revela sua localização aproximada e operadora de internet, além do navegador, sistema operacional e tipo de dispositivo.</p>
+            <p>Sites usam esses dados para personalizar conteúdo, detectar fraudes — e também para rastrear seus hábitos de navegação.</p>
+          </div>
+        </div>
+
+        <div class="info-card" style="margin-top:1rem;">
+          <div class="info-card-header"><span class="info-card-titulo">O que uma VPN protege?</span></div>
+          <ul class="dica-lista">
+            <li class="dica-item">
+              <svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Oculta seu IP real e localização
+            </li>
+            <li class="dica-item">
+              <svg class="dica-item-icone dica-ok" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Esconde seu provedor de internet (ISP)
+            </li>
+            <li class="dica-item">
+              <svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Não oculta seu navegador ou sistema operacional
+            </li>
+            <li class="dica-item">
+              <svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Não oculta seu fuso horário
+            </li>
+            <li class="dica-item">
+              <svg class="dica-item-icone" style="color:var(--vermelho-perigo)" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Não bloqueia rastreadores em sites
+            </li>
+          </ul>
+        </div>
+
+        <div style="margin-top:1rem;background:var(--azul-suave);border:1px solid rgba(37,99,184,0.15);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;">
+          <div style="font-family:var(--font-display);font-size:0.8rem;font-weight:700;color:var(--azul-soberano);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Ferramentas para proteger sua privacidade
+          </div>
+          <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">VPNs ocultam seu IP. O Brave bloqueia rastreadores e reduz sua pegada digital no navegador.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <a href="https://nordvpn.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordVPN</a>
+            <a href="https://www.expressvpn.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">ExpressVPN</a>
+            <a href="https://brave.com/download/" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Brave (grátis)</a>
+          </div>
+        </div>
+
+      </div>
     </div>
 
   </main>
