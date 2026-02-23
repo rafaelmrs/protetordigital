@@ -34,10 +34,15 @@ export async function onRequestGet({ request, env }) {
     // analisa o IP do visitante, não o do nosso servidor Worker
     const url = `https://api.ipwho.org/ip/${encodeURIComponent(ip)}?apiKey=${env.IPWHO_API_KEY}`;
 
+    // Repassar o User-Agent real do visitante — a API usa para identificar
+    // navegador, SO e dispositivo. Sem isso retorna "Unknown Unknown".
+    const userAgent = request.headers.get('User-Agent') || '';
+
     const res = await fetch(url, {
-      headers: { 'Accept': 'application/json' },
-      // NÃO repassar o User-Agent do visitante — evita confusão entre
-      // o IP (do visitante) e o UA (que seria do worker)
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': userAgent,
+      },
     });
 
     if (!res.ok) return json({ error: 'Erro ao consultar serviço' }, 502, origin);
@@ -83,6 +88,13 @@ export async function onRequestGet({ request, env }) {
       isVpn:  sec.isVpn  === true,
       isTor:  sec.isTor  === true,
       threat: sec.isThreat || 'low',
+      // Debug temporário — remover após confirmar detecção de VPN
+      _debug: {
+        ip_consultado: ipStr,
+        security: sec,
+        connection_type: con.connection_type || null,
+        asn_org: con.asn_org || null,
+      },
       // Fuso
       fuso_horario: tz.time_zone    || null,
       hora_atual:   tz.current_time || null,
