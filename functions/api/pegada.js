@@ -57,12 +57,25 @@ export async function onRequestGet({ request, env }) {
     const ua  = d.userAgent   || {};
     const sec = d.security    || {};
 
-    // Detecção de VPN — todos os sinais disponíveis na API
+    // Detecção de VPN — combinação de sinais da API
     const connType = (con.connection_type || '').toLowerCase();
+    const ispLower = (con.isp || '').toLowerCase();
+    const asnOrg   = (con.asn_org || '').toLowerCase();
+
+    // ISPs / organizações conhecidas de VPN e datacenter
+    const vpnIsps = [
+      'proton', 'nordvpn', 'expressvpn', 'mullvad', 'surfshark',
+      'privateinternetaccess', 'pia', 'cyberghost', 'ipvanish',
+      'datacamp', 'm247', 'hetzner', 'ovh', 'digitalocean',
+      'linode', 'vultr', 'choopa', 'constant contact', 'quadranet',
+    ];
+    const isKnownVpnIsp = vpnIsps.some(v => ispLower.includes(v) || asnOrg.includes(v));
+
     const isVpn = sec.isVpn === true
       || sec.isTor === true
       || connType === 'vpn'
-      || connType === 'hosting';   // IPs de datacenter/hosting frequentemente são VPN
+      || connType === 'hosting'
+      || (connType === 'corporate' && isKnownVpnIsp);
 
     // IPv4 vs IPv6
     const ipStr  = d.ip || ip;
@@ -88,13 +101,7 @@ export async function onRequestGet({ request, env }) {
       isVpn:  sec.isVpn  === true,
       isTor:  sec.isTor  === true,
       threat: sec.isThreat || 'low',
-      // Debug temporário — remover após confirmar detecção de VPN
-      _debug: {
-        ip_consultado: ipStr,
-        security: sec,
-        connection_type: con.connection_type || null,
-        asn_org: con.asn_org || null,
-      },
+
       // Fuso
       fuso_horario: tz.time_zone    || null,
       hora_atual:   tz.current_time || null,
