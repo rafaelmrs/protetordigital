@@ -84,7 +84,7 @@
 
   /* ── Render ────────────────────────────────────────────────────────── */
   function renderPegada(api, nav, container) {
-    const vpnAtiva = api.vpn;
+    const vpnAtiva = api.vpn || api.tor || ['vpn'].includes((api.connection_type || '').toLowerCase());
 
     // Banner principal
     const banner = vpnAtiva
@@ -148,6 +148,12 @@
         ${linha('Sua operadora de internet', api.isp,
           'A empresa que fornece sua internet — como Claro, Vivo, TIM ou NET.'
         )}
+        ${(() => {
+          const tipos = {'residential':'Residencial','corporate':'Empresarial','mobile':'Móvel (dados celular)','hosting':'Datacenter / Servidor','vpn':'VPN','cable/dsl':'Cabo / DSL'};
+          const t = (api.connection_type || '').toLowerCase();
+          const label = tipos[t] || api.connection_type;
+          return label ? linha('Tipo de conexão', label, null) : '';
+        })()}
         ${linha('Seu fuso horário', api.fuso_horario,
           'Revela em qual país ou região você está, mesmo com VPN ativa.'
         )}
