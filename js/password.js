@@ -293,6 +293,7 @@
           <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&aff_sub=termometro" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
           <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
         </div>
+        <p style="font-family:var(--font-display);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.6rem;margin-bottom:0;">🔗 Links de afiliado — se você contratar, recebemos uma comissão sem custo extra para você.</p>
       </div>` : ''}
         </div>
       </div>`;
