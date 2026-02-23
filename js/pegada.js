@@ -1,33 +1,45 @@
 /**
  * Protetor Digital — pegada.js
- * Ferramenta Pegada Digital: mostra o que os sites sabem sobre o visitante
+ * Ferramenta Pegada Digital: linguagem simples para o usuário leigo
  */
 
 (function () {
   'use strict';
 
-  async function carregarPegada() {
-    const loading   = document.getElementById('pegada-loading');
-    const container = document.getElementById('pegada-resultado');
-    if (!container) return;
+  /* ── Dados client-side (sem API) ──────────────────────────────────── */
+  function coletarNavegador() {
+    const nav = navigator;
+    const con = nav.connection || nav.mozConnection || nav.webkitConnection;
 
+    // Detecção de ad blocker: tenta criar elemento com classe conhecida
+    let adBlocker = false;
     try {
-      const res  = await fetch('/api/pegada');
-      const data = await res.json();
+      const bait = document.createElement('div');
+      bait.className = 'adsbox ad-block pub_300x250';
+      bait.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;';
+      document.body.appendChild(bait);
+      adBlocker = bait.offsetHeight === 0 || bait.offsetWidth === 0 || window.getComputedStyle(bait).display === 'none';
+      document.body.removeChild(bait);
+    } catch(e) {}
 
-      if (loading) loading.style.display = 'none';
+    // Tipo de conexão em português
+    const tipoConexao = {
+      'slow-2g': '2G lento', '2g': '2G', '3g': '3G',
+      '4g': 'Wi-Fi ou 4G', 'wifi': 'Wi-Fi'
+    };
 
-      if (data.error) {
-        container.innerHTML = alerta('perigo', iconInfo(), 'Erro ao carregar dados', data.error);
-        return;
-      }
-
-      renderPegada(data, container);
-
-    } catch (e) {
-      if (loading) loading.style.display = 'none';
-      container.innerHTML = alerta('perigo', iconInfo(), 'Serviço temporariamente indisponível', 'Tente novamente em alguns instantes.');
-    }
+    return {
+      idioma:       nav.language || null,
+      resolucao:    `${screen.width} × ${screen.height} pixels`,
+      profCor:      screen.colorDepth ? `${screen.colorDepth} bits` : null,
+      nucleos:      nav.hardwareConcurrency || null,
+      memoria:      nav.deviceMemory ? `${nav.deviceMemory} GB` : null,
+      conexao:      con ? (tipoConexao[con.effectiveType] || con.effectiveType) : null,
+      cookies:      nav.cookieEnabled,
+      adBlocker:    adBlocker,
+      dnt:          nav.doNotTrack === '1',
+      online:       nav.onLine,
+    };
   }
 
   /* ── Ícones ────────────────────────────────────────────────────────── */
@@ -55,11 +67,12 @@
     </div>`;
   }
 
-  function linha(label, valor) {
+  function linha(label, valor, dica) {
     if (!valor) return '';
-    return `<div class="dica-item" style="justify-content:space-between;align-items:center;gap:1rem;">
-      <span style="font-family:var(--font-display);font-size:0.82rem;color:var(--cinza-medio);flex-shrink:0;">${label}</span>
-      <span style="font-family:var(--font-display);font-size:0.88rem;font-weight:600;color:var(--cinza-escuro);text-align:right;word-break:break-all;">${valor}</span>
+    return `<div class="dica-item" style="flex-direction:column;align-items:flex-start;gap:0.15rem;padding:0.65rem 0;">
+      <span style="font-family:var(--font-display);font-size:0.72rem;color:var(--cinza-medio);text-transform:uppercase;letter-spacing:0.05em;">${label}</span>
+      <span style="font-family:var(--font-display);font-size:0.95rem;font-weight:600;color:var(--preto-titulo);">${valor}</span>
+      ${dica ? `<span style="font-family:var(--font-body);font-size:0.78rem;color:var(--cinza-medio);line-height:1.4;">${dica}</span>` : ''}
     </div>`;
   }
 
@@ -70,76 +83,123 @@
   }
 
   /* ── Render ────────────────────────────────────────────────────────── */
-  function renderPegada(d, container) {
-    const vpnAtiva = d.vpn || d.tor;
+  function renderPegada(api, nav, container) {
+    const vpnAtiva = api.vpn;
 
-    // Banner VPN
+    // Banner principal
     const banner = vpnAtiva
       ? alerta('seguro', iconShield(),
-          d.tor ? 'Rede Tor detectada' : 'VPN ativa e funcionando',
-          `Seu IP real está ${d.tor ? 'roteado pela rede Tor' : 'mascarado pela VPN'}. Os dados abaixo pertencem ao servidor ${d.tor ? 'Tor' : 'VPN'}, não à sua localização real.`)
+          'Sua VPN está funcionando',
+          'Seu endereço real está escondido. Os dados de localização abaixo pertencem ao servidor da VPN, não ao seu endereço real.')
       : alerta('atencao', iconWarn(),
-          'Você não está usando VPN',
-          'Seu IP real e localização estão visíveis para qualquer site que você acessa.');
+          'Seu endereço real está visível',
+          'Qualquer site que você acessar consegue ver exatamente onde você está e qual é a sua operadora de internet.');
 
     // Localização
-    const localizacao = [d.cidade, d.regiao, d.pais].filter(Boolean).join(', ');
-    const coordenadas = (d.latitude && d.longitude)
-      ? `<a href="https://www.google.com/maps?q=${d.latitude},${d.longitude}" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro)">${d.latitude.toFixed(4)}, ${d.longitude.toFixed(4)}</a>`
-      : null;
+    const localizacao = [api.cidade, api.regiao, api.pais].filter(Boolean).join(', ');
+    const linkMaps = (api.latitude && api.longitude)
+      ? `<a href="https://www.google.com/maps?q=${api.latitude},${api.longitude}" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);font-size:0.78rem;">Ver no mapa →</a>`
+      : '';
 
     // Dispositivo
-    const dispTrad = { desktop:'Computador', mobile:'Celular', tablet:'Tablet', tv:'Smart TV', bot:'Bot/Rastreador' };
-    const dispLabel   = dispTrad[d.dispositivo?.toLowerCase()] || d.dispositivo;
-    const dispMarca   = d.dispositivo_marca && d.dispositivo_marca !== 'Unknown' ? d.dispositivo_marca : null;
-    const soStr       = [d.so, d.so_versao].filter(Boolean).join(' ') || null;
-    const navStr      = [d.navegador, d.navegador_versao].filter(Boolean).join(' ') || null;
-    const horaStr     = d.hora_atual ? d.hora_atual.replace('T',' ').split('.')[0].substring(0,16) : null;
+    const dispTrad = { desktop:'Computador', mobile:'Celular', tablet:'Tablet', tv:'Smart TV' };
+    const dispLabel = dispTrad[api.dispositivo?.toLowerCase()] || api.dispositivo;
+    const soStr     = [api.so, api.so_versao].filter(Boolean).join(' ') || null;
+    const navStr    = [api.navegador, api.navegador_versao].filter(Boolean).join(' ') || null;
+
+    // Hora local
+    const horaStr = api.hora_atual
+      ? api.hora_atual.replace('T',' ').split('.')[0].substring(0,16)
+      : null;
+
+    // Idioma legível
+    const idiomaLabel = api.fuso_horario
+      ? `${nav.idioma || ''} — ${api.fuso_horario}`.trim().replace(/^—\s/, '')
+      : nav.idioma || null;
 
     container.innerHTML = `
       ${banner}
 
-      ${bloco('Endereço IP e localização', `
-        ${linha('Endereço IP', `<strong style="font-size:1rem;color:var(--preto-titulo);letter-spacing:0.02em;">${d.ip}</strong>`)}
-        ${linha('País', d.pais)}
-        ${linha('Cidade / Região', localizacao || null)}
-        ${linha('Coordenadas', coordenadas)}
-        ${linha('Continente', d.continente)}
-        ${d.eu ? linha('União Europeia', 'Sim — sujeito ao GDPR') : ''}
-      `)}
-
-      ${bloco('Rede e operadora', `
-        ${linha('Provedor (ISP)', d.isp)}
-        ${linha('Organização', d.org && d.org !== d.isp ? d.org : null)}
-        ${linha('ASN', d.asn ? `AS${d.asn}` : null)}
-      `)}
-
-      ${bloco('Fuso horário', `
-        ${linha('Fuso', d.fuso_horario)}
-        ${linha('Hora atual', horaStr)}
-      `)}
-
-      ${bloco('Proteção de IP', `
-        <div class="alerta alerta-atencao" style="margin-bottom:0.85rem;padding:0.5rem 0.85rem;font-size:0.78rem;">
-          <div class="alerta-icone" style="width:16px;height:16px;">${iconInfo()}</div>
-          <div class="alerta-texto">VPN <strong>não oculta</strong> navegador, SO e fuso horário.</div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-          ${badge(d.vpn, 'VPN ativa', 'Sem VPN')}
-          ${badge(d.tor, 'Tor ativo', 'Sem Tor')}
-          ${badge(d.threat === 'low', 'Ameaça baixa', 'Ameaça ' + (d.threat || 'baixa'))}
-        </div>
+      ${bloco('Onde você está', `
+        ${linha('Seu endereço na internet (IP)',
+          `<span style="font-size:1.05rem;letter-spacing:0.03em;">${api.ip}</span>`,
+          'É como o endereço da sua casa, mas na internet. Qualquer site que você visita recebe essa informação automaticamente.'
+        )}
+        ${localizacao ? linha('Sua localização aproximada',
+          localizacao + (linkMaps ? '&nbsp; ' + linkMaps : ''),
+          'Sites conseguem saber em qual cidade você está, mesmo sem você informar.'
+        ) : ''}
+        ${linha('Sua operadora de internet', api.isp,
+          'A empresa que fornece sua internet — como Claro, Vivo, TIM ou NET.'
+        )}
+        ${linha('Seu fuso horário', api.fuso_horario,
+          'Revela em qual país ou região você está, mesmo com VPN ativa.'
+        )}
+        ${horaStr ? linha('Hora local detectada', horaStr, null) : ''}
       `)}
 
       ${bloco('Seu dispositivo', `
-        ${linha('Tipo', dispLabel)}
-        ${dispMarca ? linha('Marca', dispMarca) : ''}
-        ${linha('Sistema operacional', soStr)}
-        ${linha('Navegador', navStr)}
-        ${linha('Motor', d.motor)}
-        ${d.cpu ? linha('Arquitetura', d.cpu) : ''}
+        ${dispLabel ? linha('Tipo de aparelho', dispLabel, null) : ''}
+        ${soStr ? linha('Sistema operacional',
+          soStr,
+          'Mostra se você usa Windows, Android, iOS, macOS etc. A VPN não esconde isso.'
+        ) : ''}
+        ${navStr ? linha('Navegador',
+          navStr,
+          'Chrome, Safari, Firefox — qualquer site consegue identificar qual você usa.'
+        ) : ''}
+        ${nav.resolucao ? linha('Tamanho da tela', nav.resolucao,
+          'Junto com outros dados, ajuda a criar um "retrato" único do seu dispositivo.'
+        ) : ''}
+        ${nav.nucleos ? linha('Processador', `${nav.nucleos} núcleos`,
+          'Quanto mais núcleos, mais rápido é seu dispositivo para rodar programas ao mesmo tempo.'
+        ) : ''}
+        ${nav.memoria ? linha('Memória RAM', nav.memoria,
+          'Quantidade de memória disponível no seu dispositivo.'
+        ) : ''}
+        ${nav.conexao ? linha('Tipo de conexão', nav.conexao, null) : ''}
+      `)}
+
+      ${bloco('Sua privacidade agora', `
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding-top:0.25rem;">
+          ${badge(vpnAtiva,       'IP protegido pela VPN',    'IP exposto — sem VPN')}
+          ${badge(nav.adBlocker,  'Bloqueador de anúncios ativo', 'Sem bloqueador de anúncios')}
+          ${badge(nav.dnt,        '"Não me rastreie" ativado', '"Não me rastreie" desativado')}
+          ${badge(!nav.cookies,   'Cookies bloqueados',       'Cookies habilitados')}
+        </div>
+        <p style="font-family:var(--font-body);font-size:0.78rem;color:var(--cinza-medio);margin-top:0.85rem;line-height:1.5;">
+          Estas informações foram coletadas diretamente do seu navegador, sem nenhuma API externa.
+        </p>
       `)}
     `;
+  }
+
+  /* ── Inicialização ─────────────────────────────────────────────────── */
+  async function carregarPegada() {
+    const loading   = document.getElementById('pegada-loading');
+    const container = document.getElementById('pegada-resultado');
+    if (!container) return;
+
+    // Coleta dados do navegador imediatamente (sem esperar API)
+    const dadosNav = coletarNavegador();
+
+    try {
+      const res  = await fetch('/api/pegada');
+      const data = await res.json();
+
+      if (loading) loading.style.display = 'none';
+
+      if (data.error) {
+        container.innerHTML = alerta('perigo', iconInfo(), 'Erro ao carregar dados', data.error);
+        return;
+      }
+
+      renderPegada(data, dadosNav, container);
+
+    } catch (e) {
+      if (loading) loading.style.display = 'none';
+      container.innerHTML = alerta('perigo', iconInfo(), 'Serviço temporariamente indisponível', 'Tente novamente em alguns instantes.');
+    }
   }
 
   if (document.readyState === 'loading') {
