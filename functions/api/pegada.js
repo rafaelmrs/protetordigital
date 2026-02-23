@@ -73,10 +73,12 @@ export async function onRequestGet({ request, env }) {
       cidade:      geo.city      || null,
       latitude:    geo.latitude  ?? null,
       longitude:   geo.longitude ?? null,
+      eu:          geo.is_in_eu  || false,
       // Rede
       isp:             con.isp             || null,
+      asn:             con.asn_number      || null,
       connection_type: con.connection_type || null,
-      // Segurança — todos os campos brutos + flag consolidado
+      // Segurança
       vpn:    isVpn,
       isVpn:  sec.isVpn  === true,
       isTor:  sec.isTor  === true,

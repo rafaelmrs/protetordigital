@@ -93,13 +93,24 @@
     // ── Card 1: Localização ─────────────────────────────────────────
     const regiao = [d.cidade, d.regiao].filter(Boolean).join(', ') || null;
 
+    // EU status — só exibe se for país da União Europeia
+    const euStatus = d.eu ? '🇪🇺 Membro da União Europeia' : null;
+
+    // ASN formatado
+    const asnStr = d.asn ? `AS${d.asn}` : null;
+
+    // IPv4 — se o IP atual for IPv6, tentar extrair IPv4 mapeado ou deixar como "Não disponível"
+    const ipv4Str = d.ipv4 || (d.ipv6 ? 'Não disponível (conexão IPv6)' : null);
+
     const card1 = card('Localização', [
-      linha('IPv4', d.ipv4),
-      d.ipv6 ? linha('IPv6', `<span style="font-size:0.78rem;">${d.ipv6}</span>`) : '',
+      linha('IPv4', ipv4Str),
+      d.ipv6 ? linha('IPv6', `<span style="font-size:0.78rem;letter-spacing:0.01em;">${d.ipv6}</span>`) : '',
       linha('País', d.pais),
       linha('Região', regiao),
       linha('Coordenadas', formatarCoordenadas(d.latitude, d.longitude)),
+      euStatus ? linha('Status EU', euStatus) : '',
       linha('ISP / Operadora', d.isp),
+      asnStr ? linha('Número ASN', asnStr) : '',
       linha('Fuso horário', d.fuso_horario),
       linha('Hora local', formatarHora(d.hora_atual)),
     ]);
