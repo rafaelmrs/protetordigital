@@ -81,20 +81,18 @@
   /* ── Render principal ────────────────────────────────────────────── */
   function renderPegada(d, container) {
 
-    // ── Banner VPN ──────────────────────────────────────────────────
+    // ── Banner VPN — só exibe quando VPN está ativa ────────────────
     const banner = d.vpn
       ? alerta('seguro', SVG_SHIELD,
           'VPN detectada',
           'Seu endereço real está mascarado. Os dados abaixo pertencem ao servidor da VPN, não à sua localização real.')
-      : alerta('atencao', SVG_WARN,
-          'Seu endereço real está visível',
-          'Qualquer site que você acessar consegue ver seu endereço, localização e operadora de internet.');
+      : '';
 
     // ── Card 1: Localização ─────────────────────────────────────────
     const regiao = [d.cidade, d.regiao].filter(Boolean).join(', ') || null;
 
     // EU status — só exibe se for país da União Europeia
-    const euStatus = d.eu ? '🇪🇺 Membro da União Europeia' : null;
+    const euStatus = d.eu ? 'Membro da União Europeia' : null;
 
     // ASN formatado
     const asnStr = d.asn ? `AS${d.asn}` : null;
@@ -108,7 +106,7 @@
       linha('País', d.pais),
       linha('Região', regiao),
       linha('Coordenadas', formatarCoordenadas(d.latitude, d.longitude)),
-      euStatus ? linha('Status EU', euStatus) : '',
+      euStatus ? linha('<span style="font-size:1rem;">&#127466;&#127482;</span> União Europeia', euStatus) : '',
       linha('ISP / Operadora', d.isp),
       asnStr ? linha('Número ASN', asnStr) : '',
       linha('Fuso horário', d.fuso_horario),
