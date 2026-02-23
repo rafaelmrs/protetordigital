@@ -55,6 +55,7 @@
           <li><strong>Verificação de senhas:</strong> o processamento ocorre integralmente no dispositivo do Titular (client-side), mediante aplicação do algoritmo k-Anonymity. Nenhuma senha, em texto claro ou em formato hash completo, é transmitida aos servidores do Controlador;</li>
           <li><strong>Verificação de e-mail em vazamentos:</strong> o endereço de e-mail é transmitido à API Have I Been Pwned (HIBP) exclusivamente para fins de consulta, não sendo armazenado pelo Controlador;</li>
           <li><strong>Verificação de URLs:</strong> a URL submetida é transmitida à API Google Safe Browsing para fins de análise de segurança, não sendo armazenada pelo Controlador.</li>
+          <li><strong>Pegada Digital:</strong> o endereço IP do Titular é transmitido à API <strong>ipwho.org</strong> (ipwho.is) exclusivamente para fins de geolocalização aproximada e análise de características da conexão (país, cidade, provedor de internet, detecção de VPN/proxy). Nenhum dado é armazenado pelo Controlador. Dados de fingerprint do navegador (resolução de tela, sistema operacional, fuso horário, idioma e demais atributos técnicos) são processados integralmente no dispositivo do Titular, sem transmissão a terceiros.</li>
         </ul>
 
         <h3 style="font-size:0.95rem;font-weight:600;margin:1.25rem 0 0.5rem;">3.2 Dados de navegação e analytics</h3>
@@ -83,6 +84,7 @@
           <li><strong>Have I Been Pwned (HIBP)</strong> — verificação de credenciais em bases de vazamentos: <a href="https://haveibeenpwned.com/Privacy" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">haveibeenpwned.com/Privacy</a></li>
           <li><strong>Google LLC (Safe Browsing)</strong> — análise de URLs maliciosas: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">policies.google.com/privacy</a></li>
           <li><strong>Google LLC (Analytics 4)</strong> — análise de tráfego: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">policies.google.com/privacy</a></li>
+          <li><strong>ipwho.org (ipwho.is)</strong> — geolocalização de IP e análise de conexão (ferramenta Pegada Digital): <a href="https://ipwho.is/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">ipwho.is/privacy</a></li>
           <li><strong>DeepL SE</strong> — tradução de conteúdo (fallback): <a href="https://www.deepl.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">deepl.com/privacy</a></li>
           <li><strong>Cloudflare, Inc.</strong> — infraestrutura de hospedagem e segurança: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);">cloudflare.com/privacypolicy</a></li>
         </ul>
@@ -124,7 +126,7 @@
         <p>Esta Política é regida e interpretada de acordo com as leis da República Federativa do Brasil. Fica eleito o foro da Comarca de domicílio do Controlador para dirimir quaisquer controvérsias oriundas deste instrumento, com renúncia a qualquer outro, por mais privilegiado que seja.</p>
 
         <p style="font-size:0.8rem;color:var(--cinza-medio);margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--borda-suave);">
-          Versão 2.0 — Fevereiro de 2026. Dúvidas? <a href="/contato" style="color:var(--azul-claro);">Entre em contato.</a>
+          Versão 2.1 — Fevereiro de 2026. Dúvidas? <a href="/contato" style="color:var(--azul-claro);">Entre em contato.</a>
         </p>
 
       </div>

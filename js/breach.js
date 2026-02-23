@@ -163,7 +163,7 @@
           </div>
           <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Seus dados estão limpos agora. Para manter assim, o ideal é ter uma senha diferente para cada serviço. Um gerenciador faz isso por você automaticamente.</p>
           <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-            <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&aff_sub=radar_limpo" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+            <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&url_id=9356&aff_sub=radar_limpo" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
             <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
           </div>
 <p style="font-family:var(--font-display);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.6rem;margin-bottom:0;">🔗 Links de afiliado — se você contratar, recebemos uma comissão sem custo extra para você.</p>
@@ -263,7 +263,7 @@
             </div>
             <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Um gerenciador cria e memoriza senhas únicas para cada site — você nunca mais precisa reutilizar a mesma senha.</p>
             <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-              <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&aff_sub=radar_vazamento" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+              <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&url_id=9356&aff_sub=radar_vazamento" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
               <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
             </div>
           </div>
@@ -367,7 +367,7 @@
               </div>
               <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Um gerenciador cria e memoriza senhas únicas para cada site — você nunca mais precisa reutilizar a mesma senha.</p>
               <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-                <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&aff_sub=senhas_exposta" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+                <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&url_id=9356&aff_sub=senhas_exposta" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
                 <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
               </div>
 <p style="font-family:var(--font-display);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.6rem;margin-bottom:0;">🔗 Links de afiliado — se você contratar, recebemos uma comissão sem custo extra para você.</p>
@@ -405,7 +405,7 @@
               </div>
               <p style="font-family:var(--font-body);font-size:0.82rem;color:var(--azul-soberano);line-height:1.55;margin-bottom:0.75rem;">Um gerenciador cria e memoriza senhas únicas para cada site — você nunca mais precisa reutilizar a mesma senha.</p>
               <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-                <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&aff_sub=senhas_limpa" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
+                <a href="https://go.nordpass.io/aff_c?offer_id=488&aff_id=141673&url_id=9356&aff_sub=senhas_limpa" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--azul-soberano);background:white;border:1px solid rgba(37,99,184,0.2);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">NordPass</a>
                 <a href="https://bitwarden.com" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-display);font-size:0.78rem;color:var(--cinza-medio);background:transparent;border:1px solid var(--cinza-borda);border-radius:6px;padding:0.35rem 0.75rem;text-decoration:none;">Bitwarden (gratuito)</a>
               </div>
 <p style="font-family:var(--font-display);font-size:0.7rem;color:var(--cinza-medio);margin-top:0.6rem;margin-bottom:0;">🔗 Links de afiliado — se você contratar, recebemos uma comissão sem custo extra para você.</p>
