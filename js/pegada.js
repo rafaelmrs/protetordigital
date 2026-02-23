@@ -107,10 +107,26 @@
     const soStr     = [api.so, api.so_versao].filter(Boolean).join(' ') || null;
     const navStr    = [api.navegador, api.navegador_versao].filter(Boolean).join(' ') || null;
 
-    // Hora local
-    const horaStr = api.hora_atual
-      ? api.hora_atual.replace('T',' ').split('.')[0].substring(0,16)
-      : null;
+    // IP — formata IPv6 de forma mais legível
+    const ipExibir = api.ip && api.ip.includes(':')
+      ? `<span title="${api.ip}" style="font-size:0.85rem;">${api.ip}</span><span style="font-size:0.72rem;color:var(--cinza-medio);margin-left:0.4rem;">(IPv6)</span>`
+      : `<span style="font-size:1.05rem;letter-spacing:0.03em;">${api.ip}</span>`;
+
+    // Hora local — formato brasileiro DD/MM/AAAA às HH:MM
+    let horaStr = null;
+    if (api.hora_atual) {
+      try {
+        const d = new Date(api.hora_atual);
+        const dia  = String(d.getDate()).padStart(2,'0');
+        const mes  = String(d.getMonth()+1).padStart(2,'0');
+        const ano  = d.getFullYear();
+        const hora = String(d.getHours()).padStart(2,'0');
+        const min  = String(d.getMinutes()).padStart(2,'0');
+        horaStr = `${dia}/${mes}/${ano} às ${hora}:${min}`;
+      } catch(e) {
+        horaStr = api.hora_atual.replace('T',' ').substring(0,16);
+      }
+    }
 
     // Idioma legível
     const idiomaLabel = api.fuso_horario
@@ -122,7 +138,7 @@
 
       ${bloco('Onde você está', `
         ${linha('Seu endereço na internet (IP)',
-          `<span style="font-size:1.05rem;letter-spacing:0.03em;">${api.ip}</span>`,
+          ipExibir,
           'É como o endereço da sua casa, mas na internet. Qualquer site que você visita recebe essa informação automaticamente.'
         )}
         ${localizacao ? linha('Sua localização aproximada',
