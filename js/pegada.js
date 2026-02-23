@@ -1,57 +1,18 @@
 /**
  * Protetor Digital — pegada.js
- * Ferramenta Pegada Digital: linguagem simples para o usuário leigo
+ * Apenas dados da API — sem coleta client-side
  */
-
 (function () {
   'use strict';
 
-  /* ── Dados client-side (sem API) ──────────────────────────────────── */
-  function coletarNavegador() {
-    const nav = navigator;
-    const con = nav.connection || nav.mozConnection || nav.webkitConnection;
+  /* ── Ícones ──────────────────────────────────────────────────────── */
+  const SVG_SHIELD = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+  const SVG_WARN   = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+  const SVG_INFO   = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
 
-    // Detecção de ad blocker: tenta criar elemento com classe conhecida
-    let adBlocker = false;
-    try {
-      const bait = document.createElement('div');
-      bait.className = 'adsbox ad-block pub_300x250';
-      bait.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;';
-      document.body.appendChild(bait);
-      adBlocker = bait.offsetHeight === 0 || bait.offsetWidth === 0 || window.getComputedStyle(bait).display === 'none';
-      document.body.removeChild(bait);
-    } catch(e) {}
-
-    // Tipo de conexão em português
-    const tipoConexao = {
-      'slow-2g': '2G lento', '2g': '2G', '3g': '3G',
-      '4g': 'Wi-Fi ou 4G', 'wifi': 'Wi-Fi'
-    };
-
-    return {
-      idioma:       nav.language || null,
-      resolucao:    `${screen.width} × ${screen.height} pixels`,
-      profCor:      screen.colorDepth ? `${screen.colorDepth} bits` : null,
-      nucleos:      nav.hardwareConcurrency || null,
-      memoria:      nav.deviceMemory ? `${nav.deviceMemory} GB` : null,
-      conexao:      con ? (tipoConexao[con.effectiveType] || con.effectiveType) : null,
-      cookies:      nav.cookieEnabled,
-      adBlocker:    adBlocker,
-      dnt:          nav.doNotTrack === '1',
-      online:       nav.onLine,
-    };
-  }
-
-  /* ── Ícones ────────────────────────────────────────────────────────── */
-  function iconShield() { return `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`; }
-  function iconWarn()   { return `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`; }
-  function iconInfo()   { return `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`; }
-  function iconCheck()  { return `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`; }
-  function iconX()      { return `<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`; }
-
-  /* ── Helpers ───────────────────────────────────────────────────────── */
+  /* ── Helpers de HTML ─────────────────────────────────────────────── */
   function alerta(tipo, icone, titulo, texto) {
-    return `<div class="alerta alerta-${tipo}" style="margin-bottom:1rem;">
+    return `<div class="alerta alerta-${tipo}" style="margin-bottom:1.25rem;">
       <div class="alerta-icone">${icone}</div>
       <div class="alerta-conteudo">
         <div class="alerta-titulo">${titulo}</div>
@@ -60,174 +21,126 @@
     </div>`;
   }
 
-  function bloco(titulo, conteudo) {
-    return `<div style="background:var(--branco);border:1px solid var(--cinza-borda);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem;">
-      <div style="font-family:var(--font-display);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--cinza-medio);margin-bottom:0.85rem;padding-bottom:0.6rem;border-bottom:1px solid var(--cinza-borda);">${titulo}</div>
-      ${conteudo}
+  function card(titulo, itens) {
+    // itens = array de strings HTML — filtra os vazios
+    const corpo = itens.filter(Boolean).join('');
+    if (!corpo) return '';
+    return `<div style="background:var(--branco);border:1px solid var(--cinza-borda);border-radius:var(--radius-lg);margin-bottom:1rem;overflow:hidden;">
+      <div style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--cinza-medio);padding:0.75rem 1.25rem;border-bottom:1px solid var(--cinza-borda);background:var(--cinza-papel);">${titulo}</div>
+      ${corpo}
     </div>`;
   }
 
-  function linha(label, valor, dica) {
-    if (!valor) return '';
-    return `<div class="dica-item" style="flex-direction:column;align-items:flex-start;gap:0.15rem;padding:0.65rem 0;">
-      <span style="font-family:var(--font-display);font-size:0.72rem;color:var(--cinza-medio);text-transform:uppercase;letter-spacing:0.05em;">${label}</span>
-      <span style="font-family:var(--font-display);font-size:0.95rem;font-weight:600;color:var(--preto-titulo);">${valor}</span>
-      ${dica ? `<span style="font-family:var(--font-body);font-size:0.78rem;color:var(--cinza-medio);line-height:1.4;">${dica}</span>` : ''}
+  function linha(label, valor) {
+    if (valor === null || valor === undefined || valor === '') return '';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:1.5rem;padding:0.6rem 1.25rem;border-bottom:1px solid var(--cinza-borda);">
+      <span style="font-family:var(--font-display);font-size:0.82rem;color:var(--cinza-medio);white-space:nowrap;flex-shrink:0;">${label}</span>
+      <span style="font-family:var(--font-display);font-size:0.88rem;font-weight:600;color:var(--preto-titulo);text-align:right;word-break:break-all;">${valor}</span>
     </div>`;
   }
 
-  function badge(ok, labelOk, labelNao) {
-    const cor = ok ? 'var(--verde-seguro)' : 'var(--cinza-medio)';
-    const bg  = ok ? 'var(--verde-fundo)'  : 'var(--cinza-papel)';
-    return `<span style="display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--font-display);font-size:0.78rem;font-weight:600;color:${cor};background:${bg};padding:0.3rem 0.7rem;border-radius:6px;">${ok ? iconCheck() : iconX()}${ok ? labelOk : labelNao}</span>`;
+  /* ── Formatações ─────────────────────────────────────────────────── */
+  function formatarHora(iso) {
+    if (!iso) return null;
+    try {
+      // "2026-02-22T17:37:05-03:00" → "22/02/2026 às 17:37"
+      const [data, resto] = iso.split('T');
+      const [ano, mes, dia] = data.split('-');
+      const hora = (resto || '').substring(0, 5);
+      return `${dia}/${mes}/${ano} às ${hora}`;
+    } catch(e) { return iso; }
   }
 
-  /* ── Render ────────────────────────────────────────────────────────── */
-  function renderPegada(api, nav, container) {
-    const vpnAtiva = api.vpn || api.tor || ['vpn'].includes((api.connection_type || '').toLowerCase());
+  function formatarCoordenadas(lat, lng) {
+    if (lat == null || lng == null) return null;
+    const la = parseFloat(lat).toFixed(4);
+    const lo = parseFloat(lng).toFixed(4);
+    return `<a href="https://www.google.com/maps?q=${la},${lo}" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);text-decoration:none;">${la}, ${lo} ↗</a>`;
+  }
 
-    // Banner principal
-    const banner = vpnAtiva
-      ? alerta('seguro', iconShield(),
-          'Sua VPN está funcionando',
-          'Seu endereço real está escondido. Os dados de localização abaixo pertencem ao servidor da VPN, não ao seu endereço real.')
-      : alerta('atencao', iconWarn(),
+  const DISPOSITIVO_PT = { desktop:'Computador', mobile:'Celular', tablet:'Tablet', tv:'Smart TV', wearable:'Wearable' };
+
+  function traduzirDispositivo(tipo, marca, modelo) {
+    const t = DISPOSITIVO_PT[(tipo || '').toLowerCase()] || tipo;
+    const m = (marca && marca !== 'Unknown') ? marca : null;
+    const mo = (modelo && modelo !== 'Unknown' && modelo !== marca) ? modelo : null;
+    return [t, m, mo].filter(Boolean).join(' — ') || null;
+  }
+
+  const CPU_PT = {
+    'amd64':'x86-64 (AMD/Intel)', 'x64':'x86-64 (AMD/Intel)',
+    'x86':'32 bits (x86)', 'arm':'ARM', 'arm64':'ARM 64 bits',
+    'ia32':'Intel 32 bits', 'unknown':null,
+  };
+  function traduzirCPU(arch) {
+    if (!arch) return null;
+    const k = arch.toLowerCase();
+    return CPU_PT[k] !== undefined ? CPU_PT[k] : arch;
+  }
+
+  /* ── Render principal ────────────────────────────────────────────── */
+  function renderPegada(d, container) {
+
+    // ── Banner VPN ──────────────────────────────────────────────────
+    const banner = d.vpn
+      ? alerta('seguro', SVG_SHIELD,
+          'VPN detectada',
+          'Seu endereço real está mascarado. Os dados abaixo pertencem ao servidor da VPN, não à sua localização real.')
+      : alerta('atencao', SVG_WARN,
           'Seu endereço real está visível',
-          'Qualquer site que você acessar consegue ver exatamente onde você está e qual é a sua operadora de internet.');
+          'Qualquer site que você acessar consegue ver seu endereço, localização e operadora de internet.');
 
-    // Localização
-    const localizacao = [api.cidade, api.regiao, api.pais].filter(Boolean).join(', ');
-    const linkMaps = (api.latitude && api.longitude)
-      ? `<a href="https://www.google.com/maps?q=${api.latitude},${api.longitude}" target="_blank" rel="noopener noreferrer" style="color:var(--azul-claro);font-size:0.78rem;">Ver no mapa →</a>`
-      : '';
+    // ── Card 1: Localização ─────────────────────────────────────────
+    const regiao = [d.cidade, d.regiao].filter(Boolean).join(', ') || null;
 
-    // Dispositivo
-    const dispTrad = { desktop:'Computador', mobile:'Celular', tablet:'Tablet', tv:'Smart TV' };
-    const dispLabel = dispTrad[api.dispositivo?.toLowerCase()] || api.dispositivo;
-    const soStr     = [api.so, api.so_versao].filter(Boolean).join(' ') || null;
-    const navStr    = [api.navegador, api.navegador_versao].filter(Boolean).join(' ') || null;
+    const card1 = card('Localização', [
+      linha('IPv4', d.ipv4),
+      d.ipv6 ? linha('IPv6', `<span style="font-size:0.78rem;">${d.ipv6}</span>`) : '',
+      linha('País', d.pais),
+      linha('Região', regiao),
+      linha('Coordenadas', formatarCoordenadas(d.latitude, d.longitude)),
+      linha('ISP / Operadora', d.isp),
+      linha('Fuso horário', d.fuso_horario),
+      linha('Hora local', formatarHora(d.hora_atual)),
+    ]);
 
-    // IP — formata IPv6 de forma mais legível
-    const ipExibir = api.ip && api.ip.includes(':')
-      ? `<span title="${api.ip}" style="font-size:0.85rem;">${api.ip}</span><span style="font-size:0.72rem;color:var(--cinza-medio);margin-left:0.4rem;">(IPv6)</span>`
-      : `<span style="font-size:1.05rem;letter-spacing:0.03em;">${api.ip}</span>`;
+    // ── Card 2: Dispositivo ─────────────────────────────────────────
+    const so  = [d.so, d.so_versao].filter(Boolean).join(' ') || null;
+    const nav = [d.navegador, d.navegador_versao].filter(Boolean).join(' ') || null;
 
-    // Hora local — formato brasileiro DD/MM/AAAA às HH:MM
-    let horaStr = null;
-    if (api.hora_atual) {
-      try {
-        const d = new Date(api.hora_atual);
-        const dia  = String(d.getDate()).padStart(2,'0');
-        const mes  = String(d.getMonth()+1).padStart(2,'0');
-        const ano  = d.getFullYear();
-        const hora = String(d.getHours()).padStart(2,'0');
-        const min  = String(d.getMinutes()).padStart(2,'0');
-        horaStr = `${dia}/${mes}/${ano} às ${hora}:${min}`;
-      } catch(e) {
-        horaStr = api.hora_atual.replace('T',' ').substring(0,16);
-      }
-    }
+    const card2 = card('Seu dispositivo', [
+      linha('Tipo de aparelho', traduzirDispositivo(d.dispositivo, d.dispositivo_marca, d.dispositivo_modelo)),
+      linha('Sistema operacional', so),
+      linha('Navegador', nav),
+      linha('CPU', traduzirCPU(d.cpu)),
+    ]);
 
-    // Idioma legível
-    const idiomaLabel = api.fuso_horario
-      ? `${nav.idioma || ''} — ${api.fuso_horario}`.trim().replace(/^—\s/, '')
-      : nav.idioma || null;
-
-    container.innerHTML = `
-      ${banner}
-
-      ${bloco('Onde você está', `
-        ${linha('Seu endereço na internet (IP)',
-          ipExibir,
-          'É como o endereço da sua casa, mas na internet. Qualquer site que você visita recebe essa informação automaticamente.'
-        )}
-        ${localizacao ? linha('Sua localização aproximada',
-          localizacao + (linkMaps ? '&nbsp; ' + linkMaps : ''),
-          'Sites conseguem saber em qual cidade você está, mesmo sem você informar.'
-        ) : ''}
-        ${linha('Sua operadora de internet', api.isp,
-          'A empresa que fornece sua internet — como Claro, Vivo, TIM ou NET.'
-        )}
-        ${(() => {
-          const tipos = {'residential':'Residencial','corporate':'Empresarial','mobile':'Móvel (dados celular)','hosting':'Datacenter / Servidor','vpn':'VPN','cable/dsl':'Cabo / DSL'};
-          const t = (api.connection_type || '').toLowerCase();
-          const label = tipos[t] || api.connection_type;
-          return label ? linha('Tipo de conexão', label, null) : '';
-        })()}
-        ${linha('Seu fuso horário', api.fuso_horario,
-          'Revela em qual país ou região você está, mesmo com VPN ativa.'
-        )}
-        ${horaStr ? linha('Hora local detectada', horaStr, null) : ''}
-      `)}
-
-      ${bloco('Seu dispositivo', `
-        ${dispLabel ? linha('Tipo de aparelho', dispLabel, null) : ''}
-        ${soStr ? linha('Sistema operacional',
-          soStr,
-          'Mostra se você usa Windows, Android, iOS, macOS etc. A VPN não esconde isso.'
-        ) : ''}
-        ${navStr ? linha('Navegador',
-          navStr,
-          'Chrome, Safari, Firefox — qualquer site consegue identificar qual você usa.'
-        ) : ''}
-        ${nav.resolucao ? linha('Tamanho da tela', nav.resolucao,
-          'Junto com outros dados, ajuda a criar um "retrato" único do seu dispositivo.'
-        ) : ''}
-        ${nav.nucleos ? linha('Processador', `${nav.nucleos} núcleos`,
-          'Quanto mais núcleos, mais rápido é seu dispositivo para rodar programas ao mesmo tempo.'
-        ) : ''}
-        ${nav.memoria ? linha('Memória RAM', nav.memoria,
-          'Quantidade de memória disponível no seu dispositivo.'
-        ) : ''}
-        ${nav.conexao ? linha('Tipo de conexão', nav.conexao, null) : ''}
-      `)}
-
-      ${bloco('Sua privacidade agora', `
-        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding-top:0.25rem;">
-          ${badge(vpnAtiva,       'IP protegido pela VPN',    'IP exposto — sem VPN')}
-          ${badge(nav.adBlocker,  'Bloqueador de anúncios ativo', 'Sem bloqueador de anúncios')}
-          ${badge(nav.dnt,        '"Não me rastreie" ativado', '"Não me rastreie" desativado')}
-          ${badge(!nav.cookies,   'Cookies bloqueados',       'Cookies habilitados')}
-        </div>
-        <p style="font-family:var(--font-body);font-size:0.78rem;color:var(--cinza-medio);margin-top:0.85rem;line-height:1.5;">
-          Estas informações foram coletadas diretamente do seu navegador, sem nenhuma API externa.
-        </p>
-      `)}
-    `;
+    container.innerHTML = banner + card1 + card2;
   }
 
-  /* ── Inicialização ─────────────────────────────────────────────────── */
-  async function carregarPegada() {
+  /* ── Inicialização ───────────────────────────────────────────────── */
+  async function carregar() {
     const loading   = document.getElementById('pegada-loading');
     const container = document.getElementById('pegada-resultado');
     if (!container) return;
 
-    // Coleta dados do navegador imediatamente (sem esperar API)
-    const dadosNav = coletarNavegador();
-
     try {
       const res  = await fetch('/api/pegada');
       const data = await res.json();
-
       if (loading) loading.style.display = 'none';
-
       if (data.error) {
-        container.innerHTML = alerta('perigo', iconInfo(), 'Erro ao carregar dados', data.error);
+        container.innerHTML = alerta('perigo', SVG_INFO, 'Erro ao carregar dados', data.error);
         return;
       }
-
-      renderPegada(data, dadosNav, container);
-
+      renderPegada(data, container);
     } catch (e) {
       if (loading) loading.style.display = 'none';
-      container.innerHTML = alerta('perigo', iconInfo(), 'Serviço temporariamente indisponível', 'Tente novamente em alguns instantes.');
+      container.innerHTML = alerta('perigo', SVG_INFO, 'Serviço temporariamente indisponível', 'Tente novamente em alguns instantes.');
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', carregarPegada);
-  } else {
-    carregarPegada();
-  }
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', carregar)
+    : carregar();
 
 })();

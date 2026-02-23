@@ -1,6 +1,5 @@
 // functions/api/pegada.js
 // Cloudflare Pages Function — GET /api/pegada
-// Retorna dados de geolocalização, segurança e user agent via api.ipwho.org
 
 function cors(origin) {
   const allowed = ['https://protetordigital.com', 'https://www.protetordigital.com'];
@@ -25,25 +24,25 @@ export async function onRequestOptions({ request }) {
 
 export async function onRequestGet({ request, env }) {
   const origin = request.headers.get('Origin') || '';
-
   if (!env.IPWHO_API_KEY) return json({ error: 'Serviço indisponível' }, 503, origin);
 
+  // Pega o IP real do visitante via Cloudflare
   const ip = request.headers.get('CF-Connecting-IP') || '';
 
   try {
-    const url = `https://api.ipwho.org/ip/${ip}?apiKey=${env.IPWHO_API_KEY}`;
+    // IMPORTANTE: passamos o IP explicitamente para garantir que a API
+    // analisa o IP do visitante, não o do nosso servidor Worker
+    const url = `https://api.ipwho.org/ip/${encodeURIComponent(ip)}?apiKey=${env.IPWHO_API_KEY}`;
 
     const res = await fetch(url, {
-      headers: {
-        'User-Agent': request.headers.get('User-Agent') || '',
-        'Accept': 'application/json',
-      },
+      headers: { 'Accept': 'application/json' },
+      // NÃO repassar o User-Agent do visitante — evita confusão entre
+      // o IP (do visitante) e o UA (que seria do worker)
     });
 
     if (!res.ok) return json({ error: 'Erro ao consultar serviço' }, 502, origin);
 
     const raw = await res.json();
-
     if (!raw.success) return json({ error: 'IP não reconhecido' }, 422, origin);
 
     const d   = raw.data;
@@ -53,35 +52,47 @@ export async function onRequestGet({ request, env }) {
     const ua  = d.userAgent   || {};
     const sec = d.security    || {};
 
+    // Detecção de VPN — todos os sinais disponíveis na API
+    const connType = (con.connection_type || '').toLowerCase();
+    const isVpn = sec.isVpn === true
+      || sec.isTor === true
+      || connType === 'vpn'
+      || connType === 'hosting';   // IPs de datacenter/hosting frequentemente são VPN
+
+    // IPv4 vs IPv6
+    const ipStr  = d.ip || ip;
+    const isIPv6 = ipStr.includes(':');
+
     return json({
-      ip:           d.ip,
-      pais:         geo.country      || null,
-      pais_codigo:  geo.countryCode  || null,
-      regiao:       geo.region       || null,
-      cidade:       geo.city         || null,
-      cep:          geo.postal_Code  || null,
-      latitude:     geo.latitude     || null,
-      longitude:    geo.longitude    || null,
-      continente:   geo.continent    || null,
-      eu:           geo.is_in_eu     || false,
-      isp:          con.isp          || null,
-      org:          con.org          || null,
-      asn:          con.asn_number   || null,
-      vpn:          sec.isVpn || (con.connection_type || '').toLowerCase().includes('vpn') || false,
-      tor:          sec.isTor        || false,
-      threat:       sec.isThreat     || 'low',
+      ip:     ipStr,
+      ipv4:   isIPv6 ? null : ipStr,
+      ipv6:   isIPv6 ? ipStr : null,
+      // Localização
+      pais:        geo.country   || null,
+      regiao:      geo.region    || null,
+      cidade:      geo.city      || null,
+      latitude:    geo.latitude  ?? null,
+      longitude:   geo.longitude ?? null,
+      // Rede
+      isp:             con.isp             || null,
       connection_type: con.connection_type || null,
-      fuso_horario: tz.time_zone     || null,
-      fuso_offset:  tz.offset        || null,
-      hora_atual:   tz.current_time  || null,
-      navegador:         ua.browser?.name    || null,
-      navegador_versao:  ua.browser?.version || null,
-      so:                ua.os?.name         || null,
-      so_versao:         ua.os?.version      || null,
-      dispositivo:       ua.device?.type     || null,
-      dispositivo_marca: ua.device?.vendor   || null,
-      motor:             ua.engine?.name     || null,
-      cpu:               ua.cpu?.architecture || null,
+      // Segurança — todos os campos brutos + flag consolidado
+      vpn:    isVpn,
+      isVpn:  sec.isVpn  === true,
+      isTor:  sec.isTor  === true,
+      threat: sec.isThreat || 'low',
+      // Fuso
+      fuso_horario: tz.time_zone    || null,
+      hora_atual:   tz.current_time || null,
+      // Dispositivo
+      dispositivo:       ua.device?.type    || null,
+      dispositivo_marca: ua.device?.vendor  || null,
+      dispositivo_modelo:ua.device?.model   || null,
+      so:               ua.os?.name         || null,
+      so_versao:        ua.os?.version      || null,
+      navegador:        ua.browser?.name    || null,
+      navegador_versao: ua.browser?.version || null,
+      cpu:              ua.cpu?.architecture || null,
     }, 200, origin);
 
   } catch (e) {
