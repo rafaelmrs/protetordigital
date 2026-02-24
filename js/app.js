@@ -7,6 +7,21 @@
   'use strict';
 
   /* --------------------------------------------------------
+     GOOGLE ANALYTICS 4 — centralizado aqui para todas as páginas
+  -------------------------------------------------------- */
+  (function () {
+    var s = document.createElement('script');
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-R2B395NE0Z';
+    s.async = true;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-R2B395NE0Z');
+  })();
+
+  /* --------------------------------------------------------
      MAPA DE TÍTULOS POR PATHNAME
   -------------------------------------------------------- */
   const TITULOS = {
