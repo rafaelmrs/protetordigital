@@ -1,8 +1,3 @@
-/**
- * Protetor Digital — lastbreach.js
- * Carrega e renderiza o último vazamento na home a partir de /data/lastbreach-pt.json
- */
-
 (function () {
   'use strict';
 

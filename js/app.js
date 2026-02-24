@@ -1,14 +1,7 @@
-/**
- * Protetor Digital — app.js
- * Core: carrega componentes HTML, gerencia navegação e sidebar
- */
-
 (function () {
   'use strict';
 
-  /* --------------------------------------------------------
-     GOOGLE ANALYTICS 4 — centralizado aqui para todas as páginas
-  -------------------------------------------------------- */
+  // GA4
   (function () {
     var s = document.createElement('script');
     s.src = 'https://www.googletagmanager.com/gtag/js?id=G-R2B395NE0Z';
@@ -21,9 +14,6 @@
     gtag('config', 'G-R2B395NE0Z');
   })();
 
-  /* --------------------------------------------------------
-     MAPA DE TÍTULOS POR PATHNAME
-  -------------------------------------------------------- */
   const TITULOS = {
     '/': 'Página Inicial',
     '/index.html': 'Página Inicial',
@@ -54,80 +44,53 @@
   };
 
   function resolverTitulo(pathname) {
-    // Exact match
     if (TITULOS[pathname]) return TITULOS[pathname];
-    // Strip trailing slash and retry
     const sem = pathname.replace(/\/$/, '');
     if (TITULOS[sem]) return TITULOS[sem];
-    // Strip .html and retry
     const semHtml = sem.replace(/\.html$/, '');
     if (TITULOS[semHtml]) return TITULOS[semHtml];
-    // Try just the filename segment (fallback for blog posts, etc.)
     const slug = '/' + pathname.split('/').filter(Boolean).pop();
     if (TITULOS[slug]) return TITULOS[slug];
     return 'Protetor Digital';
   }
 
-  
-/* --------------------------------------------------------
-   VER MAIS / VER MENOS — só aparece se texto foi truncado
--------------------------------------------------------- */
-window.initVazDescToggles = function() {
-  document.querySelectorAll('.vaz-desc-wrap').forEach(wrap => {
-    const texto = wrap.querySelector('.vaz-desc-texto');
-    const btn   = wrap.querySelector('.vaz-desc-toggle');
-    if (!texto || !btn) return;
-    // Se o texto cabe sem truncar, esconde o botão
-    if (texto.scrollHeight <= texto.clientHeight + 2) {
-      btn.style.display = 'none';
-    }
-    btn.addEventListener('click', () => {
-      const expandido = texto.classList.toggle('expandido');
-      btn.textContent = expandido ? 'Ver menos ▲' : 'Ver mais ▼';
+  window.initVazDescToggles = function() {
+    document.querySelectorAll('.vaz-desc-wrap').forEach(wrap => {
+      const texto = wrap.querySelector('.vaz-desc-texto');
+      const btn   = wrap.querySelector('.vaz-desc-toggle');
+      if (!texto || !btn) return;
+      if (texto.scrollHeight <= texto.clientHeight + 2) {
+        btn.style.display = 'none';
+      }
+      btn.addEventListener('click', () => {
+        const expandido = texto.classList.toggle('expandido');
+        btn.textContent = expandido ? 'Ver menos ▲' : 'Ver mais ▼';
+      });
     });
-  });
-};
+  };
 
-  /* --------------------------------------------------------
-     UTILITÁRIO: FETCH DE FRAGMENTO HTML
-  -------------------------------------------------------- */
   async function fetchFragment(path) {
     try {
       const res = await fetch(path);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.text();
     } catch (err) {
-      console.warn(`[app.js] Não foi possível carregar ${path}:`, err);
+      console.warn(`[app.js] falha ao carregar ${path}:`, err);
       return '';
     }
   }
 
-  /* --------------------------------------------------------
-     INJEÇÃO DE COMPONENTE NUM SLOT
-  -------------------------------------------------------- */
   async function loadComponent(slotId, componentPath) {
     const slot = document.getElementById(slotId);
     if (!slot) return;
-    const html = await fetchFragment(componentPath);
-    slot.innerHTML = html;
+    slot.innerHTML = await fetchFragment(componentPath);
   }
 
-  /* --------------------------------------------------------
-     DETECÇÃO DO CAMINHO BASE PARA OS COMPONENTES
-  -------------------------------------------------------- */
-  function getBasePath() {
-    // Caminhos absolutos — funciona independente da profundidade da pasta
-    return '';
-  }
-
-  /* --------------------------------------------------------
-     ATIVAR ITEM DA SIDEBAR CORRESPONDENTE À PÁGINA ATUAL
-  -------------------------------------------------------- */
   function ativarNavItem() {
     const pathname = window.location.pathname;
     const pathNorm = pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
+
+    document.querySelectorAll('.nav-item').forEach(item => {
       item.classList.remove('ativo');
       item.removeAttribute('aria-current');
       const href = item.getAttribute('href');
@@ -139,20 +102,24 @@ window.initVazDescToggles = function() {
       }
     });
 
-    // Topbar título
     const tituloEl = document.getElementById('topbar-titulo');
-    if (tituloEl) {
-      tituloEl.textContent = resolverTitulo(pathname);
-    }
+    if (tituloEl) tituloEl.textContent = resolverTitulo(pathname);
   }
 
-  /* --------------------------------------------------------
-     SIDEBAR MOBILE
-  -------------------------------------------------------- */
+  function fecharSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const toggle  = document.getElementById('sidebar-toggle');
+    if (sidebar) sidebar.classList.remove('aberta');
+    if (overlay) overlay.classList.remove('ativo');
+    if (toggle)  toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('sidebar-aberta');
+  }
+
   function initSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
-    const toggle = document.getElementById('sidebar-toggle');
+    const toggle  = document.getElementById('sidebar-toggle');
     if (!sidebar || !overlay || !toggle) return;
 
     toggle.addEventListener('click', () => {
@@ -163,38 +130,19 @@ window.initVazDescToggles = function() {
     });
 
     overlay.addEventListener('click', fecharSidebar);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharSidebar(); });
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') fecharSidebar();
-    });
-
-    // Fecha ao clicar em link da sidebar em mobile
     sidebar.querySelectorAll('a.nav-item').forEach(item => {
-      item.addEventListener('click', () => {
-        if (window.innerWidth < 768) fecharSidebar();
-      });
+      item.addEventListener('click', () => { if (window.innerWidth < 768) fecharSidebar(); });
     });
   }
 
-  function fecharSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const toggle = document.getElementById('sidebar-toggle');
-    if (sidebar) sidebar.classList.remove('aberta');
-    if (overlay) overlay.classList.remove('ativo');
-    if (toggle) toggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('sidebar-aberta');
-  }
-
-  /* --------------------------------------------------------
-     BOTÕES DE COMPARTILHAR (usado nas páginas de blog)
-  -------------------------------------------------------- */
   window.compartilhar = function (rede) {
-    const url = encodeURIComponent(window.location.href);
+    const url    = encodeURIComponent(window.location.href);
     const titulo = encodeURIComponent(document.title);
     let link = '';
     if (rede === 'whatsapp') link = `https://wa.me/?text=${titulo}%20${url}`;
-    if (rede === 'twitter') link = `https://twitter.com/intent/tweet?text=${titulo}&url=${url}`;
+    if (rede === 'twitter')  link = `https://twitter.com/intent/tweet?text=${titulo}&url=${url}`;
     if (rede === 'facebook') link = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     if (rede === 'copiar') {
       navigator.clipboard.writeText(window.location.href).then(() => {
@@ -210,25 +158,14 @@ window.initVazDescToggles = function() {
     if (link) window.open(link, '_blank', 'noopener,noreferrer');
   };
 
-  /* --------------------------------------------------------
-     INICIALIZAÇÃO PRINCIPAL
-  -------------------------------------------------------- */
   async function init() {
-    const base = getBasePath();
-
-    // Carrega componentes em paralelo
     await Promise.all([
-      loadComponent('slot-header', `${base}/components/header.html`),
-      loadComponent('slot-sidebar', `${base}/components/sidebar.html`),
-      loadComponent('slot-footer', `${base}/components/footer.html`),
+      loadComponent('slot-header',  '/components/header.html'),
+      loadComponent('slot-sidebar', '/components/sidebar.html'),
+      loadComponent('slot-footer',  '/components/footer.html'),
     ]);
-
-    // Após injeção, ativa estados e eventos
     ativarNavItem();
     initSidebar();
-
-    // Corrige hrefs na sidebar para caminhos absolutos/relativos corretos
-    // (os componentes usam caminhos absolutos; isso funciona em servidor)
   }
 
   if (document.readyState === 'loading') {

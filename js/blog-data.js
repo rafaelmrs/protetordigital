@@ -1,9 +1,3 @@
-/**
- * Protetor Digital — blog-data.js
- * Fonte única de verdade para todos os posts do blog.
- * Altere BLOG_CONFIG.autor para mudar o autor em todos os posts de uma vez.
- */
-
 window.BLOG_CONFIG = {
   // ── Altere aqui para mudar o autor em todos os posts ──
   autor: 'Rafael',

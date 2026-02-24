@@ -1,4 +1,3 @@
-// functions/api/pegada.js
 // Cloudflare Pages Function — GET /api/pegada
 
 function cors(origin) {
@@ -26,23 +25,13 @@ export async function onRequestGet({ request, env }) {
   const origin = request.headers.get('Origin') || '';
   if (!env.IPWHO_API_KEY) return json({ error: 'Serviço indisponível' }, 503, origin);
 
-  // Pega o IP real do visitante via Cloudflare
-  const ip = request.headers.get('CF-Connecting-IP') || '';
+  const ip        = request.headers.get('CF-Connecting-IP') || '';
+  const userAgent = request.headers.get('User-Agent') || '';
 
   try {
-    // IMPORTANTE: passamos o IP explicitamente para garantir que a API
-    // analisa o IP do visitante, não o do nosso servidor Worker
     const url = `https://api.ipwho.org/ip/${encodeURIComponent(ip)}?apiKey=${env.IPWHO_API_KEY}`;
-
-    // Repassar o User-Agent real do visitante — a API usa para identificar
-    // navegador, SO e dispositivo. Sem isso retorna "Unknown Unknown".
-    const userAgent = request.headers.get('User-Agent') || '';
-
     const res = await fetch(url, {
-      headers: {
-        'Accept': 'application/json',
-        'User-Agent': userAgent,
-      },
+      headers: { 'Accept': 'application/json', 'User-Agent': userAgent },
     });
 
     if (!res.ok) return json({ error: 'Erro ao consultar serviço' }, 502, origin);
@@ -57,17 +46,15 @@ export async function onRequestGet({ request, env }) {
     const ua  = d.userAgent   || {};
     const sec = d.security    || {};
 
-    // Detecção de VPN — combinação de sinais da API
     const connType = (con.connection_type || '').toLowerCase();
     const ispLower = (con.isp || '').toLowerCase();
     const asnOrg   = (con.asn_org || '').toLowerCase();
 
-    // ISPs / organizações conhecidas de VPN e datacenter
     const vpnIsps = [
       'proton', 'nordvpn', 'expressvpn', 'mullvad', 'surfshark',
       'privateinternetaccess', 'pia', 'cyberghost', 'ipvanish',
       'datacamp', 'm247', 'hetzner', 'ovh', 'digitalocean',
-      'linode', 'vultr', 'choopa', 'constant contact', 'quadranet',
+      'linode', 'vultr', 'choopa', 'quadranet',
     ];
     const isKnownVpnIsp = vpnIsps.some(v => ispLower.includes(v) || asnOrg.includes(v));
 
@@ -77,42 +64,35 @@ export async function onRequestGet({ request, env }) {
       || connType === 'hosting'
       || (connType === 'corporate' && isKnownVpnIsp);
 
-    // IPv4 vs IPv6
     const ipStr  = d.ip || ip;
     const isIPv6 = ipStr.includes(':');
 
     return json({
-      ip:     ipStr,
-      ipv4:   isIPv6 ? null : ipStr,
-      ipv6:   isIPv6 ? ipStr : null,
-      // Localização
+      ip:    ipStr,
+      ipv4:  isIPv6 ? null : ipStr,
+      ipv6:  isIPv6 ? ipStr : null,
       pais:        geo.country   || null,
       regiao:      geo.region    || null,
       cidade:      geo.city      || null,
       latitude:    geo.latitude  ?? null,
       longitude:   geo.longitude ?? null,
       eu:          geo.is_in_eu  || false,
-      // Rede
-      isp:             con.isp             || null,
-      asn:             con.asn_number      || null,
+      isp:             con.isp        || null,
+      asn:             con.asn_number || null,
       connection_type: con.connection_type || null,
-      // Segurança
-      vpn:    isVpn,
-      isVpn:  sec.isVpn  === true,
-      isTor:  sec.isTor  === true,
+      vpn:   isVpn,
+      isVpn: sec.isVpn === true,
+      isTor: sec.isTor === true,
       threat: sec.isThreat || 'low',
-
-      // Fuso
       fuso_horario: tz.time_zone    || null,
       hora_atual:   tz.current_time || null,
-      // Dispositivo
-      dispositivo:       ua.device?.type    || null,
-      dispositivo_marca: ua.device?.vendor  || null,
-      dispositivo_modelo:ua.device?.model   || null,
-      so:               ua.os?.name         || null,
-      so_versao:        ua.os?.version      || null,
-      navegador:        ua.browser?.name    || null,
-      navegador_versao: ua.browser?.version || null,
+      dispositivo:        ua.device?.type   || null,
+      dispositivo_marca:  ua.device?.vendor || null,
+      dispositivo_modelo: ua.device?.model  || null,
+      so:               ua.os?.name          || null,
+      so_versao:        ua.os?.version       || null,
+      navegador:        ua.browser?.name     || null,
+      navegador_versao: ua.browser?.version  || null,
       cpu:              ua.cpu?.architecture || null,
     }, 200, origin);
 

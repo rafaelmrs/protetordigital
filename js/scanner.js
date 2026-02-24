@@ -1,14 +1,6 @@
-/**
- * Protetor Digital — scanner.js
- * Verificação de URLs via Google Safe Browsing (CF Pages Function /api/scan)
- */
-
 (function () {
   'use strict';
 
-  /* --------------------------------------------------------
-     VERIFICAR LINK
-  -------------------------------------------------------- */
   window.verificarLink = async function () {
     const urlInput = document.getElementById('input-link');
     const resultado = document.getElementById('resultado-link');
@@ -62,9 +54,6 @@
     resultado.innerHTML = renderResultadoUrl(parsed, data);
   };
 
-  /* --------------------------------------------------------
-     ANÁLISE LOCAL (fallback quando API offline)
-  -------------------------------------------------------- */
   function analisarUrlLocalmente(parsed) {
     const url = parsed.href;
     const domain = parsed.hostname;
@@ -90,9 +79,6 @@
     };
   }
 
-  /* --------------------------------------------------------
-     RENDERIZA RESULTADO
-  -------------------------------------------------------- */
   function renderResultadoUrl(parsed, data) {
     const url = parsed.href;
     const urlDisplay = url.length > 70 ? url.substring(0, 70) + '…' : url;

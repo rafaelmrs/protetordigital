@@ -1,15 +1,6 @@
-/**
- * Protetor Digital — breach.js
- * Verificação de vazamentos de e-mail (HIBP paga via CF Pages Function)
- * e verificação de senha vazada (HIBP free via k-anonymity direto do browser)
- */
-
 (function () {
   'use strict';
 
-  /* --------------------------------------------------------
-     HELPERS DE FORMATAÇÃO
-  -------------------------------------------------------- */
   function formatarData(dateStr) {
     if (!dateStr) return 'Data desconhecida';
     const d = new Date(dateStr);
@@ -74,9 +65,6 @@
     return mapa[dc] || dc;
   }
 
-  /* --------------------------------------------------------
-     BUSCA DE VAZAMENTOS — EMAIL (via CF Pages Function)
-  -------------------------------------------------------- */
   window.buscarVazamentos = async function () {
     const email = document.getElementById('input-email')?.value.trim() || '';
     const resultado = document.getElementById('resultado-vazamentos');
@@ -125,9 +113,6 @@
     }
   };
 
-  /* --------------------------------------------------------
-     RENDERIZA: NENHUM VAZAMENTO
-  -------------------------------------------------------- */
   function renderLimpo(email) {
     const emailSafe = email.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return `
@@ -171,9 +156,6 @@
       </div>`;
   }
 
-  /* --------------------------------------------------------
-     RENDERIZA: VAZAMENTOS ENCONTRADOS — com linha do tempo
-  -------------------------------------------------------- */
   function renderVazamentos(email, breaches) {
     const total = breaches.length;
     // Ordena por data (mais recente primeiro)
@@ -271,9 +253,6 @@
       </div>`;
   }
 
-  /* --------------------------------------------------------
-     VERIFICAR SENHA VAZADA (HIBP FREE — k-anonymity)
-  -------------------------------------------------------- */
   window.verificarSenhaVazada = async function () {
     const senha = document.getElementById('input-senha-vaz')?.value || '';
     const resultado = document.getElementById('resultado-senha-vazada');

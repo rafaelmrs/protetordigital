@@ -1,9 +1,3 @@
-/**
- * Protetor Digital — password.js
- * Lógica de verificação de força de senha e geração de senhas
- * A análise de força é feita 100% no navegador (sem APIs externas)
- */
-
 (function () {
   'use strict';
 
@@ -15,9 +9,6 @@
     '111111','123321','654321','112233','aaaaaa','mudar123','@senha123'
   ];
 
-  /* --------------------------------------------------------
-     CÁLCULO DE FORÇA (OWASP-inspired)
-  -------------------------------------------------------- */
   window.calcularForca = function (senha) {
     if (!senha) return { score: -1 };
     const temMaiuscula = /[A-Z]/.test(senha);
@@ -60,10 +51,6 @@
              temMaiuscula, temMinuscula, temNumero, temEspecial, tamanhoOk, variedadeCompleta, eComum: false };
   };
 
-
-  /* --------------------------------------------------------
-     CALCULAR TEMPO PARA QUEBRAR SENHA (linguagem simples)
-  -------------------------------------------------------- */
   window.calcularTempo = function(senha) {
     if (!senha) return null;
 
@@ -109,9 +96,6 @@
     return r;
   };
 
-  /* --------------------------------------------------------
-     ATUALIZA ÍCONE DE DICA
-  -------------------------------------------------------- */
   function atualizarDicaItem(id, ok) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -126,9 +110,6 @@
     }
   }
 
-  /* --------------------------------------------------------
-     ANALISAR SENHA (bind ao input em verificador.html)
-  -------------------------------------------------------- */
   window.analisarSenha = function (senha) {
     const container = document.getElementById('forca-container');
     const barra = document.getElementById('forca-barra');
@@ -299,9 +280,6 @@
       </div>`;
   };
 
-  /* --------------------------------------------------------
-     TOGGLE VISIBILIDADE SENHA
-  -------------------------------------------------------- */
   window.toggleSenha = function (inputId, iconeId) {
     const input = document.getElementById(inputId || 'input-senha');
     const icone = document.getElementById(iconeId || 'icone-olho');
@@ -315,9 +293,6 @@
     }
   };
 
-  /* --------------------------------------------------------
-     GERADOR DE SENHA
-  -------------------------------------------------------- */
   window.gerarSenha = function () {
     const comprimento = parseInt(document.getElementById('slider-comprimento')?.value || 16);
     const usaMaiusculas = document.getElementById('opt-maiusculas')?.checked !== false;
