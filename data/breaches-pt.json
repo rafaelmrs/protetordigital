@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated": "2026-02-22",
+    "generated": "2026-02-25",
     "source": "haveibeenpwned.com",
     "translator": "Claude AI",
     "version": "2.0",
@@ -4855,5 +4855,10 @@
     "descricao": "Em fevereiro de 2026, o marketplace automotivo CarGurus foi alvo de um vazamento de dados atribuído ao grupo ShinyHunters. Após uma tentativa de extorsão fracassada, os dados foram publicados e continham mais de 12 milhões de endereços de e-mail em múltiplos arquivos, incluindo mapeamentos de contas de usuário, dados de aplicações de financiamento e informações de contas de revendedores. Os dados afetados também incluíam nomes, números de telefone, endereços físicos e IP, e resultados de solicitações de financiamento automotivo.",
     "added_date": "2026-02-22",
     "modified_date": "2026-02-22"
+  },
+  "canadiantire": {
+    "descricao": "Em outubro de 2025, a rede varejista Canadian Tire foi vítima de um vazamento de dados que expôs quase 42 milhões de registros. Os dados continham 38 milhões de endereços de e-mail únicos, além de nomes, números de telefone e endereços físicos. As senhas estavam armazenadas como hashes PBKDF2 e, para um subconjunto de registros, também foram incluídas datas de nascimento e dados parciais de cartão de crédito (tipo, validade e número mascarado). Em seu comunicado oficial, a Canadian Tire informou que o incidente não afetou dados de contas bancárias nem informações do programa de fidelidade.",
+    "added_date": "2026-02-25",
+    "modified_date": "2026-02-25"
   }
 }

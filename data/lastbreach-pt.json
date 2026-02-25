@@ -1,17 +1,20 @@
 {
-  "name": "CarGurus",
-  "title": "CarGurus",
-  "domain": "cargurus.com",
-  "breach_date": "2026-02-14",
-  "added_date": "2026-02-22",
-  "pwn_count": 12461887,
+  "name": "CanadianTire",
+  "title": "Canadian Tire",
+  "domain": "canadiantire.ca",
+  "breach_date": "2025-10-02",
+  "added_date": "2026-02-25",
+  "pwn_count": 38306562,
   "data_classes_pt": [
+    "Datas de nascimento",
     "Endereços de e-mail",
-    "Endereços IP",
+    "Gêneros",
     "Nomes",
+    "Dados parciais de cartão de crédito",
+    "Senhas",
     "Números de telefone",
     "Endereços físicos"
   ],
-  "descricao": "Em fevereiro de 2026, o marketplace automotivo CarGurus foi alvo de um vazamento de dados atribuído ao grupo ShinyHunters. Após uma tentativa de extorsão fracassada, os dados foram publicados e continham mais de 12 milhões de endereços de e-mail em múltiplos arquivos, incluindo mapeamentos de contas de usuário, dados de aplicações de financiamento e informações de contas de revendedores. Os dados afetados também incluíam nomes, números de telefone, endereços físicos e IP, e resultados de solicitações de financiamento automotivo.",
+  "descricao": "Em outubro de 2025, a rede varejista Canadian Tire foi vítima de um vazamento de dados que expôs quase 42 milhões de registros. Os dados continham 38 milhões de endereços de e-mail únicos, além de nomes, números de telefone e endereços físicos. As senhas estavam armazenadas como hashes PBKDF2 e, para um subconjunto de registros, também foram incluídas datas de nascimento e dados parciais de cartão de crédito (tipo, validade e número mascarado). Em seu comunicado oficial, a Canadian Tire informou que o incidente não afetou dados de contas bancárias nem informações do programa de fidelidade.",
   "severity": "high"
 }
