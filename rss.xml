@@ -5,13 +5,22 @@
     <link>https://protetordigital.com/blog</link>
     <description>Conteúdo simples e prático sobre segurança digital para o dia a dia do brasileiro.</description>
     <language>pt-BR</language>
-    <lastBuildDate>Sun, 22 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://protetordigital.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://protetordigital.com/favicon.svg</url>
       <title>Protetor Digital</title>
       <link>https://protetordigital.com</link>
     </image>
+
+    <item>
+      <title>O dono do Wi-Fi consegue ver o que você acessa?</title>
+      <link>https://protetordigital.com/blog/posts/wifi-privacidade</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/wifi-privacidade</guid>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <description>Quando você usa o Wi-Fi de outra pessoa, o que ela consegue ver? A resposta depende de como você navega — e tem uma diferença grande entre HTTP e HTTPS.</description>
+      <enclosure url="https://protetordigital.com/images/blog/roteador-wifi.webp" type="image/webp"/>
+    </item>
 
         <item>
       <title>IA do Mal: Como os Criminosos Estão Usando Robôs para "Adivinhar" Sua Senha em Segundos</title>

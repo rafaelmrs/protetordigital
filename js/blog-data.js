@@ -4,6 +4,20 @@ window.BLOG_CONFIG = {
 
   // ── Lista de todos os posts ──
     posts: [
+    {
+      slug: 'wifi-privacidade',
+      url: '/blog/posts/wifi-privacidade',
+      titulo: 'O dono do Wi-Fi consegue ver o que você acessa?',
+      descricao: 'Quando você usa o Wi-Fi de outra pessoa, o que ela consegue ver? A resposta depende de como você navega — e tem uma diferença grande entre HTTP e HTTPS.',
+      data: '2026-02-25',
+      dataFormatada: '25 de fevereiro de 2026',
+      leitura: '5 min',
+      imagem: '/images/blog/roteador-wifi.webp',
+      imagemAlt: 'Roteador Wi-Fi doméstico branco com antenas sobre uma mesa',
+      categoria: 'Privacidade',
+      corCategoria: 'azul',
+      icone: 'shield',
+    },
         {
       slug: 'ia-ataque-senhas',
       url: '/blog/posts/ia-ataque-senhas',
