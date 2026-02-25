@@ -26,3 +26,6 @@ desktop.ini
 # Arquivos temporários
 *.log
 *.tmp
+
+# Contexto interno do projeto — não versionar
+contexto-projeto.md
