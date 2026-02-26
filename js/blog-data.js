@@ -5,6 +5,20 @@ window.BLOG_CONFIG = {
   // ── Lista de todos os posts ──
     posts: [
     {
+      slug: 'whatsapp-clonado',
+      url: '/blog/posts/whatsapp-clonado',
+      titulo: 'Meu WhatsApp foi clonado. E agora?',
+      descricao: 'Seu WhatsApp foi clonado? Saiba o que fazer agora para recuperar o acesso e como evitar que aconteça de novo com a verificação em duas etapas.',
+      data: '2026-02-27',
+      dataFormatada: '27 de fevereiro de 2026',
+      leitura: '5 min',
+      imagem: '/images/blog/whatsapp-clonado.webp',
+      imagemAlt: 'Homem no ônibus olhando para o celular com o WhatsApp aberto',
+      categoria: 'Segurança',
+      corCategoria: 'vermelho',
+      icone: 'alert',
+    },
+    {
       slug: 'wifi-privacidade',
       url: '/blog/posts/wifi-privacidade',
       titulo: 'O dono do Wi-Fi consegue ver o que você acessa?',

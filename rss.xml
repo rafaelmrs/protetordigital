@@ -5,13 +5,22 @@
     <link>https://protetordigital.com/blog</link>
     <description>Conteúdo simples e prático sobre segurança digital para o dia a dia do brasileiro.</description>
     <language>pt-BR</language>
-    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://protetordigital.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://protetordigital.com/favicon.svg</url>
       <title>Protetor Digital</title>
       <link>https://protetordigital.com</link>
     </image>
+
+    <item>
+      <title>Meu WhatsApp foi clonado. E agora?</title>
+      <link>https://protetordigital.com/blog/posts/whatsapp-clonado</link>
+      <guid isPermaLink="true">https://protetordigital.com/blog/posts/whatsapp-clonado</guid>
+      <pubDate>Fri, 27 Feb 2026 00:00:00 +0000</pubDate>
+      <description>Seu WhatsApp foi clonado? Saiba o que fazer agora para recuperar o acesso e como evitar que aconteça de novo com a verificação em duas etapas.</description>
+      <enclosure url="https://protetordigital.com/images/blog/whatsapp-clonado.webp" type="image/webp"/>
+    </item>
 
     <item>
       <title>O dono do Wi-Fi consegue ver o que você acessa?</title>
