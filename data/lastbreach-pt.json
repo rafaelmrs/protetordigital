@@ -1,21 +1,15 @@
 {
-  "name": "Odido",
-  "title": "Odido",
-  "domain": "odido.nl",
-  "breach_date": "2026-02-12",
-  "added_date": "2026-02-26",
-  "pwn_count": 316912,
+  "name": "Lovora",
+  "title": "Lovora",
+  "domain": "lovora.app",
+  "breach_date": "2026-02-25",
+  "added_date": "2026-03-02",
+  "pwn_count": 495556,
   "data_classes_pt": [
-    "Números de conta bancária",
-    "Comentários de atendimento",
-    "Datas de nascimento",
-    "Carteiras de motorista",
+    "Nomes de exibição",
     "Endereços de e-mail",
-    "Nomes",
-    "Números de passaporte",
-    "Números de telefone",
-    "Endereços físicos"
+    "Fotos de perfil"
   ],
-  "descricao": "Em fevereiro de 2026, a operadora de telecomunicações holandesa Odido foi vítima de um vazamento de dados seguido de tentativa de extorsão pelo grupo ShinyHunters. Cerca de 1 milhão de registros foram publicados contendo 317 mil endereços de e-mail únicos. Os dados também incluíam nomes, endereços físicos, números de telefone, números de conta bancária, datas de nascimento, números de passaporte e carteira de motorista, além de anotações internas de atendentes sobre os clientes. Os atacantes ameaçaram continuar vazando mais dados nos dias seguintes.",
-  "severity": "high"
+  "descricao": "Em fevereiro de 2026, o aplicativo de relacionamentos e casais Lovora teria sofrido um vazamento de dados que expôs 496 mil endereços de e-mail únicos. Os dados também incluíam nomes de exibição e fotos de perfil dos usuários, além de outras informações pessoais coletadas pelo app. A empresa desenvolvedora, Plantake, não respondeu às diversas tentativas de contato sobre o incidente.",
+  "severity": "medium"
 }

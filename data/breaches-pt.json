@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated": "2026-02-26",
+    "generated": "2026-03-02",
     "source": "haveibeenpwned.com",
     "translator": "Claude AI",
     "version": "2.0",
@@ -2037,9 +2037,9 @@
     "modified_date": "2023-06-21"
   },
   "muah": {
-    "descricao": "Em setembro de 2024, o site de \"namorada de IA\" Muah.AI sofreu uma violação de dados. A violação expôs 1,9 milhão de endereços de e-mail junto com prompts para gerar conteúdo de IA e imagens potencialmente sensíveis.",
+    "descricao": "Em setembro de 2024, o site de 'namorada virtual com IA' Muah.AI sofreu um vazamento de dados que expôs 1,9 milhão de endereços de e-mail, acompanhados dos prompts usados para gerar imagens com inteligência artificial. Grande parte dos prompts tinha conteúdo sexual explícito, incluindo descrições de exploração sexual infantil.",
     "added_date": "2024-10-08",
-    "modified_date": "2024-10-08"
+    "modified_date": "2026-03-02"
   },
   "dota2": {
     "descricao": "Em julho de 2016, o fórum oficial de desenvolvedores do Dota2 sofreu uma violação de dados que expôs quase 2 milhões de usuários. O hack do fórum vBulletin resultou na exposição de e-mails, endereços IP e senhas.",
@@ -4861,9 +4861,24 @@
     "added_date": "2026-02-25",
     "modified_date": "2026-02-25"
   },
+  "lovora": {
+    "descricao": "Em fevereiro de 2026, o aplicativo de relacionamentos e casais Lovora teria sofrido um vazamento de dados que expôs 496 mil endereços de e-mail únicos. Os dados também incluíam nomes de exibição e fotos de perfil dos usuários, além de outras informações pessoais coletadas pelo app. A empresa desenvolvedora, Plantake, não respondeu às diversas tentativas de contato sobre o incidente.",
+    "added_date": "2026-03-02",
+    "modified_date": "2026-03-02"
+  },
+  "quitbro": {
+    "descricao": "Em fevereiro de 2026, o aplicativo de combate ao vício em pornografia Quitbro teria sofrido um vazamento de dados que expôs 23 mil endereços de e-mail únicos. Os dados também incluíam anos de nascimento, respostas a perguntas feitas pelo aplicativo e o horário da última recaída registrada pelos usuários. A empresa desenvolvedora, Plantake, não respondeu às diversas tentativas de contato sobre o incidente.",
+    "added_date": "2026-03-02",
+    "modified_date": "2026-03-02"
+  },
+  "komikoai": {
+    "descricao": "Em fevereiro de 2026, a plataforma de geração de quadrinhos com inteligência artificial KomikoAI sofreu um vazamento de dados que expôs 1 milhão de endereços de e-mail únicos. Os dados também incluíam nomes, postagens dos usuários e os prompts utilizados para gerar conteúdo. A exposição permite vincular prompts individuais diretamente a endereços de e-mail específicos.",
+    "added_date": "2026-03-02",
+    "modified_date": "2026-03-02"
+  },
   "odido": {
-    "descricao": "Em fevereiro de 2026, a operadora de telecomunicações holandesa Odido foi vítima de um vazamento de dados seguido de tentativa de extorsão pelo grupo ShinyHunters. Cerca de 1 milhão de registros foram publicados contendo 317 mil endereços de e-mail únicos. Os dados também incluíam nomes, endereços físicos, números de telefone, números de conta bancária, datas de nascimento, números de passaporte e carteira de motorista, além de anotações internas de atendentes sobre os clientes. Os atacantes ameaçaram continuar vazando mais dados nos dias seguintes.",
+    "descricao": "Em fevereiro de 2026, a operadora de telecomunicações holandesa Odido foi vítima de um vazamento de dados seguido de tentativa de extorsão. Ao longo de quatro divulgações consecutivas, foram publicados ao todo 6 milhões de endereços de e-mail únicos. Os dados expostos incluíam nomes, endereços físicos, números de telefone, números de conta bancária, datas de nascimento, anotações de atendimento ao cliente, além de números de passaporte, carteira de motorista e documentos de identidade europeus. A Odido publicou um comunicado oficial com perguntas frequentes para orientar os clientes afetados.",
     "added_date": "2026-02-26",
-    "modified_date": "2026-02-26"
+    "modified_date": "2026-03-01"
   }
 }
