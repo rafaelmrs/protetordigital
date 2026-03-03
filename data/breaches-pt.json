@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated": "2026-03-02",
+    "generated": "2026-03-03",
     "source": "haveibeenpwned.com",
     "translator": "Claude AI",
     "version": "2.0",
@@ -4880,5 +4880,10 @@
     "descricao": "Em fevereiro de 2026, a operadora de telecomunicações holandesa Odido foi vítima de um vazamento de dados seguido de tentativa de extorsão. Ao longo de quatro divulgações consecutivas, foram publicados ao todo 6 milhões de endereços de e-mail únicos. Os dados expostos incluíam nomes, endereços físicos, números de telefone, números de conta bancária, datas de nascimento, anotações de atendimento ao cliente, além de números de passaporte, carteira de motorista e documentos de identidade europeus. A Odido publicou um comunicado oficial com perguntas frequentes para orientar os clientes afetados.",
     "added_date": "2026-02-26",
     "modified_date": "2026-03-01"
+  },
+  "provecho": {
+    "descricao": "No início de 2026, dados supostamente obtidos do serviço de receitas e planejamento de refeições Provecho teriam sido expostos em um vazamento. Os dados incluíam 713 mil endereços de e-mail únicos, nomes de usuário e as contas de criadores seguidas por cada usuário. A Provecho foi notificada e está ciente das alegações sobre o incidente.",
+    "added_date": "2026-03-03",
+    "modified_date": "2026-03-03"
   }
 }

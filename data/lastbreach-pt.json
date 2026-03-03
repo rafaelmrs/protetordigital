@@ -1,15 +1,14 @@
 {
-  "name": "Lovora",
-  "title": "Lovora",
-  "domain": "lovora.app",
-  "breach_date": "2026-02-25",
-  "added_date": "2026-03-02",
-  "pwn_count": 495556,
+  "name": "Provecho",
+  "title": "Provecho",
+  "domain": "provecho.bio",
+  "breach_date": "2026-01-30",
+  "added_date": "2026-03-03",
+  "pwn_count": 712904,
   "data_classes_pt": [
-    "Nomes de exibição",
     "Endereços de e-mail",
-    "Fotos de perfil"
+    "Nomes de usuário"
   ],
-  "descricao": "Em fevereiro de 2026, o aplicativo de relacionamentos e casais Lovora teria sofrido um vazamento de dados que expôs 496 mil endereços de e-mail únicos. Os dados também incluíam nomes de exibição e fotos de perfil dos usuários, além de outras informações pessoais coletadas pelo app. A empresa desenvolvedora, Plantake, não respondeu às diversas tentativas de contato sobre o incidente.",
+  "descricao": "No início de 2026, dados supostamente obtidos do serviço de receitas e planejamento de refeições Provecho teriam sido expostos em um vazamento. Os dados incluíam 713 mil endereços de e-mail únicos, nomes de usuário e as contas de criadores seguidas por cada usuário. A Provecho foi notificada e está ciente das alegações sobre o incidente.",
   "severity": "medium"
 }
